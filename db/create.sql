@@ -22,3 +22,8 @@ CREATE TABLE Purchases (
     pid INT NOT NULL REFERENCES Products(id),
     time_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC')
 );
+
+CREATE TABLE Carts (
+    uid INT NOT NULL REFERENCES USERS(id),
+    pid INT NOT NULL REFERENCE Products(id),
+);
