@@ -8,12 +8,12 @@ CREATE TABLE Users (
     firstname VARCHAR(255) NOT NULL,
     lastname VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
-    balance INT NOT NULL DEFAULT 0.0
+    balance DECIMAL(12,2) NOT NULL DEFAULT 0.0
 );
 
 CREATE TABLE Seller (
     uid INT NOT NULL PRIMARY KEY REFERENCES Users(id),
-    balance INT NOT NULL
+    balance DECIMAL(12,2) NOT NULL
 );
 
 CREATE TABLE Inventory (
