@@ -7,9 +7,8 @@ CREATE TABLE Users (
     password VARCHAR(255) NOT NULL,
     firstname VARCHAR(255) NOT NULL,
     lastname VARCHAR(255) NOT NULL,
-    acct_num INT UNIQUE NOT NULL,
     address VARCHAR(255) NOT NULL,
-    balance INT NOT NULL
+    balance INT NOT NULL DEFAULT 0.0
 );
 
 CREATE TABLE Seller (
