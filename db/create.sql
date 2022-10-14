@@ -13,14 +13,14 @@ CREATE TABLE Users (
 
 CREATE TABLE Seller (
     uid INT NOT NULL PRIMARY KEY REFERENCES Users(id),
-    balance DECIMAL(12,2) NOT NULL
+    balance DECIMAL(12,2) NOT NULL DEFAULT 0.0
 );
 
 CREATE TABLE Inventory (
     sellerID INT NOT NULL REFERENCES Seller(uid),
     productname VARCHAR(255) NOT NULL,
     productID INT NOT NULL,
-    quantity INT NOT NULL 
+    quantity INT NOT NULL, 
     PRIMARY KEY (sellerID, productID)
 );
 
@@ -62,7 +62,7 @@ CREATE TABLE P_Reviews (
     pid INT NOT NULL REFERENCES Products(id),
     rating INT NOT NULL,
     review VARCHAR(255),
-    time_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC')
+    time_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC-4')
 );
 
 CREATE TABLE S_Reviews (
@@ -70,5 +70,5 @@ CREATE TABLE S_Reviews (
     sid INT NOT NULL REFERENCES Seller(id),
     rating INT NOT NULL,
     review VARCHAR(255),
-    time_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC')
+    time_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC-4')
 );
