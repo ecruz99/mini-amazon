@@ -37,9 +37,9 @@ CREATE TABLE Products (
 );
 
 CREATE TABLE Carts (
-    uid INT NOT NULL REFERENCES USERS(id),
+    uid INT NOT NULL REFERENCES Users(id),
     pid INT NOT NULL REFERENCES Products(id),
-    sid INT NOT NULL REFERENCES Seller(id),
+    sid INT NOT NULL REFERENCES Seller(uid),
     quantity INT NOT NULL,
     unit_price DECIMAL(12,2) NOT NULL,
     PRIMARY KEY (uid, pid, sid)
@@ -49,7 +49,7 @@ CREATE TABLE Orders (
     oid INT NOT NULL,
     uid INT NOT NULL REFERENCES Users(id),
     pid INT NOT NULL REFERENCES Products(id),
-    sid INT NOT NULL REFERENCES Seller(id),
+    sid INT NOT NULL REFERENCES Seller(uid),
     quantity INT NOT NULL,
     unit_price DECIMAL(12,2) NOT NULL,
     time_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC-4'),
