@@ -32,6 +32,7 @@ CREATE TABLE Products (
     category VARCHAR(255),
     price DECIMAL(12,2) NOT NULL,
     link VARCHAR(255) NOT NULL,
+    available BOOLEAN DEFAULT TRUE,
     PRIMARY KEY (id, sid)
 );
 
