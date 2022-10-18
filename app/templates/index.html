@@ -24,6 +24,14 @@
   </tbody>
 </table>
 
+<form>
+  <p>
+    {{ form.uid_input.label }}<br/>
+    {{ form.uid_input(size=32) }}<br/>
+  </p>
+</form>
+
+
 <br><br>
 {% if current_user.is_authenticated %}
 <h2>Your recent purchases:</h2>
