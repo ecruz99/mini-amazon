@@ -38,5 +38,5 @@ SELECT id, uid, pid, time_purchased
 FROM Purchases
 WHERE uid = :uid
 ''',
-                              uid=uid)
+                            uid=uid)
         return [Purchase(*row) for row in rows]

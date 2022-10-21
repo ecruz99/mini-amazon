@@ -24,13 +24,37 @@
   </tbody>
 </table>
 
+
 <form>
   <p>
     {{ form.uid_input.label }}<br/>
     {{ form.uid_input(size=32) }}<br/>
   </p>
+  {{ form.submit(class_="btn btn-black") }}
 </form>
 
+<br><br>
+<h2>Purchases by this user:</h2>
+<table class='table table-hover table-bordered container'>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">User ID</th>
+      <th scope="col">Purchase ID</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Time Purchased</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for purchase in uid_purchases%}
+      <tr>
+        <th scope="row">{{purchase.uid}}</th>
+        <td>{{purchase.id}}</td>
+        <td>{{purchase.pid}}</td>
+        <td>{{purchase.time_purchased}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
 
 <br><br>
 {% if current_user.is_authenticated %}
