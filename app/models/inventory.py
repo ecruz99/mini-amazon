@@ -21,7 +21,7 @@ WHERE sellerID = :sellerID
 
 
     @staticmethod
-    def get_all_by_sid(sellerID, productID):
+    def get_all_by_sid(sellerID):
         rows = app.db.execute('''
 SELECT sellerID, productID, productname, quantity
 FROM Inventory
