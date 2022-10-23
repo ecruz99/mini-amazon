@@ -27,6 +27,5 @@ SELECT sellerID, productID, productname, quantity
 FROM Inventory
 WHERE sellerID = :sellerID 
 ''',
-                              sellerID = sellerID
-                              productID = productID)
+                              sellerID = sellerID)
         return [Inventory(*row) for row in rows]
