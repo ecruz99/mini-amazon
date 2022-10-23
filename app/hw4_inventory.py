@@ -7,6 +7,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 from .models.product import Product
 from .models.purchase import Purchase
+from .models.inventory import Inventory
 
 from flask import Blueprint
 bp = Blueprint('hw4_inventory', __name__)
