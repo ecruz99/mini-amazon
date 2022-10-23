@@ -26,7 +26,6 @@ WHERE sellerID = :sellerID
 SELECT sellerID, productID, productname, quantity
 FROM Inventory
 WHERE sellerID = :sellerID 
-AND productID = productID
 ''',
                               sellerID = sellerID
                               productID = productID)
