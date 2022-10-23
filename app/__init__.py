@@ -27,4 +27,7 @@ def create_app():
     from .hw4_product import bp as hw4_product_bp
     app.register_blueprint(hw4_product_bp)
 
+    from .hw4_inventory import bp as hw4_inventory_bp
+    app.register_blueprint(hw4_inventory_bp)
+
     return app
