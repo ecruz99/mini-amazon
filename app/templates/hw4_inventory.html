@@ -11,7 +11,7 @@
     {{ form.submit(class_="btn btn-black") }}
 
   <br><br>
-  <h2>Purchases by this user:</h2>
+  <h2>Sellers Inventory:</h2>
   <table class='table table-hover table-bordered container'>
     <thead class="thead-dark">
       <tr>
@@ -22,16 +22,15 @@
       </tr>
     </thead>
     <tbody>
-      {% for purchase in uid_purchases%}
+      {% for item in sid_inventory%}
         <tr>
-          <th scope="row">{{purchase.uid}}</th>
-          <td>{{purchase.id}}</td>
-          <td>{{purchase.pid}}</td>
-          <td>{{purchase.time_purchased}}</td>
+          <th scope="row">{{item.sellerID}}</th>
+          <td>{{item.productID}}</td>
+          <td>{{item.productname}}</td>
+          <td>{{item.quanitity}}</td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
-
 
 {% endblock %}
