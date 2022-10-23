@@ -21,4 +21,7 @@ def create_app():
     from .users import bp as user_bp
     app.register_blueprint(user_bp)
 
+    from .hw4 import bp as hw4_bp
+    app.register_blueprint(hw4_bp)
+
     return app
