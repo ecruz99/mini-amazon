@@ -15,6 +15,6 @@ SELECT pg_catalog.setval('public.purchases_id_seq',
                          false);
 
 \COPY Inventory FROM 'Inventory.csv' WITH DELIMITER ',' NULL '' CSV
-SELECT pg_catalog.setval('public.purchases_id_seq',
-                         (SELECT MAX(id)+1 FROM Purchases),
+SELECT pg_catalog.setval('public.seller_id_seq',
+                         (SELECT MAX(id)+1 FROM Inventory),
                          false);
