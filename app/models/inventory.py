@@ -10,7 +10,7 @@ class Inventory:
 
 
     @staticmethod
-    def get(sellerID):
+    def get_seller(sellerID):
         rows = app.db.execute('''
 SELECT sellerID, productID, productname, quantity
 FROM Inventory
@@ -18,14 +18,3 @@ WHERE sellerID = :sellerID
 ''',
                               sellerID=sellerID)
         return Inventory(*(rows[0])) if rows is not None else None
-
-
-    @staticmethod
-    def get_all_by_sid(sellerID):
-        rows = app.db.execute('''
-SELECT sellerID, productID, productname, quantity
-FROM Inventory
-WHERE sellerID = :sellerID 
-''',
-                              sellerID = sellerID)
-        return [Inventory(*row) for row in rows]

@@ -19,15 +19,9 @@ class InventoryForm(FlaskForm):
 @bp.route('/sidinventory', methods = ["GET", "POST"])
 def sidinventory():
     form = InventoryForm()
-    if form.validate_on_submit():
-        seller_inventory = Inventory.get_all_by_sid(form.sid_input.data)
-        return render_template('hw4_inventory.html',
-                           sid_inventory=seller_inventory,
-                           form=form
-                           )
-
+    
     # render the page by adding information to the index.html file
-    seller_inventory = Inventory.get_all_by_sid(form.sid_input.data)
+    seller_inventory = Inventory.get_seller(form.sid_input.data)
     return render_template('hw4_inventory.html',
                            sid_inventory=seller_inventory,
                            form=form
