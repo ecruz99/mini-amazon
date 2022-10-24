@@ -33,4 +33,7 @@ def create_app():
     from .hw4_socials import bp as hw4_socials_bp
     app.register_blueprint(hw4_socials_bp)
 
+    from .hw4_carts import bp as hw4_carts_bp
+    app.register_blueprint(hw4_carts_bp)
+
     return app
