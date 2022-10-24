@@ -13,10 +13,10 @@ class PReview:
     def getTopFive(uid):
         rows = app.db.execute('''
 SELECT uid, pid, rating, review, time_purchased
-FROM P_Review
+FROM P_Reviews
 WHERE uid = :uid
 ORDER BY time_purchased DESC
-LIMIT :5
+LIMIT 5
 ''',
                               uid=uid)
         return [PReview(*row) for row in rows]

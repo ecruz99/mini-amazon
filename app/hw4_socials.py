@@ -19,9 +19,9 @@ def rr():
     form = SocialForm()
     
     recentFiveReviews = PReview.getTopFive(form.uidInput.data)
-        return render_template('hw4_socials.html',
-                        resultReviews=recentFiveReviews,
-                        form=form
-                        )
+    return render_template('hw4_socials.html',
+                    resultReviews=recentFiveReviews,
+                    form=form
+                    )
 
     # render the page by adding information to the index.html file
