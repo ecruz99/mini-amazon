@@ -17,7 +17,7 @@ def uidcart():
     # render the page by adding information to the index.html file
     user_cart = Cart.get_cart(form.uid_input.data)
     return render_template('hw4_carts.html',
-                           cart=user_cart,
-                           form=form
-                           )
+                        cart=user_cart,
+                        form=form
+                        )
 

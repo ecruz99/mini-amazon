@@ -19,6 +19,3 @@ SELECT pg_catalog.setval('public.purchases_id_seq',
 \COPY P_Reviews FROM 'P_Review.csv' WITH DELIMITER ',' NULL '' CSV
 
 \COPY Carts FROM 'Carts.csv' WITH DELIMITER ',' NULL '' CSV
-SELECT pg_catalog.setval('public.carts_id_seq',
-                         (SELECT MAX(uid)+1 FROM Carts),
-                         false);
