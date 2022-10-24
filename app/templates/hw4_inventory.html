@@ -5,8 +5,8 @@
 <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
     <p>
-      {{ form.uid_input.label }}<br/>
-      {{ form.uid_input(size=32) }}<br/>
+      {{ form.sid_input.label }}<br/>
+      {{ form.sid_input(size=32) }}<br/>
     </p>
     {{ form.submit(class_="btn btn-black") }}
 
@@ -27,7 +27,7 @@
           <th scope="row">{{item.sellerID}}</th>
           <td>{{item.productID}}</td>
           <td>{{item.productname}}</td>
-          <td>{{item.quanitity}}</td>
+          <td>{{item.quantity}}</td>
         </tr>
       {% endfor %}
     </tbody>

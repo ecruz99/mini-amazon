@@ -18,8 +18,8 @@ CREATE TABLE Seller (
 
 CREATE TABLE Inventory (
     sellerID INT NOT NULL REFERENCES Seller(uid),
-    productname VARCHAR(255) NOT NULL,
     productID INT NOT NULL,
+    productname VARCHAR(255) NOT NULL,
     quantity INT NOT NULL, 
     PRIMARY KEY (sellerID, productID)
 );

@@ -17,4 +17,4 @@ FROM Inventory
 WHERE sellerID = :sellerID
 ''',
                               sellerID=sellerID)
-        return Inventory(*(rows[0])) if rows is not None else None
+        return [Inventory(*row) for row in rows]
