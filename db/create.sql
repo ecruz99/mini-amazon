@@ -40,6 +40,7 @@ CREATE TABLE Carts (
     uid INT NOT NULL REFERENCES Users(id),
     pid INT NOT NULL REFERENCES Products(id),
     sid INT NOT NULL REFERENCES Seller(uid),
+    productname VARCHAR(255) NOT NULL,
     quantity INT NOT NULL,
     unit_price DECIMAL(12,2) NOT NULL,
     PRIMARY KEY (uid, pid, sid)
