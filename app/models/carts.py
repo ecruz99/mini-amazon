@@ -2,11 +2,10 @@ from flask import current_app as app
 
 
 class Cart:
-    def __init__(self, uid, pid, sid, productname, quantity, unit_price):
+    def __init__(self, uid, pid, sid, quantity, unit_price):
         self.uid = uid
         self.pid = pid
         self.sid = sid
-        self.productname = productname
         self.quantity = quantity
         self.unit_price = unit_price
 
