@@ -1,7 +1,7 @@
 from flask import current_app as app
 
 
-class Care:
+class Cart:
     def __init__(self, uid, pid, sid, productname, quantity, unit_price):
         self.uid = uid
         self.pid = pid
@@ -19,6 +19,6 @@ FROM Carts
 WHERE uid = :uid
 ''',
                               uid=uid)
-        return [Carts(*row) for row in rows]
+        return [Cart(*row) for row in rows]
 
 
