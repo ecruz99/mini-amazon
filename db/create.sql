@@ -29,7 +29,7 @@ CREATE TABLE Products (
     sid INT NOT NULL REFERENCES Seller(uid),
     name VARCHAR(255) NOT NULL,
     descr VARCHAR(255),
-    category VARCHAR(255),
+    category VARCHAR(255) NOT NULL CHECK (category IN ('accessories', 'books', 'clothes', 'decor', 'electronics', 'food', 'games', 'shoes')),
     price DECIMAL(12,2) NOT NULL,
     link VARCHAR(255) NOT NULL,
     available BOOLEAN DEFAULT TRUE,
