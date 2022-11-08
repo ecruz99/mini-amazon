@@ -19,6 +19,12 @@ class CategoryForm(FlaskForm):
     cat_input = SelectField('Choose A Category to Filter By', choices=['accessories', 'books', 'clothes', 'decor', 'electronics', 'food', 'games', 'shoes'])
     submit = SubmitField('Submit')
 
+@bp.route('/products', methods = ["GET", "POST"])
+def products():
+    products = Product.get_all(True)
+    return render_template('products.html',
+                            products = products)
+
 @bp.route('/topk', methods = ["GET", "POST"])
 def topk():
     form = FilterForm()
@@ -37,14 +43,17 @@ def topk():
 def getbycat():
     form = CategoryForm()
     if form.validate_on_submit():
-        cat_products = Product.get_by_cat(form.cat_input.data)
-        return render_template('hw4_product.html',
+        cat = form.cat_input.data
+        cat_products = Product.get_by_cat(cat)
+        return render_template('products_category.html',
                         products=cat_products,
-                        form2=form
+                        form=form,
+                        cat=cat
                         )
-    cat_products = Product.get_by_cat(form.cat_input.data)
-    return render_template('hw4_product.html',
+    cat = form.cat_input.data
+    cat_products = Product.get_by_cat(cat)
+    return render_template('products_category.html',
                         products=cat_products,
-                        form2=form
+                        form=form,
+                        cat=cat
                         )
-    # render the page by adding information to the index.html file
