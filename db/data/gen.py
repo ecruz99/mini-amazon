@@ -2,7 +2,7 @@ from werkzeug.security import generate_password_hash
 import csv
 from faker import Faker
 
-num_users = 100
+num_users = 1000
 num_products = 2000
 num_purchases = 2500
 
@@ -22,13 +22,15 @@ def gen_users(num_users):
             if uid % 10 == 0:
                 print(f'{uid}', end=' ', flush=True)
             profile = fake.profile()
-            email = profile['mail']
+            email = fake.unique.email()
             plain_password = f'pass{uid}'
             password = generate_password_hash(plain_password)
             name_components = profile['name'].split(' ')
             firstname = name_components[0]
             lastname = name_components[-1]
-            writer.writerow([uid, email, password, firstname, lastname])
+            address = profile['address']
+            balance = 0
+            writer.writerow([uid, email, password, firstname, lastname, address, balance])
         print(f'{num_users} generated')
     return
 
@@ -67,5 +69,5 @@ def gen_purchases(num_purchases, available_pids):
 
 
 gen_users(num_users)
-available_pids = gen_products(num_products)
-gen_purchases(num_purchases, available_pids)
+# available_pids = gen_products(num_products)
+# gen_purchases(num_purchases, available_pids)

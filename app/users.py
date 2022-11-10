@@ -74,3 +74,31 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index.index'))
+
+class UpdateForm(FlaskForm):
+    firstname = StringField('First Name', validators=[DataRequired()])
+    lastname = StringField('Last Name', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(),
+                                       EqualTo('password')])
+    submit = SubmitField('Update')
+
+    def validate_email(self, email):
+        if User.email_exists(email.data):
+            raise ValidationError('Already a user with this email.')
+
+
+@bp.route('/update', methods=['GET', 'POST'])
+def update():
+    form = UpdateForm()
+    if form.validate_on_submit():
+        if User.update(current_user.id, form.email.data,
+                         form.password.data,
+                         form.firstname.data,
+                         form.lastname.data,
+                         form.address.data):
+            return redirect(url_for('index.index'))
+    return render_template('update.html', title='Update', form=form)
