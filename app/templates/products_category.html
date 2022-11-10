@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class='parent'>
+    <h2 style="text-align: center;">Products in Category: {{cat}}</h2>
+    <div class='child' style="float: left;">
+      <form id = "form" action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+          {{ form.cat_input.label }}<br/>
+          {{ form.cat_input(size=8) }}<br/>
+        </p>
+        {{ form.submit(class_="btn btn-black") }}
+    </div>
+    <div class='display: inline-block' style="margin-left: 100px;">
+    <table class='table table-hover table-bordered container' style="width:85%" align="right">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Product ID</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Product Price</th>
+          <th scope="col">Category</th>
+          <th scope="col">Availability</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for prod in products%}
+          <tr>
+            <th scope="row">{{prod.id}}</th>
+            <td>{{prod.name}}</td>
+            <td>{{prod.price}}</td>
+            <td>{{prod.category}}</td>
+            <td>{{prod.available}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class='child' style="float: left;">
+  <a href="{{ url_for('hw4_product.products') }}" type="button" class="btn btn-dark">Return to Products Home</a>
+</div>
+
+
+{% endblock %}

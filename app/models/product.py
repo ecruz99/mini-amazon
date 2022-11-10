@@ -2,10 +2,11 @@ from flask import current_app as app
 
 
 class Product:
-    def __init__(self, id, name, price, available):
+    def __init__(self, id, name, price, category, available):
         self.id = id
         self.name = name
         self.price = price
+        self.category = category
         self.available = available
 
     @staticmethod
@@ -21,7 +22,7 @@ WHERE id = :id
     @staticmethod
     def get_all(available=True):
         rows = app.db.execute('''
-SELECT id, name, price, available
+SELECT id, name, price, category, available
 FROM Products
 WHERE available = :available
 ''',
@@ -31,10 +32,20 @@ WHERE available = :available
     @staticmethod
     def get_top_k(k):
         rows = app.db.execute('''
-SELECT id, name, price, available
+SELECT id, name, price, category, available
 FROM Products
 ORDER BY price DESC
 LIMIT :k
 ''',
                               k=k)
+        return [Product(*row) for row in rows]
+
+    @staticmethod
+    def get_by_cat(cat):
+        rows = app.db.execute('''
+SELECT id, name, price, category, available
+FROM Products
+WHERE category = :cat
+''',
+                              cat=cat)
         return [Product(*row) for row in rows]
