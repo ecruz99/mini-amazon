@@ -49,3 +49,13 @@ WHERE category = :cat
 ''',
                               cat=cat)
         return [Product(*row) for row in rows]
+
+    @staticmethod
+    def get_by_kw(kw):
+        rows = app.db.execute('''
+SELECT id, name, price, category, available
+FROM Products
+WHERE name LIKE Concat('%', :kw, '%')
+''',
+                              kw=kw)
+        return [Product(*row) for row in rows]
