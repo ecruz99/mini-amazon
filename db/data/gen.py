@@ -122,32 +122,20 @@ def gen_carts(num_carts):
     return
 
 def gen_review(num_review):
-
     with open('P_Reviews.csv', 'w') as f:
-
         writer = get_csv_writer(f)
-
         print('Review...', end=' ', flush = True)
-
         for review in range(num_review):
-
             if review % 100 == 0:
-
                 print(f'{review}', end=' ', flush=True)
-
             uid = fake.random_int(min=0, max=num_users-1)
-
             sid = fake.random_int(min=0, max=num_products-1)
-
             rating = fake.random_int(min=1, max=5)
-
             time_purchased = fake.date_time()
-
             writer.writerow([uid, sid, rating, time_purchased])
-
         print(f'{num_review} generated')
-
     return
+
 
 #gen_carts(num_carts)            
 gen_inventory(num_inventory)

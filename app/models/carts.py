@@ -30,5 +30,17 @@ WHERE uid = :uid
 ''', 
                               uid=uid, pid=pid, sid=sid)
         return None
+    
+    @staticmethod
+    def update_quantity(uid, pid, sid, quantity):
+        rows = app.db.execute('''
+UPDATE Carts
+SET quantity = :quantity
+WHERE uid = :uid
+  AND pid = :pid
+  AND sid = :sid 
+''', 
+                              uid=uid, pid=pid, sid=sid, quantity=quantity)
+        return None
 
 
