@@ -22,7 +22,7 @@ WHERE email = :email
                               email=email)
         if not rows:  # email not found
             return None
-        elif not rows[0][0]==password:
+        elif not check_password_hash(rows[0][0], password):
             # incorrect password
             return None
         else:
@@ -78,3 +78,23 @@ WHERE id = :id
                               id=id, email=email, password=password, firstname=firstname, lastname=lastname,
                               address=address)
         return None
+    
+    @staticmethod
+    def balance(id, amount):
+        rows = app.db.execute("""
+UPDATE Users
+SET balance = balance + :amount
+WHERE id = :id
+""",
+                              id=id, amount=amount)
+        return None
+    
+    @staticmethod
+    def current_balance(id):
+        rows = app.db.execute("""
+SELECT balance
+FROM Users
+WHERE id = :id
+""",
+                              id=id)
+        return rows[0][0] if rows else None

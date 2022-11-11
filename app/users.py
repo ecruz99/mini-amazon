@@ -102,3 +102,20 @@ def update():
                          form.address.data):
             return redirect(url_for('index.index'))
     return render_template('update.html', title='Update', form=form)
+
+@bp.route('/manage')
+def manage():
+    return render_template('manage.html', title='Manage')
+
+class BalanceForm(FlaskForm):
+    amount = StringField('Amount', validators=[DataRequired()])
+    submit = SubmitField('Add/Subtract')
+
+@bp.route('/balance', methods=['GET', 'POST'])
+def balance():
+    form = BalanceForm()
+    current = User.current_balance(current_user.id)
+    if form.validate_on_submit():
+        if User.balance(current_user.id, form.amount.data):
+            return redirect(url_for('index.index'))
+    return render_template('balance.html', title='Balance', form=form, current=current)
