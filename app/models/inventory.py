@@ -28,3 +28,13 @@ WHERE sellerID = :sellerID and productID = :productID
 """,
                               sellerID = sellerID, productID = productID)
         return None
+    
+#Enter seller ID and product ID to add a product to a sellers inventory
+    @staticmethod
+    def add_inventory(sellerID, productID, productname, quantity):
+        rows = app.db.execute("""
+INSERT INTO Inventory(sellerID, productID, productname, quantity)
+Values(:sellerID, :productID, :productname, :quantity)
+""",
+                              sellerID = sellerID, productID = productID, productname=productname, quantity=quantity)
+        return None

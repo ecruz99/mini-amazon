@@ -32,7 +32,7 @@
       {% endfor %}
     </tbody>
   </table>
-
+  <br><br>
   <form action="" method="post" class='child' novalidate>
     <h4>Delete Product From Inventory</h4>
     {{ form2.hidden_tag() }}
@@ -46,6 +46,29 @@
     </p>
     <p>
     {{ form2.submit2(class_="btn btn-black") }}
+  </form> 
+  <br><br>
+  <form action="" method="post" class='child' novalidate>
+    <h4>Add Product To Inventory</h4>
+    {{ form3.hidden_tag() }}
+    <p>
+      {{ form3.sid_input3.label }}<br/>
+      {{ form3.sid_input3(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form3.pid_input3.label }}<br/>
+      {{ form3.pid_input3(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form3.productname3.label }}<br/>
+      {{ form3.productname3(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form3.quantity3.label }}<br/>
+      {{ form3.quantity3(size=32) }}<br/>
+    </p>
+    <p>
+    {{ form3.submit3(class_="btn btn-black") }}
   </form> 
 
 {% endblock %}
