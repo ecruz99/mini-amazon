@@ -5,6 +5,7 @@ from faker import Faker
 num_users = 1000
 num_products = 2000
 num_purchases = 2500
+num_inventory = 2000
 
 Faker.seed(0)
 fake = Faker()
@@ -67,7 +68,32 @@ def gen_purchases(num_purchases, available_pids):
         print(f'{num_purchases} generated')
     return
 
-
-gen_users(num_users)
+def gen_inventory(num_inventory):
+    tuples = []
+    with open('Inventory.csv', 'w') as f:
+        writer = get_csv_writer(f)
+        print('Inventory...', end = ' ', flush=True)
+        for sellerID in range(num_inventory):
+            if sellerID % 100 == 0:
+                print(f'{sellerID}', end = ' ', flush=True)
+            while True:
+                a = fake.pyint(min_value = 0, max_value = 500)
+                b = fake.pyint(min_value = 0, max_value = 2000)
+                if (a,b) not in tuples:
+                    tuples.append((a,b))
+                    break
+                else:
+                    continue
+            sellerID = a
+            productID = b
+            productname = fake.sentence(nb_words=4)[:-1]
+            quantity = fake.pyint(min_value = 0, max_value = 200)
+            writer.writerow([sellerID, productID, productname, quantity])
+        print(f'{num_inventory} generated')
+    return
+gen_inventory(num_inventory)
+#gen_users(num_users)
 # available_pids = gen_products(num_products)
 # gen_purchases(num_purchases, available_pids)
+
+
