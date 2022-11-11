@@ -38,7 +38,7 @@ def uidcart():
                     form2=form2
                     )
     else:
-        return render_template('hw4_inventory.html',
+        return render_template('hw4_carts.html',
                     form=form,
                     form2=form2
                     ) 
