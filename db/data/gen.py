@@ -91,7 +91,26 @@ def gen_inventory(num_inventory):
             writer.writerow([sellerID, productID, productname, quantity])
         print(f'{num_inventory} generated')
     return
-gen_inventory(num_inventory)
+
+def gen_carts(num_carts):
+    with open('Carts.csv', 'w') as f:
+        writer = get_csv_writer(f)
+        print('Carts...', end=' ', flush = True)
+        for cart in range(num_carts):
+            if cart % 100 == 0:
+                print(f'{cart}', end=' ', flush=True)
+            uid = fake.random_int(min=0, max=num_users-1)
+            pid = fake.random_int(min=0, max=num_products-1)
+            sid = fake.random_int(min=0, max=1999)
+            productname = fake.sentence(nb_words=4)[:-1]
+            quantity = fake.random_int(min=0, max=10)
+            unit_price = f'{str(fake.random_int(max=500))}.{fake.random_int(max=99):02}'
+            writer.writerow([uid, pid, sid, productname, quantity, unit_price])
+        print(f'{num_carts} generated')
+    return
+
+#gen_carts(num_carts)            
+#gen_inventory(num_inventory)
 #gen_users(num_users)
 # available_pids = gen_products(num_products)
 # gen_purchases(num_purchases, available_pids)
