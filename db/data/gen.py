@@ -103,7 +103,7 @@ def gen_carts(num_carts):
             pid = fake.random_int(min=0, max=num_products-1)
             sid = fake.random_int(min=0, max=1999)
             productname = fake.sentence(nb_words=4)[:-1]
-            quantity = fake.random_int(min=0, max=10)
+            quantity = fake.random_int(min=1, max=10)
             unit_price = f'{str(fake.random_int(max=500))}.{fake.random_int(max=99):02}'
             writer.writerow([uid, pid, sid, productname, quantity, unit_price])
         print(f'{num_carts} generated')
