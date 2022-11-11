@@ -37,9 +37,9 @@ CREATE TABLE Products (
 );
 
 CREATE TABLE Carts (
-    uid INT NOT NULL REFERENCES Users(id),
-    pid INT NOT NULL REFERENCES Products(id),
-    sid INT NOT NULL REFERENCES Seller(uid),
+    uid INT NOT NULL,
+    pid INT NOT NULL,
+    sid INT NOT NULL,
     productname VARCHAR(255) NOT NULL,
     quantity INT NOT NULL,
     unit_price DECIMAL(12,2) NOT NULL,
