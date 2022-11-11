@@ -70,5 +70,24 @@
     <p>
     {{ form3.submit3(class_="btn btn-black") }}
   </form> 
+  <br><br>
+  <form action="" method="post" class='child' novalidate>
+    <h4>Change Quantity of Product in Inventory</h4>
+    {{ form4.hidden_tag() }}
+    <p>
+      {{ form4.sid_input4.label }}<br/>
+      {{ form4.sid_input4(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form4.pid_input4.label }}<br/>
+      {{ form4.pid_input4(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form4.quantity4.label }}<br/>
+      {{ form4.quantity4(size=32) }}<br/>
+    </p>
+    <p>
+    {{ form4.submit4(class_="btn btn-black") }}
+  </form> 
 
 {% endblock %}

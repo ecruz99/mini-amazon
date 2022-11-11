@@ -38,3 +38,13 @@ Values(:sellerID, :productID, :productname, :quantity)
 """,
                               sellerID = sellerID, productID = productID, productname=productname, quantity=quantity)
         return None
+    
+    @staticmethod
+    def updateQuantity(sellerID, productID, quantity):
+        rows = app.db.execute('''
+UPDATE Inventory
+SET quantity = :quantity
+WHERE sellerID = :sellerID and productID = :productID
+''',
+                              sellerID = sellerID, productID = productID, quantity = quantity)
+        return None
