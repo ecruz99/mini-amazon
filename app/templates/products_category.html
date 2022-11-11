@@ -1,18 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class='parent'>
-    <h2 style="text-align: center;">Products in Category: {{cat}}</h2>
-    <div class='child' style="float: left;">
+  <div>
+    <br>
+    <h2 style="text-align: center;">Products {{cat}}</h2>
       <form id = "form" action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
-          {{ form.cat_input.label }}<br/>
-          {{ form.cat_input(size=8) }}<br/>
+          {{ form.k_input.label }}<br/>
+          {{ form.k_input(size=8) }}<br/>
         </p>
         {{ form.submit(class_="btn btn-black") }}
-    </div>
-    <div class='display: inline-block' style="margin-left: 100px;">
+      </form>
+      <br>
+      <form id = "form2" action="" method="post" novalidate>
+        {{ form2.hidden_tag() }}
+        <p>
+          {{ form2.cat_input.label }}<br/>
+          {{ form2.cat_input(size=8) }}<br/>
+        </p>
+        {{ form2.submit2(class_="btn btn-black") }}
+      </form>
+      <br>
+  </div>
+  <div class='display: inline-block' style="margin-left: 100px;">
     <table class='table table-hover table-bordered container' style="width:85%" align="right">
       <thead class="thead-dark">
         <tr>
@@ -36,9 +47,8 @@
       </tbody>
     </table>
   </div>
-</div>
 <div class='child' style="float: left;">
-  <a href="{{ url_for('hw4_product.products') }}" type="button" class="btn btn-dark">Return to Products Home</a>
+  <a href="{{ url_for('index.index') }}" type="button" class="btn btn-dark">Return Home</a>
 </div>
 
 

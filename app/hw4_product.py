@@ -16,44 +16,35 @@ class FilterForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class CategoryForm(FlaskForm):
-    cat_input = SelectField('Choose A Category to Filter By', choices=['accessories', 'books', 'clothes', 'decor', 'electronics', 'food', 'games', 'shoes'])
-    submit = SubmitField('Submit')
+    cat_input = SelectField('Filter By Category', choices=['accessories', 'books', 'clothes', 'decor', 'electronics', 'food', 'games', 'shoes'])
+    submit2 = SubmitField('Submit')
 
 @bp.route('/products', methods = ["GET", "POST"])
 def products():
-    products = Product.get_all(True)
-    return render_template('products.html',
-                            products = products)
-
-@bp.route('/topk', methods = ["GET", "POST"])
-def topk():
     form = FilterForm()
-    if form.validate_on_submit():
+    form2 = CategoryForm()
+    if form.submit.data and form.validate_on_submit():
         top_k_products = Product.get_top_k(form.k_input.data)
-        return render_template('hw4_product.html',
+        return render_template('products_category.html',
                         products=top_k_products,
-                        form=form
+                        form=form,
+                        form2=form2,
+                        cat="in any category"
                         )
-    top_k_products = Product.get_top_k(form.k_input.data)
-    return render_template('hw4_product.html',
-                        products=top_k_products,
-                        form=form
-                        )
-@bp.route('/getbycat', methods = ["GET", "POST"])
-def getbycat():
-    form = CategoryForm()
-    if form.validate_on_submit():
-        cat = form.cat_input.data
+    elif form2.submit2.data and form2.validate_on_submit():
+        cat = form2.cat_input.data
         cat_products = Product.get_by_cat(cat)
         return render_template('products_category.html',
                         products=cat_products,
                         form=form,
-                        cat=cat
+                        form2=form2,
+                        cat="in " + cat
                         )
-    cat = form.cat_input.data
-    cat_products = Product.get_by_cat(cat)
-    return render_template('products_category.html',
-                        products=cat_products,
+    else:
+        products = Product.get_all(True)
+        return render_template('products_category.html',
+                        products=products,
                         form=form,
-                        cat=cat
+                        form2=form2,
+                        cat="in any category"
                         )
