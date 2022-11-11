@@ -31,9 +31,10 @@ def uidcart():
                         form2=form2
                         )
     elif form2.submit2.data and form2.validate():
-        Cart.delete_cart_item(form2.uid_input2.data, form2.sid_input2.data, form2.pid_input2.data)
+        user_cart = Cart.delete_cart_item(form2.uid_input2.data, form2.sid_input2.data, form2.pid_input2.data)
 
         return render_template('hw4_carts.html',
+                    cart=user_cart,
                     form=form,
                     form2=form2
                     )
