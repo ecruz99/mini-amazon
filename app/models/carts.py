@@ -19,5 +19,16 @@ WHERE uid = :uid
 ''',
                               uid=uid)
         return [Cart(*row) for row in rows]
+    
+    @staticmethod
+    def delete_cart_item(uid, pid, sid):
+        rows = app.db.execute('''
+DELETE FROM Carts
+WHERE uid = :uid
+  AND pid = :pid
+  AND sid = :sid
+''', 
+                              uid=uid, pid=pid, sid=sid)
+        return None
 
 
