@@ -35,48 +35,51 @@
     </tbody>
   </table>
 
-  <form action="" method="post" class='child' novalidate>
-    <h4>Delete Product From Cart</h4>
-    {{ form2.hidden_tag() }}
-    <p>
-      {{ form2.uid_input2.label }}<br/>
-      {{ form2.uid_input2(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form2.pid_input2.label }}<br/>
-      {{ form2.pid_input2(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form2.sid_input2.label }}<br/>
-      {{ form2.sid_input2(size=32) }}<br/>
-    </p>
-    <p>
-    {{ form2.submit2(class_="btn btn-black") }}
-  </form> 
-
   <br><br>
-  <form action="" method="post" class='child' novalidate>
-    <h4>Change Quantity of Product in Cart</h4>
-    {{ form3.hidden_tag() }}
-    <p>
-      {{ form3.uid_input3.label }}<br/>
-      {{ form3.uid_input3(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form3.pid_input3.label }}<br/>
-      {{ form3.pid_input3(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form3.sid_input3.label }}<br/>
-      {{ form3.sid_input3(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form3.quantity3.label }}<br/>
-      {{ form3.quantity3(size=32) }}<br/>
-    </p>
-    <p>
-    {{ form3.submit3(class_="btn btn-black") }}
-  </form> 
+  
+  <div>
+    <form action="" method="post" class='child' novalidate>
+      <h4>Delete Product From Cart</h4>
+      {{ form2.hidden_tag() }}
+      <p>
+        {{ form2.uid_input2.label }}<br/>
+        {{ form2.uid_input2(size=32) }}<br/>
+      </p>
+      <p>
+        {{ form2.pid_input2.label }}<br/>
+        {{ form2.pid_input2(size=32) }}<br/>
+      </p>
+      <p>
+        {{ form2.sid_input2.label }}<br/>
+        {{ form2.sid_input2(size=32) }}<br/>
+      </p>
+      <p>
+      {{ form2.submit2(class_="btn btn-black") }}
+    </form>
+
+    <form action="" method="post" class='child' novalidate>
+      <h4>Change Quantity of Product in Cart</h4>
+      {{ form3.hidden_tag() }}
+      <p>
+        {{ form3.uid_input3.label }}<br/>
+        {{ form3.uid_input3(size=32) }}<br/>
+      </p>
+      <p>
+        {{ form3.pid_input3.label }}<br/>
+        {{ form3.pid_input3(size=32) }}<br/>
+      </p>
+      <p>
+        {{ form3.sid_input3.label }}<br/>
+        {{ form3.sid_input3(size=32) }}<br/>
+      </p>
+      <p>
+        {{ form3.quantity3.label }}<br/>
+        {{ form3.quantity3(size=32) }}<br/>
+      </p>
+      <p>
+      {{ form3.submit3(class_="btn btn-black") }}
+    </form>
+  </div> 
 
 
 {% endblock %}
