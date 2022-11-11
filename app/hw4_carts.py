@@ -22,7 +22,7 @@ class ChangeItemQuantity(FlaskForm):
     sid_input3 = StringField('Seller ID', validators=[DataRequired()])
     pid_input3 = StringField('Product ID', validators=[DataRequired()])
     quantity3 = StringField('Quantity', validators=[DataRequired()])
-    submit3 = SubmitField('Submit')
+    submit3 = SubmitField('Update Quantity')
 
 @bp.route('/uidcart', methods = ["GET", "POST"])
 def uidcart():
