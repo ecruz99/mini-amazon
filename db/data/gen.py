@@ -36,22 +36,22 @@ def gen_users(num_users):
     return
 
 
-def gen_products(num_products):
-    available_pids = []
-    with open('Products.csv', 'w') as f:
-        writer = get_csv_writer(f)
-        print('Products...', end=' ', flush=True)
-        for pid in range(num_products):
-            if pid % 100 == 0:
-                print(f'{pid}', end=' ', flush=True)
-            name = fake.sentence(nb_words=4)[:-1]
-            price = f'{str(fake.random_int(max=500))}.{fake.random_int(max=99):02}'
-            available = fake.random_element(elements=('true', 'false'))
-            if available == 'true':
-                available_pids.append(pid)
-            writer.writerow([pid, name, price, available])
-        print(f'{num_products} generated; {len(available_pids)} available')
-    return available_pids
+# def gen_products(num_products):
+#     available_pids = []
+#     with open('Products.csv', 'w') as f:
+#         writer = get_csv_writer(f)
+#         print('Products...', end=' ', flush=True)
+#         for pid in range(num_products):
+#             if pid % 100 == 0:
+#                 print(f'{pid}', end=' ', flush=True)
+#             name = fake.sentence(nb_words=4)[:-1]
+#             price = f'{str(fake.random_int(max=500))}.{fake.random_int(max=99):02}'
+#             available = fake.random_element(elements=('true', 'false'))
+#             if available == 'true':
+#                 available_pids.append(pid)
+#             writer.writerow([pid, name, price, available])
+#         print(f'{num_products} generated; {len(available_pids)} available')
+#     return available_pids
 
 
 def gen_purchases(num_purchases, available_pids):
@@ -70,8 +70,10 @@ def gen_purchases(num_purchases, available_pids):
 
 def gen_inventory(num_inventory):
     tuples = []
-    with open('Inventory.csv', 'w') as f:
+    with open('Inventory.csv', 'w') as f, open('Products.csv', 'w') as f2, open('Seller.csv', 'w') as f3:
         writer = get_csv_writer(f)
+        writer2 = get_csv_writer(f2)
+        writer3 = get_csv_writer(f3)
         print('Inventory...', end = ' ', flush=True)
         for sellerID in range(num_inventory):
             if sellerID % 100 == 0:
@@ -88,7 +90,17 @@ def gen_inventory(num_inventory):
             productID = b
             productname = fake.sentence(nb_words=4)[:-1]
             quantity = fake.pyint(min_value = 0, max_value = 200)
+            descr = fake.sentence(nb_words=10)[:-1]
+            cats = ["accessories", "books", "clothes", "decor", "electronics", "food", "games", "shoes"]
+            cat = cats[fake.pyint(min_value = 0, max_value = 7)]
+            available = fake.random_element(elements=('true', 'false'))
+            price = f'{str(fake.random_int(max=500))}.{fake.random_int(max=99):02}'
+            link = "link"
+            balance = quantity = fake.pyint(min_value = 0, max_value = 500)
+
             writer.writerow([sellerID, productID, productname, quantity])
+            writer2.writerow([productID, sellerID, productname, descr, cat, price, link, available])
+            writer3.writerow([sellerID, balance])
         print(f'{num_inventory} generated')
     return
 
@@ -109,8 +121,37 @@ def gen_carts(num_carts):
         print(f'{num_carts} generated')
     return
 
+def gen_review(num_review):
+
+    with open('P_Reviews.csv', 'w') as f:
+
+        writer = get_csv_writer(f)
+
+        print('Review...', end=' ', flush = True)
+
+        for review in range(num_review):
+
+            if review % 100 == 0:
+
+                print(f'{review}', end=' ', flush=True)
+
+            uid = fake.random_int(min=0, max=num_users-1)
+
+            sid = fake.random_int(min=0, max=num_products-1)
+
+            rating = fake.random_int(min=1, max=5)
+
+            time_purchased = fake.date_time()
+
+            writer.writerow([uid, sid, rating, time_purchased])
+
+        print(f'{num_review} generated')
+
+    return
+
 #gen_carts(num_carts)            
-#gen_inventory(num_inventory)
+gen_inventory(num_inventory)
+gen_review(1000)
 #gen_users(num_users)
 # available_pids = gen_products(num_products)
 # gen_purchases(num_purchases, available_pids)
