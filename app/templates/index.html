@@ -2,57 +2,68 @@
 
 {% block content %}
 
-<br><br>
-
-<h2>Products for sale:</h2>
-<table class='table table-hover table-bordered container'>
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">Product ID</th>
-      <th scope="col">Product Name</th>
-      <th scope="col">Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for product in avail_products%}
-      <tr>
-        <th scope="row">{{product.id}}</th>
-        <td>{{product.name}}</td>
-        <td>{{product.price}}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
-<a href="{{ url_for('hw4.uidpurch') }}" type="button" class="btn btn-dark">Purchases</a><br><br>
-<a href="{{ url_for('hw4_product.products') }}" type="button" class="btn btn-dark">Products</a><br><br>
-<a href="{{ url_for('hw4_inventory.sidinventory') }}" type="button" class="btn btn-dark">Sellers</a><br><br>
-<a href="{{ url_for('hw4_socials.rr') }}" type="button" class="btn btn-dark">Reviews</a><br><br>
-<a href="{{ url_for('hw4_carts.uidcart') }}" type="button" class="btn btn-dark">Carts</a><br><br>
-
-<br><br>
-{% if current_user.is_authenticated %}
-<h2>Your recent purchases:</h2>
-<table class='table table-hover table-bordered container'>
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">Purchase ID</th>
-      <th scope="col">Product Name</th>
-      <th scope="col">Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for purchase in purchase_history%}
-      <tr>
-        <th scope="row">{{purchase.id}}</th>
-        <td>{{purchase.pid}}</td>
-        <td>{{purchase.time_purchased}}</td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<p><a href="{{ url_for('users.login') }}">Log in</a> to see your purchase history!</p>
-{% endif %}
-
+<div style="width: 100%;"> 
+  <form id = "form" action="" method="post" novalidate style="width: 100%; margin-left: 9%; margin-top: 1%;">
+    {{ form3.hidden_tag() }}
+    <p>
+      {{ form3.kw_input.label }}
+      {{ form3.kw_input(size=100) }}
+      {{ form3.submit3(class_="btn btn-black") }}
+    </p>
+  </form>
+  <h2 style="text-align: center;">Products {{cat}}</h2>
+</div>
+<br>
+<div>
+  <div class="container" style="display: flex;">
+    <div style="width: 5%; margin-left: -10%;">
+      <form id = "form" action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+          {{ form.k_input.label }}<br/>
+          {{ form.k_input(size=8) }}<br/>
+        </p>
+          {{ form.submit(class_="btn btn-black") }}
+      </form>
+      <br>
+      <form id = "form2" action="" method="post" novalidate>
+        {{ form2.hidden_tag() }}
+        <p>
+          {{ form2.cat_input.label }}<br/>
+          {{ form2.cat_input(size=8) }}<br/>
+        </p>
+          {{ form2.submit2(class_="btn btn-black") }}
+      </form>
+      <br>
+    </div>
+    <div style="flex-grow: 1;">
+      <table class='table table-hover table-bordered container' style="width:90%; margin-left: 5%;" align="right">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Product ID</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Product Price</th>
+            <th scope="col">Category</th>
+            <th scope="col">Availability</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for prod in products%}
+            <tr>
+              <th scope="row">{{prod.id}}</th>
+              <td>{{prod.name}}</td>
+              <td>{{prod.price}}</td>
+              <td>{{prod.category}}</td>
+              <td>{{prod.available}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <br>
+    </div>
+  </div>
+    <a href="{{ url_for('hw4_inventory.sidinventory') }}" type="button" class="btn btn-dark">Sellers</a><br><br>
+    <a href="{{ url_for('hw4_socials.rr') }}" type="button" class="btn btn-dark">Reviews</a><br><br>
+    <a href="{{ url_for('hw4_carts.uidcart') }}" type="button" class="btn btn-dark">Carts</a><br><br> 
+  </div>
 {% endblock %}
