@@ -70,10 +70,11 @@ def gen_purchases(num_purchases, available_pids):
 
 def gen_inventory(num_inventory):
     tuples = []
-    with open('Inventory.csv', 'w') as f, open('Products.csv', 'w') as f2, open('Seller.csv', 'w') as f3:
+    with open('Inventory.csv', 'w') as f, open('Products.csv', 'w') as f2, open('Seller.csv', 'w') as f3, open('ImageLinks.csv', 'w') as f4:
         writer = get_csv_writer(f)
         writer2 = get_csv_writer(f2)
         writer3 = get_csv_writer(f3)
+        writer4 = get_csv_writer(f4)
         print('Inventory...', end = ' ', flush=True)
         for sellerID in range(num_inventory):
             if sellerID % 100 == 0:
@@ -92,15 +93,27 @@ def gen_inventory(num_inventory):
             quantity = fake.pyint(min_value = 0, max_value = 200)
             descr = fake.sentence(nb_words=10)[:-1]
             cats = ["accessories", "books", "clothes", "decor", "electronics", "food", "games", "shoes"]
-            cat = cats[fake.pyint(min_value = 0, max_value = 7)]
+            catImages = ["https://images.pexels.com/photos/12026054/pexels-photo-12026054.jpeg?auto=compress&cs=tinysrgb&w=600",
+                        "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGJvb2t8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60",
+                        "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8c2hpcnR8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60",
+                        "https://images.unsplash.com/photo-1584589167171-541ce45f1eea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZGVjb3J8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60",
+                        "https://images.unsplash.com/photo-1537963447914-dbc04b81de27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGdhbWV8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60",
+                        "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8Y2VyZWFsJTIwYm94fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60",
+                        "https://images.unsplash.com/photo-1640461470346-c8b56497850a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGJvYXJkJTIwZ2FtZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
+                        "https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60"]
+            catIdx = fake.pyint(min_value = 0, max_value = 7)
+            cat = cats[catIdx]
+            link = catImages[catIdx]
+
             available = fake.random_element(elements=('true', 'false'))
             price = f'{str(fake.random_int(max=500))}.{fake.random_int(max=99):02}'
-            link = "link"
+
             balance = quantity = fake.pyint(min_value = 0, max_value = 500)
 
             writer.writerow([sellerID, productID, productname, quantity])
             writer2.writerow([productID, sellerID, productname, descr, cat, price, link, available])
             writer3.writerow([sellerID, balance])
+            writer4.writerow([catIdx, link])
         print(f'{num_inventory} generated')
     return
 
@@ -139,7 +152,7 @@ def gen_review(num_review):
 
 #gen_carts(num_carts)            
 gen_inventory(num_inventory)
-gen_review(1000)
+#gen_review(1000)
 #gen_users(num_users)
 # available_pids = gen_products(num_products)
 # gen_purchases(num_purchases, available_pids)

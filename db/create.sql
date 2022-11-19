@@ -36,6 +36,7 @@ CREATE TABLE Products (
     PRIMARY KEY (id, sid)
 );
 
+
 CREATE TABLE Carts (
     uid INT NOT NULL,
     pid INT NOT NULL,
