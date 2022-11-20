@@ -52,7 +52,9 @@
           {% for prod in products%}
             <tr>
               <th scope="row">{{prod.id}}</th>
-              <td>{{prod.name}}</td>
+              <td>
+                <a href="{{ url_for('product.product') }}?name={{prod.name}}&&price={{prod.price}}&cat={{prod.category}}&avail={{prod.available}}&link={{prod.link}}">{{prod.name}}</a>
+              </td>
               <td><img src= {{prod.link}} width = "100" height = "100"></td>
               <td>{{prod.price}}</td>
               <td>{{prod.category}}</td>
