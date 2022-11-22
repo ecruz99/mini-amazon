@@ -21,7 +21,7 @@ class CategoryForm(FlaskForm):
 
 class KeyWordForm(FlaskForm):
     kw_input = StringField('Search By Keyword')
-    submit3 = SubmitField('Submit')
+    submit3 = SubmitField('Search')
 
 @bp.route('/', methods = ["GET", "POST"])
 def index():

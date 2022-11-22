@@ -39,7 +39,7 @@
     </div>
     <div style="flex-grow: 1;">
       <table class='table table-hover table-bordered container' style="width:90%; margin-left: 5%;" align="right">
-        <thead class="thead-dark">
+        <thead bgcolor = "#232f3e">
           <tr>
             <th scope="col">Product ID</th>
             <th scope="col">Product Name</th>
@@ -52,7 +52,7 @@
         <tbody>
           {% for prod in products%}
             <tr>
-              <th scope="row">{{prod.id}}</th>
+              <td scope="row">{{prod.id}}</td>
               <td>
                 <a style="text-decoration: none; color: black" href="{{ url_for('product.product') }}?name={{prod.name}}&&price={{prod.price}}&cat={{prod.category}}&avail={{prod.available}}&link={{prod.link}}">{{prod.name}}</a>
               </td>
