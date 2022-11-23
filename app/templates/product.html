@@ -6,7 +6,7 @@
     <div class="wrapper">
         <img src= {{link}} width = "400" height = "400">
     </div>
-    <div class="wrapper">
+    <div class="wrapper" style="width:50%;">
         <h2>{{name}}</h2>
         insert rating
         <hr class="solid">
@@ -22,17 +22,23 @@
     </div>
 </div>
 <div class="wrapper" style="display: flex;">
-    Ratings and Reviews
+    <h4>Ratings and Reviews</h4>
 </div>
-<div class="wrapper" style="display: flex;">
-    Shop more in this category
+<div style="display: flex; border-left: 10px solid rgba(198, 198, 194, 0.525);">
+    <h4>Shop more in this category</h4>
 </div>
-<div class="wrapper" style="display: flex;">
-    <table style="width:100%">
+<div class="wrapper" style="overflow-x:scroll; overflow-y: hidden; white-space: nowrap;">
+    <table>
         <tr>
-            <td class="wrapper" ></td>
-            <td class="wrapper" ></td>
-            <td class="wrapper" ></td>
+            {% for prod in products%}
+            <td class = "wrapper" style="white-space: normal; width: 200px;">
+                <a href="{{ url_for('product.product') }}?name={{prod.name}}&&price={{prod.price}}&cat={{prod.category}}&avail={{prod.available}}&link={{prod.link}}"><img src= {{prod.link}} width = "200" height = "200"></a>
+                <br>
+                <b>{{prod.name}}</b>
+                <br>
+                {{prod.price}}
+            </td>
+            {% endfor %}
         </tr>
     </table>
 </div>

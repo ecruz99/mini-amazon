@@ -21,4 +21,5 @@ def product():
     price = req.get("price")
     avail = req.get("avail")
     link = req.get("link")
-    return render_template("product.html", name=name, cat=cat, price=price, avail=avail, link=link)
+    products = Product.get_by_cat(cat)[:10]
+    return render_template("product.html", name=name, cat=cat, price=price, avail=avail, link=link, products=products)
