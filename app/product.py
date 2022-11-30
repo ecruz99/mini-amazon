@@ -26,7 +26,18 @@ def product():
     id = req.get("id")
     
     products = Product.get_by_cat(cat)[:10]
-    recentReviews = PReview.getAProductReviews(id)
-    averageReview = PReview.getAverage(id)
     
-    return render_template("product.html", name=name, cat=cat, price=price, avail=avail, link=link, products=products, pid = id, recentReviews = recentReviews, averageReview = averageReview)
+    recentReviews = PReview.getAProductReviews(id)
+    
+    averageReview = PReview.getAverage(id)
+    numberOfReview = PReview.numberOfReview(id)
+    numberOfReviewOne = PReview.numberOfReviewOne(id)
+    numberOfReviewTwo = PReview.numberOfReviewTwo(id)
+    numberOfReviewThree = PReview.numberOfReviewThree(id)
+    numberOfReviewFour = PReview.numberOfReviewFour(id)
+    numberOfReviewFive = PReview.numberOfReviewFive(id)
+    
+    return render_template("product.html", name=name, cat=cat, price=price, avail=avail, link=link, products=products,
+                           pid = id, recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
+                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive)

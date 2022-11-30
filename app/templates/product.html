@@ -8,7 +8,6 @@
     </div>
     <div class="wrapper" style="width:50%;">
         <h2>{{name}}</h2>
-        Average Rating: {{averageReview}} Star(s)
         <hr class="solid">
         <h4>Price: <b style="color:rgb(247, 171, 9);">{{price}}</b></h4>
         <b>About this item: </b>item description
@@ -21,10 +20,42 @@
         Use  {{avail}} to check if able to add to cart
     </div>
 </div>
-<div class="wrapper" style="display: flex;">
-    <h4>Ratings and Reviews</h4>
- </div>
- <div>   
+
+ <div class="wrapper" style ="display: flex">    
+  <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
+    <b style = "font-size:xx-large;">Customer Reviews</b>
+    {% if averageReview == 1 %}
+    <div style="font-size:m ">&#127773; &#127770; &#127770; &#127770; &#127770; {{averageReview}} Sun out of 5</div>
+    {% endif %}
+    {% if averageReview == 2 %}
+    <div style="font-size:m ">&#127773; &#127773; &#127770; &#127770; &#127770; {{averageReview}} Suns out of 5</div>
+    {% endif %}
+    {% if averageReview == 3 %}
+    <div style="font-size:m ">&#127773; &#127773; &#127773; &#127770; &#127770; {{averageReview}} Suns out of 5</div>
+    {% endif %}
+    {% if averageReview == 4 %}
+    <div style="font-size:m ">&#127773; &#127773; &#127773; &#127773; &#127770; {{averageReview}} Suns out of 5</div>
+    {% endif %}
+    {% if averageReview == 5 %}
+    <div style="font-size:m ">&#127773; &#127773; &#127773; &#127773; &#127773; {{averageReview}} Suns out of 5</div>
+    {% endif %}
+    {% if averageReview < 1 or averageReview >5 %}
+    <div style="font-size:m ">&#127770; &#127770; &#127770; &#127770; &#127770; Unavailable</div>
+    {% endif %}
+
+    <div>{{numberOfReview}} Global Ratings</div>
+    <br>
+    <div>5 Sun <progress max = {{numberOfReview}} value={{numberOfReviewFive}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewFive}} Rating(s)</div>
+    <div>4 Sun <progress max = {{numberOfReview}} value={{numberOfReviewFour}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewFour}} Rating(s)</div>
+    <div>3 Sun <progress max = {{numberOfReview}} value={{numberOfReviewThree}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewThree}} Rating(s)</div>
+    <div>2 Sun <progress max = {{numberOfReview}} value={{numberOfReviewTwo}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewTwo}} Rating(s)</div>
+    <div>1 Sun <progress max = {{numberOfReview}} value={{numberOfReviewOne}} style="accent-color: rgb(247, 171, 9);"></progress> {{numberOfReviewOne}} Rating(s)</div>
+
+    <hr>
+    <b style = "font-size:large;">Review this product</b>
+    <h4 style = "font-size: medium;">Share your thoughts with other customers</h4>
+  </div>
+  <div style="width:78%; display: inline-block; float:left; ">
     <table class='table table-hover table-bordered container'>
         <thead class="thead-dark">
           <tr>
@@ -36,14 +67,17 @@
         <tbody>
           {% for review in recentReviews%}
             <tr>
-              <th scope="row">{{review.uid}}</th>
+              <th scope="row" style="color:black">{{review.name}}</th>
               <td>{{review.rating}}</td>
               <td>{{review.time_purchased}}</td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
+    </div>    
 </div>
+ 
+
 <div style="display: flex; border-left: 10px solid rgba(198, 198, 194, 0.525);">
     <h4>Shop more in this category</h4>
 </div>
