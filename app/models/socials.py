@@ -21,6 +21,23 @@ ORDER BY time_purchased DESC
         return [PReview(*row) for row in rows]
     
     @staticmethod
+    def getAProductReviews(pid):
+        rows = app.db.execute('''
+WITH truncated AS (
+    SELECT p.uid, u.firstname, p.pid, p.rating, p.time_purchased
+    FROM P_Reviews p, Users u
+    WHERE p.uid = u.id)
+SELECT uid, firstname, rating, time_purchased
+FROM truncated
+WHERE pid = :pid
+ORDER BY time_purchased DESC
+''',
+                              pid=pid)
+        return [PReview(*row) for row in rows]    
+
+ 
+    
+    @staticmethod
     def updateProductReview(uid, pid, rating):
         rows = app.db.execute('''
 UPDATE P_Reviews
@@ -65,3 +82,13 @@ WHERE uid = :uid and pid = :pid
 """,
                               uid = uid, pid = pid)
         return None
+    
+    @staticmethod
+    def getAverage(pid):
+        rows = app.db.execute('''
+SELECT AVG(rating)
+FROM P_Reviews
+WHERE pid = :pid
+''',
+                              pid=pid)
+        return int(rows[0][0]) 

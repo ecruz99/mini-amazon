@@ -8,6 +8,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 from .models.product import Product
 from .models.purchase import Purchase
+from .models.socials import PReview
 
 from flask import Blueprint
 bp = Blueprint('product', __name__)
@@ -21,5 +22,11 @@ def product():
     price = req.get("price")
     avail = req.get("avail")
     link = req.get("link")
+    
+    id = req.get("id")
+    
     products = Product.get_by_cat(cat)[:10]
-    return render_template("product.html", name=name, cat=cat, price=price, avail=avail, link=link, products=products)
+    recentReviews = PReview.getAProductReviews(id)
+    averageReview = PReview.getAverage(id)
+    
+    return render_template("product.html", name=name, cat=cat, price=price, avail=avail, link=link, products=products, pid = id, recentReviews = recentReviews, averageReview = averageReview)
