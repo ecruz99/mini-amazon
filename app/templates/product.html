@@ -86,7 +86,7 @@
         <tr>
             {% for prod in products%}
             <td class = "wrapper" style="white-space: normal; width: 200px;">
-                <a href="{{ url_for('product.product') }}?name={{prod.name}}&&price={{prod.price}}&cat={{prod.category}}&avail={{prod.available}}&link={{prod.link}}"><img src= {{prod.link}} width = "200" height = "200"></a>
+                <a href="{{ url_for('product.product') }}?name={{prod.name}}&&price={{prod.price}}&cat={{prod.category}}&avail={{prod.available}}&link={{prod.link}}&id={{prod.id}}"><img src= {{prod.link}} width = "200" height = "200"></a>
                 <br>
                 <b>{{prod.name}}</b>
                 <br>
