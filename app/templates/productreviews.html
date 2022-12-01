@@ -59,10 +59,9 @@ delete or edit review -->
 {% else %}
   <div>You are not qualified to review this product</div>
   <div style ="color:red">Error: Product Not Purchased</div>
-  <button onclick="history.back()" class="btn btn-black">Go Back</button>
 {% endif %}  
 <br>
-<a href="{{ url_for('product.product') }}?name={{name}}&&price={{price}}&cat={{cat}}&avail={{avail}}&link={{link}}&id={{pid}}"><button class="btn btn-light">Back to Product Page</button></a>
+<a href="{{ url_for('product.product') }}?name={{name}}&&price={{price}}&cat={{cat}}&avail={{avail}}&link={{link}}&id={{pid}}"><button class="btn btn-black">Back to Product Page</button></a>
 
 
 
