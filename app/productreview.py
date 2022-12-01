@@ -1,4 +1,4 @@
-from flask import render_template, request, flash
+from flask import render_template, request, flash, redirect
 from flask_login import current_user
 from werkzeug.urls import url_parse
 import datetime
@@ -15,7 +15,7 @@ from flask import Blueprint
 bp = Blueprint('productreview', __name__)
 
 class createForm(FlaskForm):
-    ratingInCreate = StringField('Rating', validators=[DataRequired()])
+    ratingInCreate = SelectField('Rating', choices=['1','2','3','4','5'])
     submitCreate = SubmitField('Submit')
     
 class updateForm(FlaskForm):
@@ -39,7 +39,6 @@ def productreview():
     cat= req.get("cat")
     price = req.get("price")
     avail = req.get("avail")
-    id = req.get("id")
     
     orderExist = PReview.orderExist(uid, pid)
     reviewExist = PReview.reviewexist(uid, pid)
@@ -48,18 +47,19 @@ def productreview():
     if cForm.submitCreate.data and cForm.validate():
         if PReview.createProductReview(uid, pid, cForm.ratingInCreate.data):
             flash('You have successfully added a review for this product!')
+            return redirect("productreviews.html", pid=pid, uid = uid, name = name, link = link, cat = cat, price = price, avail = avail, orderExist = orderExist, reviewExist = reviewExist, cForm = cForm, uForm = uForm, dForm = dForm)
         
-        return render_template("productreviews.html", pid=pid,  uid = uid, name = name, link = link, orderExist = orderExist, reviewExist = reviewExist, cForm = cForm, uForm = uForm, dForm = dForm)
+        return render_template("productreviews.html", pid=pid, uid = uid, name = name, link = link, cat = cat, price = price, avail = avail, orderExist = orderExist, reviewExist = reviewExist, cForm = cForm, uForm = uForm, dForm = dForm)
     elif uForm.submitUpdate.data and uForm.validate():
         if PReview.updateProductReview(uid, pid, uForm.ratingInUpdate.data):
             flash('You have successfully updated a review for this product!')
         
-        return render_template("productreviews.html", pid=pid,  uid = uid, name = name, link = link, orderExist = orderExist, reviewExist = reviewExist, cForm = cForm, uForm = uForm, dForm = dForm)
+        return render_template("productreviews.html", pid=pid,  uid = uid, name = name, link = link, cat = cat, price = price, avail = avail, orderExist = orderExist, reviewExist = reviewExist, cForm = cForm, uForm = uForm, dForm = dForm)
     elif dForm.submitDelete.data and dForm.validate():
         if PReview.deletereview(uid, pid):
             flash('You have successfully deleted a review for this product!')
         
-        return render_template("productreviews.html", pid=pid,  uid = uid, name = name, link = link, orderExist = orderExist, reviewExist = reviewExist, cForm = cForm, uForm = uForm, dForm = dForm)
+        return render_template("productreviews.html", pid=pid,  uid = uid, name = name, link = link, cat = cat, price = price, avail = avail, orderExist = orderExist, reviewExist = reviewExist, cForm = cForm, uForm = uForm, dForm = dForm)
     
     
-    return render_template("productreviews.html", pid=pid,  uid = uid, name = name, link = link, orderExist = orderExist, reviewExist = reviewExist, cForm = cForm, uForm = uForm, dForm = dForm)
+    return render_template("productreviews.html", pid=pid,  uid = uid, name = name, link = link, cat = cat, price = price, avail = avail, orderExist = orderExist, reviewExist = reviewExist, cForm = cForm, uForm = uForm, dForm = dForm)

@@ -2,18 +2,16 @@
 
 {% block content %}
 
-{% with messages = get_flashed_messages() %}
-   {% if messages %}
-      {% for msg in messages %}
-         <p>{{ msg }}</p>
+{% for mesg in get_flashed_messages() %}
+      <h1>{{ mesg }}</h1>
       {% endfor %}
-   {% endif %}
-{% endwith %}
+
 <!-- 
 check if logged in
 check if item has been purchased
 check if review exists
 delete or edit review -->
+
 
 {% if orderExist %}
   {% if reviewExist%}
@@ -53,7 +51,7 @@ delete or edit review -->
     {{ cForm.hidden_tag() }}
     <p>
       {{ cForm.ratingInCreate.label }}<br/>
-      {{ cForm.ratingInCreate(size=32) }}<br/>
+      {{ cForm.ratingInCreate(size=1) }}<br/>
     </p>
     {{ cForm.submitCreate(class_="btn btn-black") }}
   </form>
@@ -63,8 +61,8 @@ delete or edit review -->
   <div style ="color:red">Error: Product Not Purchased</div>
   <button onclick="history.back()" class="btn btn-black">Go Back</button>
 {% endif %}  
-
-
+<br>
+<a href="{{ url_for('product.product') }}?name={{name}}&&price={{price}}&cat={{cat}}&avail={{avail}}&link={{link}}&id={{pid}}"><button class="btn btn-light">Back to Product Page</button></a>
 
 
 

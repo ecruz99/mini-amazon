@@ -55,7 +55,7 @@
     <b style = "font-size:large;">Review this product</b>
     <h4 style = "font-size: medium;">Share your thoughts with other customers</h4>
     {% if current_user.is_authenticated %}
-    <a href="{{ url_for('productreview.productreview') }}?pid={{pid}}&&name={{name}}&link={{link}}&uid={{current_user.id}}" type="button" ><button class = "btn btn-black">Create Review</button></a>
+    <a href="{{ url_for('productreview.productreview') }}?pid={{pid}}&&name={{name}}&link={{link}}&uid={{current_user.id}}&price={{price}}&cat={{cat}}&avail={{avail}}" type="button" ><button class = "btn btn-black">Create Review</button></a>
     {% else %}
     <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light"><button class = "btn btn-black">Create Review</button></a>
     {% endif %}
