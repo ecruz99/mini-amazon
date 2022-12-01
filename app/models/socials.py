@@ -146,5 +146,15 @@ WHERE pid = :pid
                               pid=pid)
         return int(rows[0][0]) 
     
+    @staticmethod
+    def orderExist(uid, pid):
+        rows = app.db.execute('''
+    SELECT *
+    FROM Orders
+    WHERE pid = :pid AND uid = :uid
+''',
+                              pid=pid, uid = uid)
+        return len(rows) >0
+    
     
     

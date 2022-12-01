@@ -35,5 +35,8 @@ def create_app():
 
     from .hw4_carts import bp as hw4_carts_bp
     app.register_blueprint(hw4_carts_bp)
+    
+    from .productreview import bp as productreview_bp
+    app.register_blueprint(productreview_bp)
 
     return app

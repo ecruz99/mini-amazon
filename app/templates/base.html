@@ -67,7 +67,6 @@
 
     .child{
       display: inline-block;
-      border: 1px solid slateblue;
       padding: 10px;
     }
     .wrapper{
@@ -93,6 +92,7 @@
         {% else %}
           <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light">Log in</a>
         {% endif %}
+        <button onclick="history.back()" class="btn btn-light">Back</button>
       </div>
     {% endblock %}
   </div>
