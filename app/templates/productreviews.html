@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for mesg in get_flashed_messages() %}
-      <h1>{{ mesg }}</h1>
+      <h3 class="positiveNotif">{{mesg}}</h3>
       {% endfor %}
 
 <!-- 
@@ -32,6 +32,10 @@ delete or edit review -->
       {{ uForm.ratingInUpdate.label }}<br/>
       {{ uForm.ratingInUpdate(size=1) }}<br/>
     </p>
+    <p>
+      {{ uForm.reviewInUpdate.label }}<br/>
+      {{ uForm.reviewInUpdate(size=32) }}<br/>
+    </p>
     {{ uForm.submitUpdate(class_="btn btn-black") }} {{ dForm.submitDelete(class_="btn btn-black") }}
   </form>
 
@@ -52,6 +56,10 @@ delete or edit review -->
     <p>
       {{ cForm.ratingInCreate.label }}<br/>
       {{ cForm.ratingInCreate(size=1) }}<br/>
+    </p>
+    <p>
+      {{ cForm.reviewInCreate.label }}<br/>
+      {{ cForm.reviewInCreate(size=32) }}<br/>
     </p>
     {{ cForm.submitCreate(class_="btn btn-black") }}
   </form>

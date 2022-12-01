@@ -23,7 +23,7 @@ ORDER BY time_purchased DESC
     @staticmethod
     def getAProductReviews(pid):
         rows = app.db.execute('''
-    SELECT uid, CONCAT(firstname, ' ', lastname) AS name, rating, time_purchased
+    SELECT uid, CONCAT(firstname, ' ', lastname) AS name, rating, review
     FROM Users u, P_Reviews p
     WHERE uid = id AND pid = :pid
 ''',
@@ -41,24 +41,24 @@ ORDER BY time_purchased DESC
         return int(rows[0][0]) 
     
     @staticmethod
-    def updateProductReview(uid, pid, rating):
+    def updateProductReview(uid, pid, rating, review):
         rows = app.db.execute('''
 UPDATE P_Reviews
-SET rating = :rating
+SET rating = :rating, review = :review
 WHERE uid = :uid and pid = :pid
 ''',
-                              uid=uid, pid = pid, rating = rating)
+                              uid=uid, pid = pid, rating = rating, review = review)
         return None
     
     @staticmethod
-    def createProductReview(uid, pid, rating):
+    def createProductReview(uid, pid, rating, review):
         currentdate = datetime.datetime.now()
         try:
             rows = app.db.execute('''
-INSERT INTO P_Reviews(uid, pid, rating, time_purchased)
-VALUES(:uid, :pid, :rating, :time_purchased)
+INSERT INTO P_Reviews(uid, pid, rating, review, time_purchased)
+VALUES(:uid, :pid, :rating, :review, :time_purchased)
 ''',
-                              uid=uid, pid = pid, rating = rating, time_purchased = currentdate)
+                              uid=uid, pid = pid, rating = rating, time_purchased = currentdate, review = review)
             return None   
     
         except Exception as e:
@@ -149,12 +149,12 @@ WHERE pid = :pid
     @staticmethod
     def orderExist(uid, pid):
         rows = app.db.execute('''
-    SELECT *
+    SELECT uid, pid
     FROM Orders
     WHERE pid = :pid AND uid = :uid
 ''',
                               pid=pid, uid = uid)
-        return len(rows) >0
+        return len(rows) > 0
     
     
     

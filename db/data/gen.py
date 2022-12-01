@@ -1,6 +1,9 @@
 from werkzeug.security import generate_password_hash
 import csv
 from faker import Faker
+import random
+from faker.providers import internet, misc, lorem, date_time, profile
+from werkzeug.security import generate_password_hash
 
 num_users = 1000
 num_products = 2000
@@ -84,11 +87,13 @@ def gen_data(num):
 
             ##p_reviews
             rating = fake.random_int(min=1, max=5)
-            writer7.writerow([buyer_uid, pid, rating, time_purchased])
+            review = fake.sentence(nb_words=20)[:-1]
+            writer7.writerow([buyer_uid, pid, rating, review, time_purchased])
 
             #s_reviews
             rating = fake.random_int(min=1, max=5)
-            writer8.writerow([buyer_uid, sid, rating, time_purchased])
+            review = fake.sentence(nb_words=20)[:-1]
+            writer8.writerow([buyer_uid, sid, rating, review, time_purchased])
     print('remaining tables created')
     return
 
