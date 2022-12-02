@@ -6,6 +6,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 from .models.user import User
+from .models.socials import PReview
 
 
 from flask import Blueprint
@@ -119,7 +120,22 @@ def balance():
 @bp.route('/userview')
 def user_manage():
     session['seller'] = False
-    return render_template('userview.html', title='Manage (User)')
+    
+    id = current_user.id
+    
+    recentReviews = PReview.getUserProductReviews(id)
+    
+    averageReview = PReview.getAverageU(id)
+    numberOfReview = PReview.numberOfReviewU(id)
+    numberOfReviewOne = PReview.numberOfReviewOneU(id)
+    numberOfReviewTwo = PReview.numberOfReviewTwoU(id)
+    numberOfReviewThree = PReview.numberOfReviewThreeU(id)
+    numberOfReviewFour = PReview.numberOfReviewFourU(id)
+    numberOfReviewFive = PReview.numberOfReviewFiveU(id)
+    
+    return render_template('userview.html', title='Manage (User)', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
+                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive)
 
 @bp.route('/sellerview')
 def seller_manage():

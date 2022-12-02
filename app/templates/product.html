@@ -62,8 +62,25 @@
     
   </div>
   <div style="width:78%; display: inline-block; float:left; ">
+    <div style="display: flex;">
+      <h4>Product Review Images:</h4>
+  </div>
+  <div class="wrapper" style="overflow-x:scroll; overflow-y: hidden; white-space: nowrap;">
+      <table>
+          <tr>
+              {% for links in recentReviewLinks%}
+              <td class = "wrapper" style="white-space: normal; width: 150px;">
+                  <a><img src= {{links.link}} width = "150" height = "150"></a>
+              </td>
+              {% endfor %}
+          </tr>
+      </table>
+  </div>
     <table class='table table-hover table-bordered container'>
-        <thead class="thead-dark">
+      <div style="display: flex;">
+        <h4>Recent Reviews:</h4>
+    </div>  
+      <thead class="thead-dark">
           <tr>
             <th scope="col">User</th>
             <th scope="col">Rating</th>

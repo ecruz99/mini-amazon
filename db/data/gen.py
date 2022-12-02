@@ -57,6 +57,8 @@ def gen_data(num):
         ###products, inventory, carts, orders, p_reviews, s_reviews
         cats = ["accessories", "books", "clothes", "decor", "electronics", "food", "games", "shoes"]
         links = ["https://images.pexels.com/photos/12026054/pexels-photo-12026054.jpeg?auto=compress&cs=tinysrgb&w=600", "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGJvb2t8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60", "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8c2hpcnR8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60", "https://images.unsplash.com/photo-1584589167171-541ce45f1eea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZGVjb3J8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60", "https://images.unsplash.com/photo-1537963447914-dbc04b81de27?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGdhbWV8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60", "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8Y2VyZWFsJTIwYm94fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60", "https://images.unsplash.com/photo-1640461470346-c8b56497850a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGJvYXJkJTIwZ2FtZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60", "https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=700&q=60"]
+        reviewlinks = ["https://www.shutterstock.com/image-photo/unhappy-man-frustrated-by-wrong-600w-2051406776.jpg", "https://shutterstock.com/image-photo/oh-dear-what-confused-shocked-600w-1845313102.jpg", "https://news.artnet.com/app/news-upload/2016/05/sculpture-shattered-portuga-large.jpg", "https://www.shutterstock.com/image-photo/unhappy-young-caucasian-woman-look-600w-1896027958.jpg", "https://www.shutterstock.com/image-photo/home-delivery-confused-young-man-600w-1934788400.jpg", "https://www.shutterstock.com/image-photo/young-man-surprised-opening-box-600w-1337933900.jpg"]
+        
         for pid in range(num):
             ##products
             idx = fake.pyint(min_value = 0, max_value = 7)
@@ -86,9 +88,12 @@ def gen_data(num):
             writer6.writerow([oid, buyer_uid, pid, sid, cart_quantity, unit_price, time_purchased, ff])
 
             ##p_reviews
+            idx2 = fake.pyint(min_value = 0, max_value = 5)
+            reviewlink = reviewlinks[idx2]
+            
             rating = fake.random_int(min=1, max=5)
             review = fake.sentence(nb_words=20)[:-1]
-            writer7.writerow([buyer_uid, pid, rating, review, time_purchased])
+            writer7.writerow([buyer_uid, pid, rating, review, reviewlink, time_purchased])
 
             #s_reviews
             rating = fake.random_int(min=1, max=5)
