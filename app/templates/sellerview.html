@@ -2,9 +2,9 @@
 
 {% block content %}
 
-<h1>Manage</h1>
+<h1>Manage (Seller)</h1>
 
-<a href="{{ url_for('users.update') }}" type="button" class="btn btn-dark">Update</a><br><br>
 <a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a><br><br>
+<a href="{{ url_for('users.user_manage') }}">Click here to switch to User mode</a><br><br>
 
 {% endblock %}

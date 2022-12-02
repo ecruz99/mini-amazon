@@ -93,9 +93,13 @@
     {% block msg %}
       <a class="header" href="{{ url_for('index.index') }}">MINI AMAZON</a>
       <div style="color: aliceblue; text-align: right; margin-top: -45px; margin-bottom: 10px; margin-right: 1%;">
-        {% if current_user.is_authenticated %}
+        {% if session['seller'] %}
+          Hello, {{current_user.firstname}} (Seller)! 
+          <a href="{{ url_for('users.seller_manage') }}" type="button" class="btn btn-light">Manage</a>
+          <a href="{{ url_for('users.logout') }}" type="button" class="btn btn-light">Log out</a>
+        {% elif current_user.is_authenticated %}
           Hello, {{current_user.firstname}}! 
-          <a href="{{ url_for('users.manage') }}" type="button" class="btn btn-light">Manage</a>
+          <a href="{{ url_for('users.user_manage') }}" type="button" class="btn btn-light">Manage</a>
           <a href="{{ url_for('users.logout') }}" type="button" class="btn btn-light">Log out</a>
         {% else %}
           <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light">Log in</a>

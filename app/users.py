@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, session
 from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
 from flask_wtf import FlaskForm
@@ -103,10 +103,6 @@ def update():
             return redirect(url_for('index.index'))
     return render_template('update.html', title='Update', form=form)
 
-@bp.route('/manage')
-def manage():
-    return render_template('manage.html', title='Manage')
-
 class BalanceForm(FlaskForm):
     amount = StringField('Amount', validators=[DataRequired()])
     submit = SubmitField('Add/Subtract')
@@ -119,3 +115,13 @@ def balance():
         if User.balance(current_user.id, form.amount.data):
             return redirect(url_for('index.index'))
     return render_template('balance.html', title='Balance', form=form, current=current)
+
+@bp.route('/userview')
+def user_manage():
+    session['seller'] = False
+    return render_template('userview.html', title='Manage (User)')
+
+@bp.route('/sellerview')
+def seller_manage():
+    session['seller'] = True
+    return render_template('sellerview.html', title='Manage (Seller)')
