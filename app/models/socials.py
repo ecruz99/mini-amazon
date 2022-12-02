@@ -51,14 +51,14 @@ WHERE uid = :uid and pid = :pid
         return None
     
     @staticmethod
-    def createProductReview(uid, pid, rating, review):
+    def createProductReview(uid, pid, rating, link, review):
         currentdate = datetime.datetime.now()
         try:
             rows = app.db.execute('''
-INSERT INTO P_Reviews(uid, pid, rating, review, time_purchased)
-VALUES(:uid, :pid, :rating, :review, :time_purchased)
+INSERT INTO P_Reviews(uid, pid, rating, review, link, time_purchased)
+VALUES(:uid, :pid, :rating, :review, :link, :time_purchased)
 ''',
-                              uid=uid, pid = pid, rating = rating, time_purchased = currentdate, review = review)
+                              uid=uid, pid = pid, rating = rating, time_purchased = currentdate, review = review, link = link)
             return None   
     
         except Exception as e:
@@ -155,6 +155,16 @@ WHERE pid = :pid
 ''',
                               pid=pid, uid = uid)
         return len(rows) > 0
+    
+    @staticmethod
+    def getAPReviewLinks(pid):
+        rows = app.db.execute('''
+    SELECT link, CONCAT(firstname, ' ', lastname) AS name
+    FROM Users u, P_Reviews p
+    WHERE uid = id AND pid = :pid
+''',
+                              pid=pid)
+        return rows  
     
     
     

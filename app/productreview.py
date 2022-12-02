@@ -1,9 +1,11 @@
-from flask import render_template, request, flash, redirect
+import os
+from flask import Flask, render_template, request, flash, redirect
 from flask_login import current_user
 from werkzeug.urls import url_parse
 import datetime
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, FileField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 from .models.product import Product
@@ -15,13 +17,14 @@ from flask import Blueprint
 bp = Blueprint('productreview', __name__)
 
 class createForm(FlaskForm):
-    ratingInCreate = SelectField('Rating', choices=['1','2','3','4','5'])
+    ratingInCreate = SelectField('Rating', choices=['1','2','3','4','5'], validators=[DataRequired()])
     reviewInCreate = StringField('Review', validators=[DataRequired()])
+    photoInCreate = FileField('Produt Photo', validators=[DataRequired()])
     submitCreate = SubmitField('Submit')
     
 class updateForm(FlaskForm):
-    ratingInUpdate = SelectField('Rating', choices=['1','2','3','4','5'])
-    reviewInUpdate = StringField('Review', validators=[DataRequired()])
+    ratingInUpdate = SelectField('Rating', choices=['1','2','3','4','5'], validators=[DataRequired()])
+    reviewInUpdate = StringField('Review')
     submitUpdate = SubmitField('Update')    
 
 class deleteForm(FlaskForm):
@@ -47,7 +50,7 @@ def productreview():
     
     
     if cForm.submitCreate.data and cForm.validate():
-        PReview.createProductReview(uid, pid, cForm.ratingInCreate.data, cForm.reviewInCreate.data)
+        PReview.createProductReview(uid, pid, cForm.ratingInCreate.data, cForm.reviewInCreate.data, cForm.photoInCreate.data)
         flash('You have successfully added a review for this product!')
             
     elif uForm.submitUpdate.data and uForm.validate():
