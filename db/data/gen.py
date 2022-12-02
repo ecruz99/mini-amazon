@@ -37,7 +37,7 @@ def gen_data(num):
             
             profile = fake.profile()
             email = fake.unique.email()
-            plain_password = f'pass{uid}'
+            plain_password = 'password1!'
             password = generate_password_hash(plain_password)
             name_components = profile['name'].split(' ')
             firstname = name_components[0]
