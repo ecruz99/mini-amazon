@@ -12,20 +12,21 @@ class PReview:
     @staticmethod
     def getUserProductReviews(uid):
         rows = app.db.execute('''
-SELECT uid, pid, rating, time_purchased
-FROM P_Reviews
-WHERE uid = :uid
+SELECT name, rating, review
+FROM Products u, P_Reviews p
+WHERE uid = :uid AND pid = id
 ORDER BY time_purchased DESC
 ''',
                               uid=uid)
-        return [PReview(*row) for row in rows]
+        return rows
     
     @staticmethod
     def getAProductReviews(pid):
         rows = app.db.execute('''
-    SELECT uid, CONCAT(firstname, ' ', lastname) AS name, rating, review
+    SELECT CONCAT(firstname, ' ', lastname) AS name, rating, review
     FROM Users u, P_Reviews p
     WHERE uid = id AND pid = :pid
+    ORDER BY time_purchased DESC
 ''',
                               pid=pid)
         return rows    
@@ -51,7 +52,7 @@ WHERE uid = :uid and pid = :pid
         return None
     
     @staticmethod
-    def createProductReview(uid, pid, rating, link, review):
+    def createProductReview(uid, pid, rating, review, link):
         currentdate = datetime.datetime.now()
         try:
             rows = app.db.execute('''
@@ -166,5 +167,73 @@ WHERE pid = :pid
                               pid=pid)
         return rows  
     
+    @staticmethod
+    def getAverageU(uid):
+        rows = app.db.execute('''
+    SELECT AVG(rating)
+    FROM P_Reviews
+    WHERE uid = :uid
+    ''',
+                              uid=uid)
+        return int(rows[0][0]) 
     
+    @staticmethod
+    def numberOfReviewU(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM P_Reviews
+    WHERE uid = :uid
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewOneU(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM P_Reviews
+    WHERE uid = :uid AND rating = 1
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewTwoU(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM P_Reviews
+    WHERE uid = :uid AND rating = 2
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewThreeU(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM P_Reviews
+    WHERE uid = :uid AND rating = 3
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewFourU(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM P_Reviews
+    WHERE uid = :uid AND rating = 4
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewFiveU(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM P_Reviews
+    WHERE uid = :uid AND rating = 5
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
     

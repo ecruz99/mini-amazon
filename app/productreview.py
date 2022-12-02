@@ -2,11 +2,13 @@ import os
 from flask import Flask, render_template, request, flash, redirect
 from flask_login import current_user
 from werkzeug.urls import url_parse
+from werkzeug.utils import secure_filename
 import datetime
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, FileField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+import subprocess
 
 from .models.product import Product
 from .models.purchase import Purchase
@@ -16,10 +18,12 @@ from .models.user import User
 from flask import Blueprint
 bp = Blueprint('productreview', __name__)
 
+UPLOAD_FOLDER = '/uploads/'
+
 class createForm(FlaskForm):
     ratingInCreate = SelectField('Rating', choices=['1','2','3','4','5'], validators=[DataRequired()])
     reviewInCreate = StringField('Review', validators=[DataRequired()])
-    photoInCreate = FileField('Produt Photo', validators=[DataRequired()])
+    photoInCreate = FileField('Product Photo', validators=[DataRequired()])
     submitCreate = SubmitField('Submit')
     
 class updateForm(FlaskForm):
@@ -50,6 +54,8 @@ def productreview():
     
     
     if cForm.submitCreate.data and cForm.validate():
+       
+        
         PReview.createProductReview(uid, pid, cForm.ratingInCreate.data, cForm.reviewInCreate.data, cForm.photoInCreate.data)
         flash('You have successfully added a review for this product!')
             
