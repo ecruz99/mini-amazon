@@ -2,12 +2,7 @@
 
 {% block content %}
 
-<h1>Manage (User)</h1>
-
-<a href="{{ url_for('users.update') }}" type="button" class="btn btn-dark">Update</a><br><br>
-<a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a><br><br>
-
-
+<h1>{{fullname}}</h1>
 
 <div class="wrapper" style ="display: flex">    
     <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
@@ -62,6 +57,5 @@
       </div>    
   </div>
 
-<a href="{{ url_for('users.seller_manage') }}">Click here to switch to Seller mode</a><br><br>
 
 {% endblock %}

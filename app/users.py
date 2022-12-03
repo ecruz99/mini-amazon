@@ -117,11 +117,22 @@ def balance():
             return redirect(url_for('index.index'))
     return render_template('balance.html', title='Balance', form=form, current=current)
 
-@bp.route('/userview')
+@bp.route('/usermanage')
 def user_manage():
     session['seller'] = False
-    
-    id = current_user.id
+    return render_template('usermanage.html', title='Manage (User)')
+
+@bp.route('/sellermanage')
+def seller_manage():
+    session['seller'] = True
+    return render_template('sellermanage.html', title='Manage (Seller)')
+
+@bp.route('/userview')
+def user_view():
+    req = request.args
+    id = req.get("sid")
+
+    # id = current_user.id
     
     recentReviews = PReview.getUserProductReviews(id)
     
@@ -132,12 +143,11 @@ def user_manage():
     numberOfReviewThree = PReview.numberOfReviewThreeU(id)
     numberOfReviewFour = PReview.numberOfReviewFourU(id)
     numberOfReviewFive = PReview.numberOfReviewFiveU(id)
-    
-    return render_template('userview.html', title='Manage (User)', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
-                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive)
 
-@bp.route('/sellerview')
-def seller_manage():
-    session['seller'] = True
-    return render_template('sellerview.html', title='Manage (Seller)')
+    # user = User.get(sid)
+    user = User.get(id)
+    fullname = user.firstname + ' ' + user.lastname
+    
+    return render_template('userview.html', title='User View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
+                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname)

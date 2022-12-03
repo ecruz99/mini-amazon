@@ -23,7 +23,7 @@ ORDER BY time_purchased DESC
     @staticmethod
     def getAProductReviews(pid):
         rows = app.db.execute('''
-    SELECT CONCAT(firstname, ' ', lastname) AS name, rating, review
+    SELECT CONCAT(firstname, ' ', lastname) AS name, rating, review, uid
     FROM Users u, P_Reviews p
     WHERE uid = id AND pid = :pid
     ORDER BY time_purchased DESC
@@ -95,7 +95,7 @@ FROM P_Reviews
 WHERE pid = :pid
 ''',
                               pid=pid)
-        return int(rows[0][0]) 
+        return int(rows[0][0]) if rows else None
 
     @staticmethod
     def numberOfReviewOne(pid):
@@ -175,7 +175,9 @@ WHERE pid = :pid
     WHERE uid = :uid
     ''',
                               uid=uid)
-        return int(rows[0][0]) 
+        if rows is not None:
+            return int(rows[0][0])
+        return None
     
     @staticmethod
     def numberOfReviewU(uid):

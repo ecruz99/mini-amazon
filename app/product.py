@@ -27,6 +27,8 @@ def product():
     id = req.get("id")
     
     user = User.get(id)
+    sid = user.id
+    sellername = user.firstname + ' ' + user.lastname
     
     products = Product.get_by_cat(cat)[:10]
     
@@ -44,4 +46,5 @@ def product():
     return render_template("product.html", name=name, cat=cat, price=price, avail=avail, link=link, products=products, user = user,
                            pid = id, recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, recentReviewLinks = recentReviewLinks,)
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, recentReviewLinks = recentReviewLinks,
+                           sellername=sellername, sid=sid, )
