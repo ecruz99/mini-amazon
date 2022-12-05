@@ -130,7 +130,7 @@ def seller_manage():
 @bp.route('/userview')
 def user_view():
     req = request.args
-    id = req.get("sid")
+    id = req.get("uid")
 
     # id = current_user.id
     
@@ -150,4 +150,29 @@ def user_view():
     
     return render_template('userview.html', title='User View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname)
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, id = id)
+    
+@bp.route('/sellerview')
+def seller_view():
+    req = request.args
+    id = req.get("sid")
+
+    # id = current_user.id
+    
+    recentReviews = PReview.getSellerProductReviews(id)
+    
+    averageReview = PReview.getAverageS(id)
+    numberOfReview = PReview.numberOfReviewS(id)
+    numberOfReviewOne = PReview.numberOfReviewOneS(id)
+    numberOfReviewTwo = PReview.numberOfReviewTwoS(id)
+    numberOfReviewThree = PReview.numberOfReviewThreeS(id)
+    numberOfReviewFour = PReview.numberOfReviewFourS(id)
+    numberOfReviewFive = PReview.numberOfReviewFiveS(id)
+
+    # user = User.get(sid)
+    user = User.get(id)
+    fullname = user.firstname + ' ' + user.lastname
+    
+    return render_template('sellerview.html', title='Seller View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
+                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname)    
