@@ -2,84 +2,100 @@
 
 {% block content %}
 
-<form action="" method="post" novalidate>
-    {{ form.hidden_tag() }}
-    <p>
-      {{ form.uid_input.label }}<br/>
-      {{ form.uid_input(size=32) }}<br/>
-    </p>
-    {{ form.submit(class_="btn btn-black") }}
-
+{% if not current_user.is_authenticated %}
   <br><br>
-  <h2>User's Cart</h2>
-  <table class='table table-hover table-bordered container'>
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">User ID</th>
-        <th scope="col">Product ID</th>
-        <th scope="col">Seller ID</th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Unit Price</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in cart%}
-        <tr>
-          <th scope="row">{{item.uid}}</th>
-          <td>{{item.pid}}</td>
-          <td>{{item.sid}}</td>
-          <td>{{item.quantity}}</td>
-          <td>{{item.unit_price}}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  <br><br>
-  
+  <div class='parent'>
+  <img src="https://m.media-amazon.com/images/G/31/cart/empty/kettle-desaturated._CB424694257_.svg" alt="Not Logged In" width="300" height="166"/>
+  <div class='child'>
+  <h3>Please sign into your Mini Amazon account to view your cart.</h3>
+  <br>
   <div>
-    <form action="" method="post" class='child' novalidate>
-      <h4>Delete Product From Cart</h4>
-      {{ form2.hidden_tag() }}
+  <a href="{{ url_for('users.login') }}" type="button" class="btn btn-black">Sign into your account.</a>
+  <a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button">Register for an account.</a>
+  </div>
+  </div>
+<!--
+  <form action="" method="post" novalidate>
+      {{ form.hidden_tag() }}
       <p>
-        {{ form2.uid_input2.label }}<br/>
-        {{ form2.uid_input2(size=32) }}<br/>
+        {{ form.uid_input.label }}<br/>
+        {{ form.uid_input(size=32) }}<br/>
       </p>
-      <p>
-        {{ form2.pid_input2.label }}<br/>
-        {{ form2.pid_input2(size=32) }}<br/>
-      </p>
-      <p>
-        {{ form2.sid_input2.label }}<br/>
-        {{ form2.sid_input2(size=32) }}<br/>
-      </p>
-      <p>
-      {{ form2.submit2(class_="btn btn-black") }}
-    </form>
-
-    <form action="" method="post" class='child' novalidate>
-      <h4>Change Quantity of Product in Cart</h4>
-      {{ form3.hidden_tag() }}
-      <p>
-        {{ form3.uid_input3.label }}<br/>
-        {{ form3.uid_input3(size=32) }}<br/>
-      </p>
-      <p>
-        {{ form3.pid_input3.label }}<br/>
-        {{ form3.pid_input3(size=32) }}<br/>
-      </p>
-      <p>
-        {{ form3.sid_input3.label }}<br/>
-        {{ form3.sid_input3(size=32) }}<br/>
-      </p>
-      <p>
-        {{ form3.quantity3.label }}<br/>
-        {{ form3.quantity3(size=32) }}<br/>
-      </p>
-      <p>
-      {{ form3.submit3(class_="btn btn-black") }}
-    </form>
-  </div> 
+      {{ form.submit(class_="btn btn-black") }}
+  
+    <br><br>
+    <h2>User's Cart</h2>
+    <table class='table table-hover table-bordered container'>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">User ID</th>
+          <th scope="col">Product ID</th>
+          <th scope="col">Seller ID</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Unit Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart%}
+          <tr>
+            <th scope="row">{{item.uid}}</th>
+            <td>{{item.pid}}</td>
+            <td>{{item.sid}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.unit_price}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  
+    <br><br>
+    
+    <div>
+      <form action="" method="post" class='child' novalidate>
+        <h4>Delete Product From Cart</h4>
+        {{ form2.hidden_tag() }}
+        <p>
+          {{ form2.uid_input2.label }}<br/>
+          {{ form2.uid_input2(size=32) }}<br/>
+        </p>
+        <p>
+          {{ form2.pid_input2.label }}<br/>
+          {{ form2.pid_input2(size=32) }}<br/>
+        </p>
+        <p>
+          {{ form2.sid_input2.label }}<br/>
+          {{ form2.sid_input2(size=32) }}<br/>
+        </p>
+        <p>
+        {{ form2.submit2(class_="btn btn-black") }}
+      </form>
+  
+      <form action="" method="post" class='child' novalidate>
+        <h4>Change Quantity of Product in Cart</h4>
+        {{ form3.hidden_tag() }}
+        <p>
+          {{ form3.uid_input3.label }}<br/>
+          {{ form3.uid_input3(size=32) }}<br/>
+        </p>
+        <p>
+          {{ form3.pid_input3.label }}<br/>
+          {{ form3.pid_input3(size=32) }}<br/>
+        </p>
+        <p>
+          {{ form3.sid_input3.label }}<br/>
+          {{ form3.sid_input3(size=32) }}<br/>
+        </p>
+        <p>
+          {{ form3.quantity3.label }}<br/>
+          {{ form3.quantity3(size=32) }}<br/>
+        </p>
+        <p>
+        {{ form3.submit3(class_="btn btn-black") }}
+      </form>
+    </div>
+    -->
+    
+{% endif %}
 
 
 {% endblock %}
