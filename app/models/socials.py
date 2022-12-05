@@ -63,8 +63,6 @@ VALUES(:uid, :pid, :rating, :review, :link, :time_purchased)
             return None   
     
         except Exception as e:
-            # likely email already in use; better error checking and reporting needed;
-            # the following simply prints the error to the console:
             print(str(e))
             return None 
 
@@ -168,6 +166,8 @@ WHERE pid = :pid
         return rows  
     
     #########################################
+    #User Queries
+    #######################################
     
     @staticmethod
     def getAverageU(uid):
@@ -177,7 +177,10 @@ WHERE pid = :pid
     WHERE uid = :uid
     ''',
                               uid=uid)
-        return int(rows[0][0])
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0])
     
     @staticmethod
     def numberOfReviewU(uid):
@@ -187,7 +190,10 @@ WHERE pid = :pid
     WHERE uid = :uid
 ''',
                               uid=uid)
-        return int(rows[0][0]) 
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0]) 
     
     @staticmethod
     def numberOfReviewOneU(uid):
@@ -197,7 +203,10 @@ WHERE pid = :pid
     WHERE uid = :uid AND rating = 1
 ''',
                               uid=uid)
-        return int(rows[0][0]) 
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0]) 
     
     @staticmethod
     def numberOfReviewTwoU(uid):
@@ -207,7 +216,10 @@ WHERE pid = :pid
     WHERE uid = :uid AND rating = 2
 ''',
                               uid=uid)
-        return int(rows[0][0]) 
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0]) 
     
     @staticmethod
     def numberOfReviewThreeU(uid):
@@ -217,7 +229,10 @@ WHERE pid = :pid
     WHERE uid = :uid AND rating = 3
 ''',
                               uid=uid)
-        return int(rows[0][0]) 
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0]) 
     
     @staticmethod
     def numberOfReviewFourU(uid):
@@ -227,7 +242,10 @@ WHERE pid = :pid
     WHERE uid = :uid AND rating = 4
 ''',
                               uid=uid)
-        return int(rows[0][0]) 
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0]) 
     
     @staticmethod
     def numberOfReviewFiveU(uid):
@@ -237,9 +255,13 @@ WHERE pid = :pid
     WHERE uid = :uid AND rating = 5
 ''',
                               uid=uid)
-        return int(rows[0][0]) 
-    
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0])
     ##############################################################
+    #Seller Queries
+    ############################################################
     
     @staticmethod
     def getAverageS(sid):
@@ -392,3 +414,73 @@ WHERE sid = :sid and uid = :uid
                               sid=sid, uid = uid)
         return len(rows) > 0
     
+###########################################################################
+# Messaging
+##########################################################################
+    
+    @staticmethod
+    def getUserConvo(uid):
+        rows = app.db.execute('''
+    SELECT uid, sid, cid, CONCAT(firstname, ' ', lastname) AS othername
+    FROM Conversations c, Users u
+    WHERE uid = :uid AND sid = id
+''',
+                              uid = uid)
+        if rows is None:
+            return 0
+        else:
+            return rows  
+    
+    @staticmethod
+    def getSellerConvo(sid):
+        rows = app.db.execute('''
+    SELECT uid, sid, cid, CONCAT(firstname, ' ', lastname) AS othername
+    FROM Conversations c, Users u
+    WHERE sid = :sid AND uid = id
+''',
+                              sid = sid)
+        if rows is None:
+            return 0
+        else:
+            return rows  
+    
+    @staticmethod
+    def createConversations(sid, uid, cid):
+            rows = app.db.execute("""
+INSERT INTO Conversations(uid, sid, cid)
+VALUES(:uid, :sid, :cid)
+""",
+                                  uid = uid, sid = sid, cid = cid)
+            return None
+        
+    @staticmethod
+    def maxcid(uid, sid):
+            row1 = int(app.db.execute("""
+SELECT MAX(cid)
+FROM Conversations
+""", uid=uid, sid = sid)[0][0] + 1)
+            return row1
+        
+    @staticmethod
+    def getMessages(cid):
+        rows = app.db.execute('''
+    SELECT CONCAT(firstname, ' ', lastname) AS name, message, time_sent
+    FROM Messages c, Users u
+    WHERE cid = :cid AND c.id = u.id
+    ORDER BY time_sent ASC
+''',
+                              cid = cid)
+        if rows is None:
+            return 0
+        else:
+            return rows 
+        
+    @staticmethod
+    def addMessage(cid, id, message):
+        currentdate = datetime.datetime.now()
+        rows = app.db.execute('''
+INSERT INTO Messages(cid, id, message, time_sent)
+VALUES(:cid, :id, :message, :time_sent)
+''',
+                              time_sent = currentdate, cid = cid, id = id, message = message)
+        return None 

@@ -26,6 +26,9 @@ class updateForm(FlaskForm):
 
 class deleteForm(FlaskForm):
     submitDelete = SubmitField('Delete')
+    
+class startForm(FlaskForm):
+    submitstart = SubmitField('Start Conversation')    
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -143,7 +146,7 @@ def user_manage():
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive)
 
-@bp.route('/sellermanage')
+@bp.route('/sellermanage', methods=['GET', 'POST'])
 def seller_manage():
     session['seller'] = True
     
@@ -162,7 +165,7 @@ def seller_manage():
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive)
 
-@bp.route('/userview')
+@bp.route('/userview', methods=['GET', 'POST'])
 def user_view():
     req = request.args
     id = req.get("uid")
@@ -187,12 +190,13 @@ def user_view():
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, id = id)
     
-@bp.route('/sellerview')
+@bp.route('/sellerview', methods=['GET', 'POST'])
 def seller_view():
     req = request.args
     id = req.get("sid")
+    sForm = startForm()
 
-    # id = current_user.id
+    uid = current_user.id
     
     recentReviews = PReview.getSellerProductReviews(id)
     
@@ -203,14 +207,19 @@ def seller_view():
     numberOfReviewThree = PReview.numberOfReviewThreeS(id)
     numberOfReviewFour = PReview.numberOfReviewFourS(id)
     numberOfReviewFive = PReview.numberOfReviewFiveS(id)
-
+    
+    if sForm.submitstart.data and sForm.validate():
+        cid = PReview.maxcid(id, uid)
+        PReview.createConversations(id, uid, cid)
+        flash("Conversation Created")
     # user = User.get(sid)
     user = User.get(id)
     fullname = user.firstname + ' ' + user.lastname
     
     return render_template('sellerview.html', title='Seller View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, sid = id)    
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, sid = id,
+                           sForm = sForm)    
     
 @bp.route('/updatereview', methods = ["GET", "POST"])
 def updatereview():
