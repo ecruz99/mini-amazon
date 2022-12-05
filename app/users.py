@@ -210,10 +210,18 @@ def seller_view():
     numberOfReviewFour = PReview.numberOfReviewFourS(id)
     numberOfReviewFive = PReview.numberOfReviewFiveS(id)
     
+    exist = PReview.convoExist(id, uid)
+    
     if sForm.submitstart.data and sForm.validate():
-        cid = PReview.maxcid(id, uid)
-        PReview.createConversations(id, uid, cid)
-        flash("Conversation Created")
+        
+        if not exist:
+            cid = PReview.maxcid(id, uid)
+            PReview.createConversations(id, uid, cid)
+            flash("Conversation Created")
+        else:
+            flash("Please use your current conversation instead of creating a new one!")  
+        
+        
     # user = User.get(sid)
     user = User.get(id)
     fullname = user.firstname + ' ' + user.lastname
@@ -221,7 +229,7 @@ def seller_view():
     return render_template('sellerview.html', title='Seller View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, sid = id,
-                           sForm = sForm)    
+                           sForm = sForm, exist = exist)    
     
 @bp.route('/updatereview', methods = ["GET", "POST"])
 def updatereview():

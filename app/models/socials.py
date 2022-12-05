@@ -484,3 +484,14 @@ VALUES(:cid, :id, :message, :time_sent)
 ''',
                               time_sent = currentdate, cid = cid, id = id, message = message)
         return None 
+    
+    @staticmethod
+    def convoExist(id, uid):
+        rows = app.db.execute('''
+    SELECT cid
+    FROM Conversations
+    WHERE uid = :uid AND sid = :sid
+''',
+                              sid = id, uid = uid)
+        
+        return len(rows) > 0
