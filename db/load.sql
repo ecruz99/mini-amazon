@@ -23,3 +23,7 @@ SELECT pg_catalog.setval('public.purchases_id_seq',
 \COPY Carts FROM 'Carts.csv' WITH DELIMITER ',' NULL '' CSV
 
 \COPY Orders FROM 'Orders.csv' WITH DELIMITER ',' NULL '' CSV
+
+\COPY Conversations FROM 'Conversations.csv' WITH DELIMITER ',' NULL '' CSV
+
+\COPY Messages FROM 'Messages.csv' WITH DELIMITER ',' NULL '' CSV
