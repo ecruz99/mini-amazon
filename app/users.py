@@ -188,13 +188,9 @@ def user_view():
     email = user.email
     address = user.address
     
-    return render_template('userview.html', title='User View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
-                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-<<<<<<< HEAD
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, id=id,
-                           email=email, address=address)
-=======
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, id = id)
+    return render_template('userview.html', title='User View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview, numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+ numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, id=id,
+ email=email, address=address)
     
 @bp.route('/sellerview', methods=['GET', 'POST'])
 def seller_view():
@@ -248,4 +244,3 @@ def updatereview():
         
    
     return render_template("updatereviewfromuserpage.html", pid=pid, name = name, link = link, uid = uid, uForm = uForm, dForm = dForm)
->>>>>>> a8d0e1b9920ee92d1950a2b099a952aeefbd987f
