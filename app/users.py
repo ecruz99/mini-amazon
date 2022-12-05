@@ -147,7 +147,10 @@ def user_view():
     # user = User.get(sid)
     user = User.get(id)
     fullname = user.firstname + ' ' + user.lastname
+    email = user.email
+    address = user.address
     
     return render_template('userview.html', title='User View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname)
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, id=id,
+                           email=email, address=address)
