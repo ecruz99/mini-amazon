@@ -135,8 +135,32 @@ def gen_review(num_review):
         print(f'{num_review} generated')
     return
  """
+ 
+def gen_convo(num):
+    with open('Conversations.csv', 'w') as f1, open('Messages.csv', 'w') as f2:
+        writer1 = get_csv_writer(f1)
+        writer2 = get_csv_writer(f2)
+        
+        for cid in range(num):
+            ##products
+            sid = fake.pyint(min_value = 0, max_value = 2000)
+            writer1.writerow([cid, sid, cid])    
+            
+            for message in range(10):
+                user = fake.pyint(min_value = 0, max_value = 1)
+                
+                if(user == 0):
+                    id = sid
+                else:
+                    id = cid
+                    
+                message = fake.sentence(nb_words=20)[:-1]
+                time = fake.date_time()
+                writer2.writerow([cid, id, message, time])    
+            
 
-gen_data(2000)
+#gen_data(2000)
+gen_convo(2000)
 #gen_carts(num_carts)            
 #gen_review(1000)
 

@@ -12,7 +12,7 @@
         <h4>Price: <b style="color:rgb(247, 171, 9);">{{price}}</b></h4>
         <b>About this item: </b>item description
         <br>
-        <b>About this seller: </b><a href="{{ url_for('users.user_view') }}?id={{sid}}">{{sellername}}</a>
+        <b>About this seller: </b><a href="{{ url_for('users.seller_view') }}?sid={{sid}}">{{sellername}}</a>
     </div>
     <div class="wrapper">
         Add to cart functionality
@@ -90,7 +90,7 @@
         <tbody>
           {% for review in recentReviews%}
             <tr>
-              <th scope="row" style="color:black"><a href="{{ url_for('users.user_view') }}?id={{review.uid}}">{{review.name}}</a></th>
+              <th scope="row" style="color:black"><a href="{{ url_for('users.user_view') }}?uid={{review.uid}}">{{review.name}}</a></th>
               <td>{{review.rating}}</td>
               <td>{{review.review}}</td>
             </tr>

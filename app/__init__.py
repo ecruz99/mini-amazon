@@ -38,5 +38,11 @@ def create_app():
     
     from .productreview import bp as productreview_bp
     app.register_blueprint(productreview_bp)
+    
+    from .sellerreview import bp as sellerreview_bp
+    app.register_blueprint(sellerreview_bp)
+    
+    from .messaging import bp as messaging_bp
+    app.register_blueprint(messaging_bp)
 
     return app

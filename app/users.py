@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, flash, request, session
 from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 from .models.user import User
@@ -18,6 +18,17 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+    
+class updateForm(FlaskForm):
+    ratingInUpdate = SelectField('Rating', choices=['1','2','3','4','5'], validators=[DataRequired()])
+    reviewInUpdate = StringField('Review')
+    submitUpdate = SubmitField('Update')    
+
+class deleteForm(FlaskForm):
+    submitDelete = SubmitField('Delete')
+    
+class startForm(FlaskForm):
+    submitstart = SubmitField('Start Conversation')    
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -120,17 +131,44 @@ def balance():
 @bp.route('/usermanage')
 def user_manage():
     session['seller'] = False
-    return render_template('usermanage.html', title='Manage (User)')
+    
+    id = current_user.id
+    
+    recentReviews = PReview.getUserProductReviews(id)
+    averageReview = PReview.getAverageU(id)
+    numberOfReview = PReview.numberOfReviewU(id)
+    numberOfReviewOne = PReview.numberOfReviewOneU(id)
+    numberOfReviewTwo = PReview.numberOfReviewTwoU(id)
+    numberOfReviewThree = PReview.numberOfReviewThreeU(id)
+    numberOfReviewFour = PReview.numberOfReviewFourU(id)
+    numberOfReviewFive = PReview.numberOfReviewFiveU(id)
+    return render_template('usermanage.html', title='Manage (User)', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
+                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive)
 
-@bp.route('/sellermanage')
+@bp.route('/sellermanage', methods=['GET', 'POST'])
 def seller_manage():
     session['seller'] = True
-    return render_template('sellermanage.html', title='Manage (Seller)')
+    
+    id = current_user.id
+    
+    recentReviews = PReview.getSellerProductReviews(id)
+    averageReview = PReview.getAverageS(id)
+    numberOfReview = PReview.numberOfReviewS(id)
+    numberOfReviewOne = PReview.numberOfReviewOneS(id)
+    numberOfReviewTwo = PReview.numberOfReviewTwoS(id)
+    numberOfReviewThree = PReview.numberOfReviewThreeS(id)
+    numberOfReviewFour = PReview.numberOfReviewFourS(id)
+    numberOfReviewFive = PReview.numberOfReviewFiveS(id)
+    
+    return render_template('sellermanage.html', title='Manage (Seller)', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
+                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive)
 
-@bp.route('/userview')
+@bp.route('/userview', methods=['GET', 'POST'])
 def user_view():
     req = request.args
-    id = req.get("id")
+    id = req.get("uid")
 
     # id = current_user.id
     
@@ -152,5 +190,62 @@ def user_view():
     
     return render_template('userview.html', title='User View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+<<<<<<< HEAD
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, id=id,
                            email=email, address=address)
+=======
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, id = id)
+    
+@bp.route('/sellerview', methods=['GET', 'POST'])
+def seller_view():
+    req = request.args
+    id = req.get("sid")
+    sForm = startForm()
+
+    uid = current_user.id
+    
+    recentReviews = PReview.getSellerProductReviews(id)
+    
+    averageReview = PReview.getAverageS(id)
+    numberOfReview = PReview.numberOfReviewS(id)
+    numberOfReviewOne = PReview.numberOfReviewOneS(id)
+    numberOfReviewTwo = PReview.numberOfReviewTwoS(id)
+    numberOfReviewThree = PReview.numberOfReviewThreeS(id)
+    numberOfReviewFour = PReview.numberOfReviewFourS(id)
+    numberOfReviewFive = PReview.numberOfReviewFiveS(id)
+    
+    if sForm.submitstart.data and sForm.validate():
+        cid = PReview.maxcid(id, uid)
+        PReview.createConversations(id, uid, cid)
+        flash("Conversation Created")
+    # user = User.get(sid)
+    user = User.get(id)
+    fullname = user.firstname + ' ' + user.lastname
+    
+    return render_template('sellerview.html', title='Seller View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
+                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, sid = id,
+                           sForm = sForm)    
+    
+@bp.route('/updatereview', methods = ["GET", "POST"])
+def updatereview():
+    uForm = updateForm()
+    dForm = deleteForm()
+    
+    req = request.args
+    pid = req.get("pid")
+    uid = int(req.get("uid"))
+    name = req.get("name")
+    link = req.get("link")
+        
+    if uForm.submitUpdate.data and uForm.validate():
+        PReview.updateProductReview(uid, pid, uForm.ratingInUpdate.data, uForm.reviewInUpdate.data)
+        flash('You have successfully updated a review for this product!')
+        
+    elif dForm.submitDelete.data and dForm.validate():
+        PReview.deletereview(uid, pid)
+        flash('You have successfully deleted a review for this product!')
+        
+   
+    return render_template("updatereviewfromuserpage.html", pid=pid, name = name, link = link, uid = uid, uForm = uForm, dForm = dForm)
+>>>>>>> a8d0e1b9920ee92d1950a2b099a952aeefbd987f

@@ -1,14 +1,65 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<form action="" method="post" novalidate>
-    {{ form.hidden_tag() }}
+<br><br>
+<div>  
+  <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+    <h4>Add Product</h4>
+    {{ form3.hidden_tag() }}
     <p>
-      {{ form.sid_input.label }}<br/>
-      {{ form.sid_input(size=32) }}<br/>
+      {{ form3.sid_input3.label }}<br/>
+      {{ form3.sid_input3(size=32) }}<br/>
     </p>
-    {{ form.submit(class_="btn btn-black") }}
+    <p>
+      {{ form3.pid_input3.label }}<br/>
+      {{ form3.pid_input3(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form3.productname3.label }}<br/>
+      {{ form3.productname3(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form3.quantity3.label }}<br/>
+      {{ form3.quantity3(size=32) }}<br/>
+    </p>
+    <p>
+    {{ form3.submit3(class_="btn btn-black") }}
+  </form> 
+
+  <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+    <h4>Change Quantity of Product</h4>
+    {{ form4.hidden_tag() }}
+    <p>
+      {{ form4.sid_input4.label }}<br/>
+      {{ form4.sid_input4(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form4.pid_input4.label }}<br/>
+      {{ form4.pid_input4(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form4.quantity4.label }}<br/>
+      {{ form4.quantity4(size=32) }}<br/>
+    </p>
+    <p>
+    {{ form4.submit4(class_="btn btn-black") }}
+  </form> 
+
+  <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+    <h4>Delete Product</h4>
+    {{ form2.hidden_tag() }}
+    <p>
+      {{ form2.sid_input2.label }}<br/>
+      {{ form2.sid_input2(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form2.pid_input2.label }}<br/>
+      {{ form2.pid_input2(size=32) }}<br/>
+    </p>
+    <p>
+    {{ form2.submit2(class_="btn btn-black") }}
+  </form>
+</div>
 
   <br><br>
   <h2>Sellers Inventory:</h2>
@@ -33,61 +84,14 @@
     </tbody>
   </table>
   <br><br>
-  <form action="" method="post" class='child' novalidate>
-    <h4>Delete Product From Inventory</h4>
-    {{ form2.hidden_tag() }}
+
+  <form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
     <p>
-      {{ form2.sid_input2.label }}<br/>
-      {{ form2.sid_input2(size=32) }}<br/>
+      {{ form.sid_input.label }}<br/>
+      {{ form.sid_input(size=32) }}<br/>
     </p>
-    <p>
-      {{ form2.pid_input2.label }}<br/>
-      {{ form2.pid_input2(size=32) }}<br/>
-    </p>
-    <p>
-    {{ form2.submit2(class_="btn btn-black") }}
-  </form> 
-  <br><br>
-  <form action="" method="post" class='child' novalidate>
-    <h4>Add Product To Inventory</h4>
-    {{ form3.hidden_tag() }}
-    <p>
-      {{ form3.sid_input3.label }}<br/>
-      {{ form3.sid_input3(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form3.pid_input3.label }}<br/>
-      {{ form3.pid_input3(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form3.productname3.label }}<br/>
-      {{ form3.productname3(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form3.quantity3.label }}<br/>
-      {{ form3.quantity3(size=32) }}<br/>
-    </p>
-    <p>
-    {{ form3.submit3(class_="btn btn-black") }}
-  </form> 
-  <br><br>
-  <form action="" method="post" class='child' novalidate>
-    <h4>Change Quantity of Product in Inventory</h4>
-    {{ form4.hidden_tag() }}
-    <p>
-      {{ form4.sid_input4.label }}<br/>
-      {{ form4.sid_input4(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form4.pid_input4.label }}<br/>
-      {{ form4.pid_input4(size=32) }}<br/>
-    </p>
-    <p>
-      {{ form4.quantity4.label }}<br/>
-      {{ form4.quantity4(size=32) }}<br/>
-    </p>
-    <p>
-    {{ form4.submit4(class_="btn btn-black") }}
-  </form> 
+    {{ form.submit(class_="btn btn-black") }}
+
 
 {% endblock %}

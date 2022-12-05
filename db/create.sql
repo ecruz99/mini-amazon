@@ -75,3 +75,16 @@ CREATE TABLE S_Reviews (
     review VARCHAR(255),
     time_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC-4')
 );
+
+CREATE TABLE Conversations (
+    uid INT NOT NULL REFERENCES Users(id),
+    sid INT NOT NULL REFERENCES Seller(uid),
+    cid INT NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE Messages (
+    cid INT NOT NULL /*REFERENCES Conversations(cid)*/,
+    id INT NOT NULL,
+    message VARCHAR(255),
+    time_sent timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC-4')
+);

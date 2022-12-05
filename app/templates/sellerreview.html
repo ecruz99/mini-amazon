@@ -15,14 +15,11 @@ delete or edit review -->
 
 {% if orderExist %}
   {% if reviewExist%}
-  <h4 class="child" style = "font-size:xx-large;">Update Product Review</h4>
+  <h4 class="child" style = "font-size:xx-large;">Update Seller Review</h4>
 
   <div style="display: flex;" class="wrapper">
     <div>
-      <img src= {{link}} width = "50" height = "50">
-    </div>
-    <div>
-      <h2 style = "font-size:x-large;"> {{name}}</h2>
+      <h2 style = "font-size:x-large;">For {{name}}</h2>
     </div>
   </div>
 
@@ -36,22 +33,15 @@ delete or edit review -->
       {{ uForm.reviewInUpdate.label }}<br/>
       {{ uForm.reviewInUpdate(size=32) }}<br/>
     </p>
-    <p>
-      {{ uForm.photoInUpdate.label }}<br/>
-      {{ uForm.photoInUpdate(size=32) }}<br/>
-    </p>
     {{ uForm.submitUpdate(class_="btn btn-black") }} {{ dForm.submitDelete(class_="btn btn-black") }}
   </form>
 
   {% else %}
-    <h4 class="child" style = "font-size:xx-large;">Create Product Review</h4>
+    <h4 class="child" style = "font-size:xx-large;">Create Seller Review</h4>
 
     <div style="display: flex;" class="wrapper">
       <div>
-        <img src= {{link}} width = "50" height = "50">
-      </div>
-      <div>
-        <h2 style = "font-size:x-large;"> {{name}}</h2>
+        <h2 style = "font-size:x-large;">For {{name}}</h2>
       </div>
     </div>
 
@@ -65,21 +55,17 @@ delete or edit review -->
       {{ cForm.reviewInCreate.label }}<br/>
       {{ cForm.reviewInCreate(size=32) }}<br/>
     </p>
-    <p>
-      {{ cForm.photoInCreate.label }}<br/>
-      {{ cForm.photoInCreate(size=32) }}<br/>
-    </p>
   
     {{ cForm.submitCreate(class_="btn btn-black") }}
   </form>
   {% endif%}
 {% else %}
-  <div>You are not qualified to review this product</div>
-  <div style ="color:red">Error: Product Not Purchased</div>
+  <div>You are not qualified to review this seller</div>
+  <div style ="color:red">Error: Product from Seller Not Purchased</div>
 {% endif %}  
-<br>
-<a href="{{ url_for('product.product') }}?name={{name}}&&price={{price}}&cat={{cat}}&avail={{avail}}&link={{link}}&id={{pid}}"><button class="btn btn-black">Back to Product Page</button></a>
 
+<br>
+<a href="{{ url_for('users.seller_view') }}?sid={{sid}}"><button class="btn btn-black">Back to Seller Page</button></a>
 
 
 {% endblock %}
