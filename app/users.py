@@ -130,7 +130,7 @@ def seller_manage():
 @bp.route('/userview')
 def user_view():
     req = request.args
-    id = req.get("sid")
+    id = req.get("id")
 
     # id = current_user.id
     

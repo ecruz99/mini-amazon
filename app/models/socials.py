@@ -95,7 +95,7 @@ FROM P_Reviews
 WHERE pid = :pid
 ''',
                               pid=pid)
-        return int(rows[0][0]) if rows else None
+        return int(rows[0][0])
 
     @staticmethod
     def numberOfReviewOne(pid):
@@ -175,9 +175,7 @@ WHERE pid = :pid
     WHERE uid = :uid
     ''',
                               uid=uid)
-        if rows is not None:
-            return int(rows[0][0])
-        return None
+        return int(rows[0][0])
     
     @staticmethod
     def numberOfReviewU(uid):
