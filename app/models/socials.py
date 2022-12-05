@@ -167,6 +167,8 @@ WHERE pid = :pid
                               pid=pid)
         return rows  
     
+    #########################################
+    
     @staticmethod
     def getAverageU(uid):
         rows = app.db.execute('''
@@ -236,4 +238,89 @@ WHERE pid = :pid
 ''',
                               uid=uid)
         return int(rows[0][0]) 
+    
+    ##############################################################
+    
+    @staticmethod
+    def getAverageS(uid):
+        rows = app.db.execute('''
+    SELECT AVG(rating)
+    FROM S_Reviews
+    WHERE uid = :uid
+    ''',
+                              uid=uid)
+        if rows is not None:
+            return int(rows[0][0])
+        return None
+    
+    @staticmethod
+    def numberOfReviewS(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM S_Reviews
+    WHERE uid = :uid
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewOneS(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM S_Reviews
+    WHERE uid = :uid AND rating = 1
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewTwoS(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM S_Reviews
+    WHERE uid = :uid AND rating = 2
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewThreeS(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM S_Reviews
+    WHERE uid = :uid AND rating = 3
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewFourS(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM S_Reviews
+    WHERE uid = :uid AND rating = 4
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def numberOfReviewFiveS(uid):
+        rows = app.db.execute('''
+    SELECT COUNT(*)
+    FROM S_Reviews
+    WHERE uid = :uid AND rating = 5
+''',
+                              uid=uid)
+        return int(rows[0][0]) 
+    
+    @staticmethod
+    def getSellerProductReviews(uid):
+        rows = app.db.execute('''
+SELECT CONCAT(firstname, ' ', lastname) AS name, rating, review
+FROM Users u, S_Reviews s
+WHERE sid = :uid AND uid = id
+ORDER BY time_purchased DESC
+''',
+                              uid=uid)
+        return rows
     
