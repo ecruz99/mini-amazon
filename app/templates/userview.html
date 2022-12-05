@@ -4,16 +4,9 @@
 
 <h1>{{fullname}}</h1>
 
-{{id}} {{current_user.id}}
-
-{{ id == current_user.id }}
-
-{% if id == current_user.id %}
-
-{% else %}
 <div class="wrapper" style ="display: flex">    
   <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
-    <b style = "font-size:xx-large;"> Review Summary</b>
+    <b style = "font-size:xx-large;"> User Summary</b>
     {% if averageReview == 1 %}
     <div style="font-size:m ">&#127773; &#127770; &#127770; &#127770; &#127770; Average {{averageReview}} Sun out of 5</div>
     {% endif %}
@@ -54,7 +47,7 @@
         <tbody>
           {% for review in recentReviews%}
             <tr>
-              <th scope="row" style="color:black">{{review.name}}</th>
+              <th scope="row" style="color:black"><a href="{{ url_for('users.updatereview') }}?uid={{review.uid}}&&pid={{review.pid}}&name={{review.name}}&link={{review.link}}">{{review.name}}</a></th>
               <td>{{review.rating}}</td>
               <td>{{review.review}}</td>
             </tr>
@@ -63,5 +56,6 @@
       </table>
     </div>    
 </div>
-{% endif %}
+
+
 {% endblock %}

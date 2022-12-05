@@ -12,7 +12,7 @@ class PReview:
     @staticmethod
     def getUserProductReviews(uid):
         rows = app.db.execute('''
-SELECT name, rating, review
+SELECT uid, pid, name, rating, review, u.link AS link
 FROM Products u, P_Reviews p
 WHERE uid = :uid AND pid = id
 ORDER BY time_purchased DESC
@@ -42,13 +42,13 @@ ORDER BY time_purchased DESC
         return int(rows[0][0]) 
     
     @staticmethod
-    def updateProductReview(uid, pid, rating, review):
+    def updateProductReview(uid, pid, rating, review, link):
         rows = app.db.execute('''
 UPDATE P_Reviews
-SET rating = :rating, review = :review
+SET rating = :rating, review = :review, link = :link
 WHERE uid = :uid and pid = :pid
 ''',
-                              uid=uid, pid = pid, rating = rating, review = review)
+                              uid=uid, pid = pid, rating = rating, review = review, link = link)
         return None
     
     @staticmethod
@@ -242,85 +242,153 @@ WHERE pid = :pid
     ##############################################################
     
     @staticmethod
-    def getAverageS(uid):
+    def getAverageS(sid):
         rows = app.db.execute('''
     SELECT AVG(rating)
     FROM S_Reviews
-    WHERE uid = :uid
+    WHERE sid = :sid
     ''',
-                              uid=uid)
-        if rows is not None:
+                              sid=sid)
+        if rows[0][0] is None:
+            return 0
+        else:
             return int(rows[0][0])
-        return None
     
     @staticmethod
-    def numberOfReviewS(uid):
+    def numberOfReviewS(sid):
         rows = app.db.execute('''
     SELECT COUNT(*)
     FROM S_Reviews
-    WHERE uid = :uid
+    WHERE sid = :sid
 ''',
-                              uid=uid)
-        return int(rows[0][0]) 
+                              sid=sid)
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0])
     
     @staticmethod
-    def numberOfReviewOneS(uid):
+    def numberOfReviewOneS(sid):
         rows = app.db.execute('''
     SELECT COUNT(*)
     FROM S_Reviews
-    WHERE uid = :uid AND rating = 1
+    WHERE sid = :sid AND rating = 1
 ''',
-                              uid=uid)
-        return int(rows[0][0]) 
+                              sid=sid)
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0]) 
     
     @staticmethod
-    def numberOfReviewTwoS(uid):
+    def numberOfReviewTwoS(sid):
         rows = app.db.execute('''
     SELECT COUNT(*)
     FROM S_Reviews
-    WHERE uid = :uid AND rating = 2
+    WHERE sid = :sid AND rating = 2
 ''',
-                              uid=uid)
-        return int(rows[0][0]) 
+                              sid=sid)
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0])
     
     @staticmethod
-    def numberOfReviewThreeS(uid):
+    def numberOfReviewThreeS(sid):
         rows = app.db.execute('''
     SELECT COUNT(*)
     FROM S_Reviews
-    WHERE uid = :uid AND rating = 3
+    WHERE sid = :sid AND rating = 3
 ''',
-                              uid=uid)
-        return int(rows[0][0]) 
+                              sid=sid)
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0])
     
     @staticmethod
-    def numberOfReviewFourS(uid):
+    def numberOfReviewFourS(sid):
         rows = app.db.execute('''
     SELECT COUNT(*)
     FROM S_Reviews
-    WHERE uid = :uid AND rating = 4
+    WHERE sid = :sid AND rating = 4
 ''',
-                              uid=uid)
-        return int(rows[0][0]) 
+                              sid=sid)
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0])
     
     @staticmethod
-    def numberOfReviewFiveS(uid):
+    def numberOfReviewFiveS(sid):
         rows = app.db.execute('''
     SELECT COUNT(*)
     FROM S_Reviews
-    WHERE uid = :uid AND rating = 5
+    WHERE sid = :sid AND rating = 5
 ''',
-                              uid=uid)
-        return int(rows[0][0]) 
+                              sid=sid)
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0])
     
     @staticmethod
-    def getSellerProductReviews(uid):
+    def getSellerProductReviews(sid):
         rows = app.db.execute('''
 SELECT CONCAT(firstname, ' ', lastname) AS name, rating, review
 FROM Users u, S_Reviews s
-WHERE sid = :uid AND uid = id
+WHERE sid = :sid AND uid = id
 ORDER BY time_purchased DESC
 ''',
-                              uid=uid)
+                              sid=sid)
         return rows
+    
+    @staticmethod
+    def updateSellerReview(uid, sid, rating, review):
+        rows = app.db.execute('''
+UPDATE S_Reviews
+SET rating = :rating, review = :review
+WHERE sid = :sid and uid = :uid
+''',
+                              uid=uid, sid = sid, rating = rating, review = review)
+        return None    
+    
+    @staticmethod
+    def deleteSellerReview(uid, sid):
+        rows = app.db.execute("""
+DELETE FROM S_Reviews
+WHERE uid = :uid and sid = :sid
+""",
+                              uid = uid, sid = sid)
+        return None
+    
+    @staticmethod
+    def createSellerReview(uid, sid, rating, review):
+        currentdate = datetime.datetime.now()
+        rows = app.db.execute('''
+INSERT INTO S_Reviews(uid, sid, rating, review, time_purchased)
+VALUES(:uid, :sid, :rating, :review, :time_purchased)
+''',
+                              uid=uid, sid = sid, rating = rating, time_purchased = currentdate, review = review)
+        return None 
+    
+    @staticmethod
+    def sellerReviewexist(uid, sid):
+        rows = app.db.execute("""
+SELECT uid, sid
+FROM S_Reviews
+WHERE sid = :sid and uid = :uid
+""",
+                              uid = uid, sid = sid)
+        return len(rows) > 0
+    
+    @staticmethod
+    def sellerOrderExist(uid, sid):
+        rows = app.db.execute('''
+    SELECT uid, sid
+    FROM Orders
+    WHERE sid = :sid AND uid = :uid
+''',
+                              sid=sid, uid = uid)
+        return len(rows) > 0
     
