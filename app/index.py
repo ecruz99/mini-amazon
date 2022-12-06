@@ -7,6 +7,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 from .models.product import Product
 from .models.purchase import Purchase
+from .models.socials import PReview
 
 from flask import Blueprint
 bp = Blueprint('index', __name__)
@@ -42,9 +43,18 @@ def index():
         if form.k_input.data == "high to low":
             top_k_products = Product.order_d()[:50]
         else:
-            top_k_products = Product.order_a()[:50]        
+            top_k_products = Product.order_a()[:50]
+
+        ratings = []
+        for p in top_k_products:
+            ratings.append(PReview.getAverage(p.id))
+
+        length = len(top_k_products)
+
         return render_template('index.html',
                         products=top_k_products,
+                        ratings=ratings,
+                        length=length,
                         form=form,
                         form2=form2,
                         form3=form3,
@@ -54,8 +64,17 @@ def index():
     elif form2.submit2.data and form2.validate_on_submit():
         cat = form2.cat_input.data
         cat_products = Product.get_by_cat(cat)
+
+        ratings = []
+        for p in cat_products:
+            ratings.append(PReview.getAverage(p.id))
+
+        length = len(cat_products)
+
         return render_template('index.html',
                         products=cat_products,
+                        ratings=ratings,
+                        length=length,
                         form=form,
                         form2=form2,
                         form3=form3,
@@ -65,8 +84,17 @@ def index():
     elif form3.submit3.data and form3.validate_on_submit():
         kw = form3.kw_input.data
         kw_products = Product.get_by_kw(kw)
+
+        ratings = []
+        for p in kw_products:
+            ratings.append(PReview.getAverage(p.id))
+
+        length = len(kw_products)
+
         return render_template('index.html',
                         products=kw_products,
+                        ratings=ratings,
+                        length=length,
                         form=form,
                         form2=form2,
                         form3=form3,
@@ -75,8 +103,17 @@ def index():
                         )
     else:
         products = Product.get_all(True)[0:15]
+    
+        ratings = []
+        for p in products:
+            ratings.append(PReview.getAverage(p.id))
+        
+        length = len(products)
+
         return render_template('index.html',
                         products=products,
+                        ratings=ratings,
+                        length=length,
                         form=form,
                         form2=form2,
                         form3=form3,

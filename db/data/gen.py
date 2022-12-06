@@ -64,7 +64,7 @@ def gen_data(num):
             idx = fake.pyint(min_value = 0, max_value = 7)
             sid = pid
             productname = fake.sentence(nb_words=3)[:-1]
-            descr = fake.sentence(nb_words=10)[:-1]
+            descr = fake.sentence(nb_words=40)[:-1]
             cat = cats[idx]
             price = f'{str(fake.random_int(max=500))}.{fake.random_int(max=99):02}'
             link = links[idx]
