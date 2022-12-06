@@ -18,13 +18,16 @@ bp = Blueprint('product', __name__)
 @bp.route('/product', methods = ["GET", "POST"])
 def product():
     req = request.args
-    cat= req.get("cat")
-    name = req.get("name")
-    price = req.get("price")
-    avail = req.get("avail")
-    link = req.get("link")
-    
     id = req.get("id")
+    product = Product.get(id)
+
+    cat = product.category
+    name = product.name
+    price = product.price
+    avail = product.available
+    link = product.link
+    descr = product.descr
+
     
     user = User.get(id)
     sid = user.id
@@ -43,7 +46,7 @@ def product():
     numberOfReviewFour = PReview.numberOfReviewFour(id)
     numberOfReviewFive = PReview.numberOfReviewFive(id)
     
-    return render_template("product.html", name=name, cat=cat, price=price, avail=avail, link=link, products=products, user = user,
+    return render_template("product.html", name=name, descr=descr, cat=cat, price=price, avail=avail, link=link, products=products, user = user,
                            pid = id, recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, recentReviewLinks = recentReviewLinks,

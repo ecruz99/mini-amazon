@@ -2,18 +2,19 @@ from flask import current_app as app
 
 
 class Product:
-    def __init__(self, id, name, link, price, category, available):
+    def __init__(self, id, name, link, price, category, available, descr):
         self.id = id
         self.name = name
         self.link = link
         self.price = price
         self.category = category
         self.available = available
+        self.descr = descr
 
     @staticmethod
     def get(id):
         rows = app.db.execute('''
-SELECT id, name, link, price, available
+SELECT id, name, link, price, category, available, descr
 FROM Products
 WHERE id = :id
 ''',
@@ -23,7 +24,7 @@ WHERE id = :id
     @staticmethod
     def get_all(available=True):
         rows = app.db.execute('''
-SELECT id, name, link, price, category, available
+SELECT id, name, link, price, category, available, descr
 FROM Products
 WHERE available = :available
 ''',
@@ -33,7 +34,7 @@ WHERE available = :available
     @staticmethod
     def get_top_k(k):
         rows = app.db.execute('''
-SELECT id, name, link, price, category, available
+SELECT id, name, link, price, category, available, descr
 FROM Products
 ORDER BY price DESC
 LIMIT :k
@@ -45,7 +46,7 @@ LIMIT :k
     @staticmethod
     def order_d():
         rows = app.db.execute('''
-SELECT id, name, link, price, category, available
+SELECT id, name, link, price, category, available, descr
 FROM Products
 ORDER BY price DESC
 ''',
@@ -55,7 +56,7 @@ ORDER BY price DESC
     @staticmethod
     def order_a():
         rows = app.db.execute('''
-SELECT id, name, link, price, category, available
+SELECT id, name, link, price, category, available, descr
 FROM Products
 ORDER BY price ASC
 ''',
@@ -65,7 +66,7 @@ ORDER BY price ASC
     @staticmethod
     def get_by_cat(cat):
         rows = app.db.execute('''
-SELECT id, name, link, price, category, available
+SELECT id, name, link, price, category, available, descr
 FROM Products
 WHERE category = :cat
 ''',
@@ -75,7 +76,7 @@ WHERE category = :cat
     @staticmethod
     def get_by_kw(kw):
         rows = app.db.execute('''
-SELECT id, name, link, price, category, available
+SELECT id, name, link, price, category, available, descr
 FROM Products
 WHERE name LIKE Concat('%', :kw, '%')
 ''',

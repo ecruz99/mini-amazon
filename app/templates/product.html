@@ -10,7 +10,7 @@
         <h2>{{name}}</h2>
         <hr class="solid">
         <h4>Price: <b style="color:rgb(247, 171, 9);">{{price}}</b></h4>
-        <b>About this item: </b>item description
+        <b>About this item: </b>{{descr}}
         <br>
         <b>About this seller: </b><a href="{{ url_for('users.seller_view') }}?sid={{sid}}">{{sellername}}</a>
     </div>
