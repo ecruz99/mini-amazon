@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import Flask, render_template, request, flash, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from .models.inventory import Inventory
@@ -56,6 +56,7 @@ def sidinventory():
         
     elif form2.submit2.data and form2.validate():
         Inventory.delete_inventory(form2.sid_input2.data, form2.pid_input2.data)
+        flash("Product Deleted from Inventory")
         
         return render_template('hw4_inventory.html',
                     form=form,
@@ -66,6 +67,7 @@ def sidinventory():
         
     elif form3.submit3.data and form3.validate():
         Inventory.add_inventory(form3.sid_input3.data, form3.pid_input3.data, form3.productname3.data, form3.quantity3.data)
+        flash("Product Added to Inventory")
         return render_template('hw4_inventory.html',
                     form=form,
                     form2=form2,
@@ -75,6 +77,7 @@ def sidinventory():
         
     elif form4.submit4.data and form4.validate():
         Inventory.updateQuantity(form4.sid_input4.data, form4.pid_input4.data, form4.quantity4.data)
+        flash("Product Quantity Updated")
         return render_template('hw4_inventory.html',
                     form=form,
                     form2=form2,

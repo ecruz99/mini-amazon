@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+{% for mesg in get_flashed_messages() %}
+      <h3 class="positiveNotif">{{mesg}}</h3>
+      {% endfor %}
 <br><br>
 <div>  
   <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
