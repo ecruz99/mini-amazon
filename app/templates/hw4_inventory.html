@@ -11,10 +11,6 @@
     <h4>Add Product</h4>
     {{ form3.hidden_tag() }}
     <p>
-      {{ form3.sid_input3.label }}<br/>
-      {{ form3.sid_input3(size=32) }}<br/>
-    </p>
-    <p>
       {{ form3.pid_input3.label }}<br/>
       {{ form3.pid_input3(size=32) }}<br/>
     </p>
@@ -34,10 +30,6 @@
     <h4>Change Quantity of Product</h4>
     {{ form4.hidden_tag() }}
     <p>
-      {{ form4.sid_input4.label }}<br/>
-      {{ form4.sid_input4(size=32) }}<br/>
-    </p>
-    <p>
       {{ form4.pid_input4.label }}<br/>
       {{ form4.pid_input4(size=32) }}<br/>
     </p>
@@ -53,10 +45,6 @@
     <h4>Delete Product</h4>
     {{ form2.hidden_tag() }}
     <p>
-      {{ form2.sid_input2.label }}<br/>
-      {{ form2.sid_input2(size=32) }}<br/>
-    </p>
-    <p>
       {{ form2.pid_input2.label }}<br/>
       {{ form2.pid_input2(size=32) }}<br/>
     </p>
@@ -66,11 +54,10 @@
 </div>
 
   <br><br>
-  <h2>Sellers Inventory:</h2>
+  <h2>{{current_user.firstname}}'s Inventory:</h2>
   <table class='table table-hover table-bordered container'>
     <thead class="thead-dark">
       <tr>
-        <th scope="col">Seller ID</th>
         <th scope="col">Product ID</th>
         <th scope="col">Product Name</th>
         <th scope="col">Quantity</th>
@@ -79,8 +66,7 @@
     <tbody>
       {% for item in sid_inventory%}
         <tr>
-          <th scope="row">{{item.sellerID}}</th>
-          <td>{{item.productID}}</td>
+          <th scope="row" style = "color:black">{{item.productID}}</th>
           <td>{{item.productname}}</td>
           <td>{{item.quantity}}</td>
         </tr>
@@ -89,13 +75,14 @@
   </table>
   <br><br>
 
-  <form action="" method="post" novalidate>
+  <!--This code is now irrelevant. Used to be the input for sid to pull up inv table with that sid-->
+  <!--<form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
     <p>
       {{ form.sid_input.label }}<br/>
       {{ form.sid_input(size=32) }}<br/>
     </p>
-    {{ form.submit(class_="btn btn-black") }}
+    {{ form.submit(class_="btn btn-black") }}-->
 
 
 {% endblock %}
