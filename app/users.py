@@ -7,6 +7,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 from .models.user import User
 from .models.socials import PReview
+from .models.purchase import Purchase
 
 
 from flask import Blueprint
@@ -150,9 +151,12 @@ def user_manage():
     numberOfReviewThree = PReview.numberOfReviewThreeU(id)
     numberOfReviewFour = PReview.numberOfReviewFourU(id)
     numberOfReviewFive = PReview.numberOfReviewFiveU(id)
+
+    orders = Purchase.get_all_by_uid(id)
+
     return render_template('usermanage.html', title='Manage (User)', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive)
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, orders=orders)
 
 @bp.route('/sellermanage', methods=['GET', 'POST'])
 def seller_manage():

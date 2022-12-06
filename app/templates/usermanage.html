@@ -7,7 +7,6 @@
 <a href="{{ url_for('users.update') }}" type="button" class="btn btn-dark">Update</a><br><br>
 <a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a><br><br>
 
-
 <div class="wrapper" style ="display: flex">    
     <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
       <b style = "font-size:xx-large;"> Your User Reviews</b>
@@ -61,7 +60,28 @@
       </div>    
   </div>
 
-
+  <table class='table table-hover table-bordered container' style="width:90%; margin-left: 5%;" align="right">
+    <thead bgcolor = "#232f3e">
+      <tr>
+        <th scope="col">Time Purchased</th>
+        <th scope="col">Order ID</th>
+        <th scope="col">No. of Items</th>
+        <th scope="col">Fulfillment Status</th>            
+        <th scope="col">Amount Spent</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+        <tr>
+          <td scope="row">{{order.time}}</td>
+          <td>{{order.oid}}</td>
+          <td>{{order.quantity}}</td>
+          <td>{{order.status}}</td>
+          <td>{{order.price}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
 <a href="{{ url_for('users.seller_manage') }}">Click here to switch to Seller mode</a><br><br>
 
