@@ -39,6 +39,15 @@
           {{ form2.submit2(class_="btn btn-black") }}
       </form>
       <br>
+      <form id = "form4" action="" method="post" novalidate>
+        {{ form4.hidden_tag() }}
+        <p>
+          {{ form4.r_input.label }}<br/>
+          {{ form4.r_input(size=8) }}<br/>
+        </p>
+          {{ form4.submit4(class_="btn btn-black") }}
+      </form>
+      <br>
     </div>
     <div style="flex-grow: 1;">
       <table class='table table-hover table-bordered container' style="width:90%; margin-left: 5%;" align="right">

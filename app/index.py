@@ -13,7 +13,7 @@ from flask import Blueprint
 bp = Blueprint('index', __name__)
 
 class FilterForm(FlaskForm):
-    k_input = k_input = RadioField('Sort Price', choices=['high to low', 'low to high'])
+    k_input = RadioField('Sort Price', choices=['high to low', 'low to high'])
     submit = SubmitField('Submit')
 
 class CategoryForm(FlaskForm):
@@ -24,12 +24,17 @@ class KeyWordForm(FlaskForm):
     kw_input = StringField('Search By Keyword')
     submit3 = SubmitField('Search')
 
+class RatingForm(FlaskForm):
+    r_input = RadioField('Sort By Rating', choices=['5', '4', '3', '2', '1'])
+    submit4 = SubmitField('Submit')
+
 @bp.route('/', methods = ["GET", "POST"])
 def index():
     # get all available products for sale:
     form = FilterForm()
     form2 = CategoryForm()
     form3 = KeyWordForm()
+    form4 = RatingForm()
 
     
     # find the products current user has bought:
@@ -58,6 +63,7 @@ def index():
                         form=form,
                         form2=form2,
                         form3=form3,
+                        form4=form4,
                         purchases=purchases,
                         cat="in any category"
                         )
@@ -78,6 +84,7 @@ def index():
                         form=form,
                         form2=form2,
                         form3=form3,
+                        form4=form4,
                         purchases=purchases,
                         cat="in " + cat
                         )
@@ -98,9 +105,46 @@ def index():
                         form=form,
                         form2=form2,
                         form3=form3,
+                        form4=form4,
                         purchases=purchases,
                         cat="in any category"
                         )
+    elif form4.submit4.data and form4.validate_on_submit():
+        r = form4.r_input.data
+        if r == "5":
+            r = 5
+        elif r =="4":
+            r = 4
+        elif r =="3":
+            r = 3
+        elif r =="2":
+            r = 2
+        else:
+            r =1
+
+        products = []
+        ratings = []
+
+        for prod in Product.get_all(True):
+            avg = PReview.getAverage(prod.id)
+            if avg == r:
+                products.append(prod)
+                ratings.append(avg)
+        
+        length = len(products)
+
+        return render_template('index.html',
+                        products=products,
+                        ratings=ratings,
+                        length=length,
+                        form=form,
+                        form2=form2,
+                        form3=form3,
+                        form4=form4,
+                        purchases=purchases,
+                        cat="in any category"
+                        )
+
     else:
         products = Product.get_all(True)[0:15]
     
@@ -117,6 +161,7 @@ def index():
                         form=form,
                         form2=form2,
                         form3=form3,
+                        form4=form4,
                         purchases=purchases,
                         cat="in any category"
                         )
