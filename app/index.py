@@ -2,7 +2,7 @@ from flask import render_template, session
 from flask_login import current_user
 import datetime
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, RadioField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 from .models.product import Product
@@ -12,7 +12,7 @@ from flask import Blueprint
 bp = Blueprint('index', __name__)
 
 class FilterForm(FlaskForm):
-    k_input = StringField('Filter Top Products')
+    k_input = k_input = RadioField('Sort Price', choices=['high to low', 'low to high'])
     submit = SubmitField('Submit')
 
 class CategoryForm(FlaskForm):
@@ -39,7 +39,10 @@ def index():
         purchases = None
 
     if form.submit.data and form.validate_on_submit():
-        top_k_products = Product.get_top_k(form.k_input.data)
+        if form.k_input.data == "high to low":
+            top_k_products = Product.order_d()[:50]
+        else:
+            top_k_products = Product.order_a()[:50]        
         return render_template('index.html',
                         products=top_k_products,
                         form=form,

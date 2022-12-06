@@ -41,6 +41,27 @@ LIMIT :k
                               k=k)
         return [Product(*row) for row in rows]
 
+
+    @staticmethod
+    def order_d():
+        rows = app.db.execute('''
+SELECT id, name, link, price, category, available
+FROM Products
+ORDER BY price DESC
+''',
+                              )
+        return [Product(*row) for row in rows]
+
+    @staticmethod
+    def order_a():
+        rows = app.db.execute('''
+SELECT id, name, link, price, category, available
+FROM Products
+ORDER BY price ASC
+''',
+                              )
+        return [Product(*row) for row in rows]
+
     @staticmethod
     def get_by_cat(cat):
         rows = app.db.execute('''
