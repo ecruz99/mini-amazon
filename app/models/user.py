@@ -81,7 +81,7 @@ WHERE id = :id
         return None
     
     @staticmethod
-    def balance(id, amount):
+    def update_ubalance(id, amount):
         rows = app.db.execute("""
 UPDATE Users
 SET balance = balance + :amount
@@ -89,13 +89,33 @@ WHERE id = :id
 """,
                               id=id, amount=amount)
         return None
+
+    @staticmethod
+    def update_sbalance(uid, amount):
+        rows = app.db.execute("""
+UPDATE Seller
+SET balance = balance + :amount
+WHERE uid = :uid
+""",
+                              uid=uid, amount=amount)
+        return None
     
     @staticmethod
-    def current_balance(id):
+    def current_ubalance(id):
         rows = app.db.execute("""
 SELECT balance
 FROM Users
 WHERE id = :id
 """,
                               id=id)
+        return rows[0][0] if rows else None
+    
+    @staticmethod
+    def current_sbalance(uid):
+        rows = app.db.execute("""
+SELECT balance
+FROM Seller
+WHERE uid = :uid
+""",
+                              uid=uid)
         return rows[0][0] if rows else None

@@ -122,10 +122,18 @@ class BalanceForm(FlaskForm):
 @bp.route('/balance', methods=['GET', 'POST'])
 def balance():
     form = BalanceForm()
-    current = User.current_balance(current_user.id)
-    if form.validate_on_submit():
-        if User.balance(current_user.id, form.amount.data):
-            return redirect(url_for('index.index'))
+    current = None
+    if session['seller'] == True:
+        if form.validate_on_submit():
+            if User.update_sbalance(current_user.id, form.amount.data):
+                pass
+        current = User.current_sbalance(current_user.id)
+    else:
+        if form.validate_on_submit():
+            if User.update_ubalance(current_user.id, form.amount.data):
+                pass
+        current = User.current_ubalance(current_user.id)
+
     return render_template('balance.html', title='Balance', form=form, current=current)
 
 @bp.route('/usermanage')
@@ -197,8 +205,6 @@ def seller_view():
     req = request.args
     id = req.get("sid")
     sForm = startForm()
-
-    uid = current_user.id
     
     recentReviews = PReview.getSellerProductReviews(id)
     
@@ -210,16 +216,18 @@ def seller_view():
     numberOfReviewFour = PReview.numberOfReviewFourS(id)
     numberOfReviewFive = PReview.numberOfReviewFiveS(id)
     
-    exist = PReview.convoExist(id, uid)
+    if current_user.is_authenticated:
+        uid = current_user.id
+        exist = PReview.convoExist(id, uid)
     
-    if sForm.submitstart.data and sForm.validate():
-        
-        if not exist:
-            cid = PReview.maxcid(id, uid)
-            PReview.createConversations(id, uid, cid)
-            flash("Conversation Created")
-        else:
-            flash("Please use your current conversation instead of creating a new one!")  
+        if sForm.submitstart.data and sForm.validate():
+            
+            if not exist:
+                cid = PReview.maxcid(id, uid)
+                PReview.createConversations(id, uid, cid)
+                flash("Conversation Created")
+            else:
+                flash("Please use your current conversation instead of creating a new one!")  
         
         
     # user = User.get(sid)
@@ -229,7 +237,7 @@ def seller_view():
     return render_template('sellerview.html', title='Seller View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, sid = id,
-                           sForm = sForm, exist = exist)    
+                           sForm = sForm)    
     
 @bp.route('/updatereview', methods = ["GET", "POST"])
 def updatereview():
