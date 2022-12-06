@@ -94,6 +94,7 @@ WHERE pid = :pid
 ''',
                               pid=pid)
         return int(rows[0][0])
+    
 
     @staticmethod
     def numberOfReviewOne(pid):
