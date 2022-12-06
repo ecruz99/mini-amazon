@@ -1,9 +1,13 @@
-from flask import render_template
+from flask import render_template, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from .models.inventory import Inventory
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask import Blueprint
+
+from flask_login import current_user
+from .models.user import User
+from flask_login import login_user, logout_user, current_user
 
 bp = Blueprint('hw4_inventory', __name__)
 
@@ -49,6 +53,7 @@ def sidinventory():
                            form3 = form3,
                            form4 = form4
                            )
+        
     elif form2.submit2.data and form2.validate():
         Inventory.delete_inventory(form2.sid_input2.data, form2.pid_input2.data)
         
@@ -58,6 +63,7 @@ def sidinventory():
                     form3=form3,
                     form4 = form4
                     )
+        
     elif form3.submit3.data and form3.validate():
         Inventory.add_inventory(form3.sid_input3.data, form3.pid_input3.data, form3.productname3.data, form3.quantity3.data)
         return render_template('hw4_inventory.html',
@@ -75,6 +81,7 @@ def sidinventory():
                     form3=form3,
                     form4=form4
                     )
+        
     else:
         return render_template('hw4_inventory.html',
                     form=form,
