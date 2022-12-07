@@ -48,17 +48,17 @@ def sidinventory():
         
     if form2.submit2.data and form2.validate():
         Inventory.delete_inventory(uid, form2.pid_input2.data)
-        flash("Product Deleted from Inventory")
+        flash("Product Deleted from Inventory. Click 'Refresh Table' to See Change")
         
         
     elif form3.submit3.data and form3.validate():
         Inventory.add_inventory(uid, form3.pid_input3.data, form3.productname3.data, form3.quantity3.data)
-        flash("Product Added to Inventory")
+        flash("Product Added to Inventory. Click 'Refresh Table' to See Change")
 
         
     elif form4.submit4.data and form4.validate():
         Inventory.updateQuantity(uid, form4.pid_input4.data, form4.quantity4.data)
-        flash("Product Quantity Updated")
+        flash("Product Quantity Updated. Click 'Refresh Table' to See Change")
         
     
     return render_template('hw4_inventory.html',

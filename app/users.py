@@ -30,7 +30,15 @@ class deleteForm(FlaskForm):
     submitDelete = SubmitField('Delete')
     
 class startForm(FlaskForm):
-    submitstart = SubmitField('Start Conversation')    
+    submitstart = SubmitField('Start Conversation')
+    
+class fulfill_true(FlaskForm):
+    oid = StringField('Order ID', validators=[DataRequired()])
+    submitTrue = SubmitField('Change to True')  
+    
+class fulfill_false(FlaskForm):
+    oid2 = StringField('Order ID', validators=[DataRequired()])
+    submitFalse = SubmitField('Change to False')  
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -176,9 +184,23 @@ def seller_manage():
     
     order_fill = Fulfillments.get_orders(id)
     
+    form = fulfill_true()
+    
+    if form.submitTrue.data and form.validate():
+        Fulfillments.to_true(id, form.oid.data)
+        flash("Fulfillment Status Changed to True. Click 'Refresh Table' to See Change")
+        
+    
+    formF = fulfill_false()
+    
+    if formF.submitFalse.data and formF.validate():
+        Fulfillments.to_false(id, formF.oid2.data)
+        flash("Fulfillment Status Changed to False. Click 'Refresh Table' to See Change")
+
+    
     return render_template('sellermanage.html', title='Manage (Seller)', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, order_fill=order_fill)
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, order_fill=order_fill, form=form, formF=formF)
 
 @bp.route('/userview', methods=['GET', 'POST'])
 def user_view():

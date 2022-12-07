@@ -23,3 +23,24 @@ ORDER BY time_purchased DESC
 ''',
                               sid=sid)
         return [Fulfillments(*row) for row in rows]
+    
+    
+    @staticmethod
+    def to_true(sid, oid):
+        rows = app.db.execute('''
+UPDATE Orders
+SET fulfilled = True
+WHERE sid = :sid and oid = :oid
+''',
+                            sid=sid, oid=oid)
+        return None
+    
+    @staticmethod
+    def to_false(sid, oid):
+        rows = app.db.execute('''
+UPDATE Orders
+SET fulfilled = False
+WHERE sid = :sid and oid = :oid
+''',
+                            sid=sid, oid=oid)
+        return None
