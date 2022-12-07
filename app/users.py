@@ -188,14 +188,14 @@ def seller_manage():
     
     if form.submitTrue.data and form.validate():
         Fulfillments.to_true(id, form.oid.data)
-        flash("Fulfillment Status Changed to True. Refresh to See Change")
+        flash("Fulfillment Status Changed to True. Click 'Refresh Table' to See Change")
         
     
     formF = fulfill_false()
     
     if formF.submitFalse.data and formF.validate():
         Fulfillments.to_false(id, formF.oid2.data)
-        flash("Fulfillment Status Changed to False. Refresh to See Change")
+        flash("Fulfillment Status Changed to False. Click 'Refresh Table' to See Change")
 
     
     return render_template('sellermanage.html', title='Manage (Seller)', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
