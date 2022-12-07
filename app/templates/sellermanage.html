@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Manage (Seller)</h1>
+<h1>Manage Your Seller Info</h1>
 
 <a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a><br><br>
 <a href="{{ url_for('hw4_inventory.sidinventory') }}" type="button" class="btn btn-dark">Inventory</a><br><br>
@@ -50,7 +50,7 @@
           <tbody>
             {% for review in recentReviews%}
               <tr>
-                <th scope="row" style="color:black">{{review.name}}</th>
+                <th scope="row" style="color:black"><a href="{{ url_for('users.user_view') }}?uid={{review.uid}}">{{review.name}}</a></th>
                 <td>{{review.rating}}</td>
                 <td>{{review.review}}</td>
               </tr>
