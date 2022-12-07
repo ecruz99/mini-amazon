@@ -93,7 +93,10 @@ FROM P_Reviews
 WHERE pid = :pid
 ''',
                               pid=pid)
-        return int(rows[0][0])
+        if rows[0][0] is None:
+            return 0
+        else:
+            return int(rows[0][0])
     
 
     @staticmethod

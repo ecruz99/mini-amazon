@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, flash
 from flask_login import current_user
 from werkzeug.urls import url_parse
 import datetime
@@ -10,10 +10,14 @@ from .models.product import Product
 from .models.purchase import Purchase
 from .models.socials import PReview
 from .models.user import User
+from .models.carts import Cart
 
 from flask import Blueprint
 bp = Blueprint('product', __name__)
 
+class CartAddForm(FlaskForm):
+    quant = StringField('Quantity', validators=[DataRequired()])
+    submit = SubmitField("Add to cart.")
 
 @bp.route('/product', methods = ["GET", "POST"])
 def product():
@@ -28,7 +32,8 @@ def product():
     link = product.link
     descr = product.descr
 
-    
+    cartaddform = CartAddForm()
+
     user = User.get(id)
     sid = user.id
     sellername = user.firstname + ' ' + user.lastname
@@ -45,9 +50,13 @@ def product():
     numberOfReviewThree = PReview.numberOfReviewThree(id)
     numberOfReviewFour = PReview.numberOfReviewFour(id)
     numberOfReviewFive = PReview.numberOfReviewFive(id)
+
+    if cartaddform.data and cartaddform.validate():
+        Cart.insert_into_cart(current_user.id, id, sid, name, cartaddform.quant.data, price)
+        flash("Item has been added to your cart! Go to your cart to view the changes.")
     
     return render_template("product.html", name=name, descr=descr, cat=cat, price=price, avail=avail, link=link, products=products, user = user,
                            pid = id, recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, recentReviewLinks = recentReviewLinks,
-                           sellername=sellername, sid=sid, )
+                           sellername=sellername, sid=sid, cartaddform=cartaddform)

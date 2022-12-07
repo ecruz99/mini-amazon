@@ -16,7 +16,29 @@
   </div>
   
 {% else %}
-  <form action="" method="post" novalidate>
+    <br><br>
+    <h2>{{current_user.firstname}}'s Cart</h2>
+    <table class='table table-hover table-bordered container'>
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Product ID</th>
+          <th scope="col">Seller ID</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Unit Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart%}
+          <tr>
+            <th scope="row" style="color:black">{{item.pid}}</th>
+            <td>{{item.sid}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.unit_price}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  <!-- <form action="" method="post" novalidate>
       {{ form.hidden_tag() }}
       <p>
         {{ form.uid_input.label }}<br/>
@@ -25,7 +47,7 @@
       {{ form.submit(class_="btn btn-black") }}
   
     <br><br>
-    <h2>User's Cart</h2>
+    <h2>{{current_user.firstname}}'s Cart</h2>
     <table class='table table-hover table-bordered container'>
       <thead class="thead-dark">
         <tr>
@@ -47,7 +69,7 @@
           </tr>
         {% endfor %}
       </tbody>
-    </table>
+    </table>-->
   
     <br><br>
     
@@ -55,10 +77,10 @@
       <form action="" method="post" class='child' novalidate>
         <h4>Delete Product From Cart</h4>
         {{ form2.hidden_tag() }}
-        <p>
+        <!--<p>
           {{ form2.uid_input2.label }}<br/>
           {{ form2.uid_input2(size=32) }}<br/>
-        </p>
+        </p>-->
         <p>
           {{ form2.pid_input2.label }}<br/>
           {{ form2.pid_input2(size=32) }}<br/>
@@ -70,7 +92,7 @@
         <p>
         {{ form2.submit2(class_="btn btn-black") }}
       </form>
-  
+      <!--
       <form action="" method="post" class='child' novalidate>
         <h4>Change Quantity of Product in Cart</h4>
         {{ form3.hidden_tag() }}
@@ -93,7 +115,7 @@
         <p>
         {{ form3.submit3(class_="btn btn-black") }}
       </form>
-    </div>
+    </div> -->
     
 {% endif %}
 
