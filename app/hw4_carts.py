@@ -1,7 +1,8 @@
-from flask import render_template
+from flask import render_template, request
 from flask_wtf import FlaskForm
+from flask_login import current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired
+from wtforms.validators import ValidationError, DataRequired, NumberRange
 from .models.carts import Cart
 
 from flask import Blueprint
@@ -26,13 +27,17 @@ class ChangeItemQuantity(FlaskForm):
 
 @bp.route('/uidcart', methods = ["GET", "POST"])
 def uidcart():
+    uid = current_user.id
+    
+    cart = Cart.get_cart(uid)
+    
     form = CartsForm()
     form2 = DeleteFromCartForm()
     form3 = ChangeItemQuantity()
-
+    
     if form.submit.data and form.validate():
         user_cart = Cart.get_cart(form.uid_input.data)
-        return render_template('hw4_carts.html',
+        return render_template('hw4_carts.html',  
                         cart=user_cart,
                         form=form,
                         form2=form2,
@@ -59,7 +64,8 @@ def uidcart():
         return render_template('hw4_carts.html',
                     form=form,
                     form2=form2,
-                    form3=form3
+                    form3=form3,
+                    cart=cart
                     ) 
 
     
