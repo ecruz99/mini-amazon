@@ -19,6 +19,7 @@ class Fulfillments:
 SELECT oid, pid, quantity, firstname, lastname, address, time_purchased, fulfilled
 FROM Orders o, Users u
 WHERE sid = :sid AND uid = id
+ORDER BY time_purchased DESC
 ''',
                               sid=sid)
         return [Fulfillments(*row) for row in rows]
