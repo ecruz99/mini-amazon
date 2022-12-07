@@ -31,7 +31,7 @@ CREATE TABLE Products (
     descr VARCHAR(100000),
     category VARCHAR(255) NOT NULL CHECK (category IN ('accessories', 'books', 'clothes', 'decor', 'electronics', 'food', 'games', 'shoes')),
     price DECIMAL(12,2) NOT NULL,
-    link VARCHAR(255) NOT NULL,
+    link VARCHAR(10000) NOT NULL,
     available BOOLEAN DEFAULT TRUE,
     PRIMARY KEY (id, sid)
 );
@@ -63,8 +63,8 @@ CREATE TABLE P_Reviews (
     uid INT NOT NULL REFERENCES Users(id),
     pid INT NOT NULL /* REFERENCES Products(id) */,
     rating INT NOT NULL,
-    review VARCHAR(255),
-    link VARCHAR(255) NOT NULL,
+    review VARCHAR(100000),
+    link VARCHAR(100000),
     time_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC-4')
 );
 
@@ -72,7 +72,7 @@ CREATE TABLE S_Reviews (
     uid INT NOT NULL REFERENCES Users(id),
     sid INT NOT NULL REFERENCES Seller(uid),
     rating INT NOT NULL,
-    review VARCHAR(255),
+    review VARCHAR(1000000),
     time_purchased timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC-4')
 );
 
@@ -85,6 +85,6 @@ CREATE TABLE Conversations (
 CREATE TABLE Messages (
     cid INT NOT NULL /*REFERENCES Conversations(cid)*/,
     id INT NOT NULL,
-    message VARCHAR(255),
+    message VARCHAR(100000),
     time_sent timestamp without time zone NOT NULL DEFAULT (current_timestamp AT TIME ZONE 'UTC-4')
 );
