@@ -63,5 +63,38 @@
 
 <a href="{{ url_for('users.user_manage') }}">Click here to switch to User mode</a><br><br>
 
+<br><br>
+  <h2>{{current_user.firstname}}'s Orders:</h2>
+  <h5>Your User/Seller ID is {{current_user.id}}</h5>
+  <table class='table table-hover table-bordered container'>
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Order ID</th>
+        <th scope="col">Product ID</th>
+        <th scope="col">Quantity of Product</th>
+        <th scope="col">Customer's First Name</th>
+        <th scope="col">Customer's Last Name</th>
+        <th scope="col">Customer's Address</th>
+        <th scope="col">Time Purchased</th>
+        <th scope="col">Fulfillment Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order_fill %}
+        <tr>
+          <th scope="row" style = "color:black">{{item.oid}}</th>
+          <td>{{item.pid}}</td>
+          <td>{{item.quantity}}</td>
+          <td>{{item.firstname}}</td>
+          <td>{{item.lastname}}</td>
+          <td>{{item.address}}</td>
+          <td>{{item.time_purchased}}</td>
+          <td>{{item.fulfilled}}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br><br>
+
 
 {% endblock %}
