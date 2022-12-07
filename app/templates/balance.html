@@ -8,14 +8,18 @@ Current Balance: {{current}}
 
 <br>
 
-<form action="" method="post">
-    {{ form.hidden_tag() }}
-    <p>
-      {{ form.amount.label }}<br/>
-      {{ form.amount(size=32) }}<br/>
-    </p>
+{% if session['seller'] %}
 
-    <p>{{ form.submit() }}</p>
+<form action="" method="post">
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.amount.label }}<br/>
+    {{ form.amount(size=32) }}<br/>
+  </p>
+
+  <p>{{ form.submit() }}</p>
 </form>
+
+{% endif %}
 
 {% endblock %}

@@ -361,7 +361,7 @@ WHERE pid = :pid
     @staticmethod
     def getSellerProductReviews(sid):
         rows = app.db.execute('''
-SELECT CONCAT(firstname, ' ', lastname) AS name, rating, review
+SELECT CONCAT(firstname, ' ', lastname) AS name, rating, review, uid
 FROM Users u, S_Reviews s
 WHERE sid = :sid AND uid = id
 ORDER BY time_purchased DESC

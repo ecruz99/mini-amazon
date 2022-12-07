@@ -3,13 +3,14 @@
 {% block content %}
 
 <h1>Manage (User)</h1>
+<a href="{{ url_for('users.seller_manage') }}">Click here to switch to Seller mode</a><br><br>
 
-<a href="{{ url_for('users.update') }}" type="button" class="btn btn-dark">Update</a><br><br>
+<a href="{{ url_for('users.update') }}" type="button" class="btn btn-dark">Account Information</a><br><br>
 <a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a><br><br>
 
 <div class="wrapper" style ="display: flex">    
     <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
-      <b style = "font-size:xx-large;"> Your User Reviews</b>
+      <b style = "font-size:xx-large;"> Your Product Reviews</b>
       {% if averageReview == 1 %}
       <div style="font-size:m ">&#127773; &#127770; &#127770; &#127770; &#127770; Average {{averageReview}} Sun out of 5</div>
       {% endif %}
@@ -83,6 +84,6 @@
     </tbody>
   </table>
 
-<a href="{{ url_for('users.seller_manage') }}">Click here to switch to Seller mode</a><br><br>
+
 
 {% endblock %}

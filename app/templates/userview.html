@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<h1>{{fullname}}</h1><b>Account #: </b>{{id}}
+<h1>User: <b>{{fullname}}</b></h1>
+<b>Account #: </b>{{id}}
 
 <h1>Product Reviews Written</h1>
 <div class="wrapper" style ="display: flex">    
@@ -60,7 +61,7 @@
 
 <!-- ^^put condition here that checks if user has received any seller reviews or not -->
 <h1>Seller Information</h1>
-<b>Email: </b> {{email}}
+<b>Email: </b> {{email}} <br>
 <b>Mailing Address: </b> {{address}}
 <h2>Reviews Received</h2>
 *insert seller reviews received*

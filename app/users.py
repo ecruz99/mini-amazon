@@ -30,7 +30,15 @@ class deleteForm(FlaskForm):
     submitDelete = SubmitField('Delete')
     
 class startForm(FlaskForm):
-    submitstart = SubmitField('Start Conversation')    
+    submitstart = SubmitField('Start Conversation')
+    
+class fulfill_true(FlaskForm):
+    oid = StringField('Order ID', validators=[DataRequired()])
+    submitTrue = SubmitField('Change to True')  
+    
+class fulfill_false(FlaskForm):
+    oid2 = StringField('Order ID', validators=[DataRequired()])
+    submitFalse = SubmitField('Change to False')  
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -176,9 +184,23 @@ def seller_manage():
     
     order_fill = Fulfillments.get_orders(id)
     
+    form = fulfill_true()
+    
+    if form.submitTrue.data and form.validate():
+        Fulfillments.to_true(id, form.oid.data)
+        flash("Fulfillment Status Changed to True. Refresh to See Change")
+        
+    
+    formF = fulfill_false()
+    
+    if formF.submitFalse.data and formF.validate():
+        Fulfillments.to_false(id, formF.oid2.data)
+        flash("Fulfillment Status Changed to False. Refresh to See Change")
+
+    
     return render_template('sellermanage.html', title='Manage (Seller)', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, order_fill=order_fill)
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, order_fill=order_fill, form=form, formF=formF)
 
 @bp.route('/userview', methods=['GET', 'POST'])
 def user_view():
@@ -244,7 +266,66 @@ def seller_view():
     return render_template('sellerview.html', title='Seller View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, sid = id,
-                           sForm = sForm)    
+                           sForm = sForm)
+
+@bp.route('/publicview', methods=['GET', 'POST'])
+def public_view():
+    req = request.args
+    uid = req.get("uid")
+    sid = req.get("sid")
+
+    # PRODUCT REVIEWS WRITTEN
+    recentPReviews = PReview.getUserProductReviews(uid)
+    averagePReview = PReview.getAverageU(uid)
+    numberOfPReview = PReview.numberOfReviewU(uid)
+    numberOfPReviewOne = PReview.numberOfReviewOneU(uid)
+    numberOfPReviewTwo = PReview.numberOfReviewTwoU(uid)
+    numberOfPReviewThree = PReview.numberOfReviewThreeU(uid)
+    numberOfPReviewFour = PReview.numberOfReviewFourU(uid)
+    numberOfPReviewFive = PReview.numberOfReviewFiveU(uid)
+
+    # SELLER REVIEWS WRITTEN
+
+    # REVIEWS THAT SELLER HAS RECEIVED
+
+    sForm = startForm()
+    
+    receivedReviews = PReview.getSellerProductReviews(sid)
+    averageReceived = PReview.getAverageS(sid)
+    numberOfReceived = PReview.numberOfReviewS(sid)
+    numberOfReceivedOne = PReview.numberOfReviewOneS(sid)
+    numberOfReceivedTwo = PReview.numberOfReviewTwoS(sid)
+    numberOfReceivedThree = PReview.numberOfReviewThreeS(sid)
+    numberOfReceivedFour = PReview.numberOfReviewFourS(sid)
+    numberOfReceivedFive = PReview.numberOfReviewFiveS(sid)
+    
+    # CONVERSATIONS BETWEEN USER AND SELLER
+    if current_user.is_authenticated:
+        uid = current_user.id
+        exist = PReview.convoExist(sid, uid)
+    
+        if sForm.submitstart.data and sForm.validate():
+            
+            if not exist:
+                cid = PReview.maxcid(sid, uid)
+                PReview.createConversations(sid, uid, cid)
+                flash("Conversation Created")
+            else:
+                flash("Please use your current conversation instead of creating a new one!") 
+
+    user = User.get(uid)
+    user_name = user.firstname + ' ' + user.lastname
+    user_email = user.email
+    user_address = user.address
+
+    seller = User.get(uid)
+    seller_name = seller.firstname + ' ' + seller.lastname
+
+    # Haven't finished this yet
+    return render_template('publicview.html', title='Public View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
+                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
+                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, sid = id,
+                           sForm = sForm)
     
 @bp.route('/updatereview', methods = ["GET", "POST"])
 def updatereview():
