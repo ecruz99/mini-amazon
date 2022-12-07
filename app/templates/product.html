@@ -2,6 +2,10 @@
 
 {% block content %}
 
+{% for mesg in get_flashed_messages() %}
+      <h3 class="positiveNotif">{{mesg}}</h3>
+      {% endfor %}
+
 <div class="wrapper" style="display: flex;">
     <div class="wrapper">
         <img src= {{link}} width = "400" height = "400">
@@ -14,11 +18,32 @@
         <br>
         <b>About this seller: </b><a href="{{ url_for('users.seller_view') }}?sid={{sid}}">{{sellername}}</a>
     </div>
+    {% if not current_user.is_authenticated %}
     <div class="wrapper">
-        Add to cart functionality
+        <h5>Please sign into your Mini Amazon account to add this item to your cart.</h5>
         <br>
-        Use  {{avail}} to check if able to add to cart
+        <a href="{{ url_for('users.login') }}" type="button" class="btn btn-black">Sign into your account.</a>
+        <a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button">Register for an account.</a>
     </div>
+    {% else %}
+    <div class="wrapper">
+    <h4>Price: <b style="color:rgb(247, 171, 9);">${{price}}</b></h4>
+    {% if avail %}
+        <h5 style="color: green">In Stock.</h5>
+        <label for="quantity">Quantity (between 1 and 100):</label>
+        <form action="" method="post" class='child' novalidate>
+        {{cartaddform.hidden_tag() }}
+        <p>
+          {{ cartaddform.quant.label }}<br/>
+          {{ cartaddform.quant(size=10) }}<br/>
+        </p>  {{ cartaddform.submit(class_="btn btn-black") }}
+        
+      </form>
+    {% else %}
+        <h5 style="color: red">Out Of Stock.</h5>
+    {% endif %}
+    </div>
+    {% endif %}
 </div>
 
  <div class="wrapper" style ="display: flex">    

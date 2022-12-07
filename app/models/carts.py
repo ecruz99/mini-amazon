@@ -1,6 +1,5 @@
 from flask import current_app as app
 
-
 class Cart:
     def __init__(self, uid, pid, sid, quantity, unit_price):
         self.uid = uid
@@ -30,7 +29,16 @@ WHERE uid = :uid
 ''', 
                               uid=uid, pid=pid, sid=sid)
         return None
-    
+        
+    @staticmethod
+    def insert_into_cart(uid, pid, sid, productname, quantity, unit_price):
+        rows = app.db.execute('''
+INSERT INTO Carts(uid, pid, sid, productname, quantity, unit_price)
+Values(:uid, :pid, :sid, :productname, :quantity, :unit_price)
+''',
+                              uid=uid, pid=pid, sid=sid, productname=productname, quantity=quantity, unit_price=unit_price)
+        return None
+        
     @staticmethod
     def update_quantity(uid, pid, sid, quantity):
         rows = app.db.execute('''
