@@ -25,6 +25,11 @@
         <a href="{{ url_for('users.login') }}" type="button" class="btn btn-black">Sign into your account.</a>
         <a class="btn btn-secondary" href="{{ url_for('users.register') }}" role="button">Register for an account.</a>
     </div>
+    {% elif session["seller"] %}
+    <div class="wrapper">
+      <h4><b style="color:rgb(247, 171, 9);"></b>Switch to your User view to add this item to your cart!</h4>
+      <a href="{{ url_for('users.user_manage') }}">Click here to switch to User mode</a><br><br>
+    </div>
     {% else %}
     <div class="wrapper">
     <h4>Price: <b style="color:rgb(247, 171, 9);">${{price}}</b></h4>

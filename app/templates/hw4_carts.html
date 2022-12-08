@@ -16,8 +16,10 @@
   </div>
   
 {% else %}
+    {% if cart %}
     <br><br>
     <h2>{{current_user.firstname}}'s Cart</h2>
+    <h2>Subtotal: ${{subtotal}}</h2>
     <table class='table table-hover table-bordered container'>
       <thead class="thead-dark">
         <tr>
@@ -38,85 +40,23 @@
         {% endfor %}
       </tbody>
     </table>
-  <!-- <form action="" method="post" novalidate>
-      {{ form.hidden_tag() }}
-      <p>
-        {{ form.uid_input.label }}<br/>
-        {{ form.uid_input(size=32) }}<br/>
-      </p>
-      {{ form.submit(class_="btn btn-black") }}
-  
-    <br><br>
-    <h2>{{current_user.firstname}}'s Cart</h2>
-    <table class='table table-hover table-bordered container'>
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">User ID</th>
-          <th scope="col">Product ID</th>
-          <th scope="col">Seller ID</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">Unit Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in cart%}
-          <tr>
-            <th scope="row">{{item.uid}}</th>
-            <td>{{item.pid}}</td>
-            <td>{{item.sid}}</td>
-            <td>{{item.quantity}}</td>
-            <td>{{item.unit_price}}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>-->
-  
     <br><br>
     
     <div>
-      <form action="" method="post" class='child' novalidate>
+      <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
         <h4>Delete Product From Cart</h4>
-        {{ form2.hidden_tag() }}
-        <!--<p>
-          {{ form2.uid_input2.label }}<br/>
-          {{ form2.uid_input2(size=32) }}<br/>
-        </p>-->
+        {{ deleteform.hidden_tag() }}
         <p>
-          {{ form2.pid_input2.label }}<br/>
-          {{ form2.pid_input2(size=32) }}<br/>
+          {{ deleteform.pid_input.label }}<br/>
+          {{ deleteform.pid_input(size=32) }}<br/>
         </p>
         <p>
-          {{ form2.sid_input2.label }}<br/>
-          {{ form2.sid_input2(size=32) }}<br/>
-        </p>
-        <p>
-        {{ form2.submit2(class_="btn btn-black") }}
+        {{ deleteform.submit(class_="btn btn-black") }}
       </form>
-      <!--
-      <form action="" method="post" class='child' novalidate>
-        <h4>Change Quantity of Product in Cart</h4>
-        {{ form3.hidden_tag() }}
-        <p>
-          {{ form3.uid_input3.label }}<br/>
-          {{ form3.uid_input3(size=32) }}<br/>
-        </p>
-        <p>
-          {{ form3.pid_input3.label }}<br/>
-          {{ form3.pid_input3(size=32) }}<br/>
-        </p>
-        <p>
-          {{ form3.sid_input3.label }}<br/>
-          {{ form3.sid_input3(size=32) }}<br/>
-        </p>
-        <p>
-          {{ form3.quantity3.label }}<br/>
-          {{ form3.quantity3(size=32) }}<br/>
-        </p>
-        <p>
-        {{ form3.submit3(class_="btn btn-black") }}
-      </form>
-    </div> -->
-    
+    {% else %}
+    <br>
+    <h2>Return to the main page to start adding products to your cart!</h2>
+    {% endif %}
 {% endif %}
 
 

@@ -1,22 +1,16 @@
-from flask import render_template, request
+from flask import render_template, request, session
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, NumberRange
 from .models.carts import Cart
 
 from flask import Blueprint
 bp = Blueprint('hw4_carts', __name__)
 
-class CartsForm(FlaskForm):
-    uid_input = StringField('User ID')
-    submit = SubmitField('Submit')
-
 class DeleteFromCartForm(FlaskForm):
-    uid_input2 = StringField('User ID', validators=[DataRequired()])
-    sid_input2 = StringField('Seller ID', validators=[DataRequired()])
-    pid_input2 = StringField('Product ID', validators=[DataRequired()])
-    submit2 = SubmitField('Delete') 
+    pid_input = StringField('Product ID', validators=[DataRequired()])
+    submit = SubmitField('Delete') 
 
 class ChangeItemQuantity(FlaskForm):
     uid_input3 = StringField('User ID', validators=[DataRequired()])
@@ -27,46 +21,28 @@ class ChangeItemQuantity(FlaskForm):
 
 @bp.route('/uidcart', methods = ["GET", "POST"])
 def uidcart():
-    uid = current_user.id
-    
-    cart = Cart.get_cart(uid)
-    
-    form = CartsForm()
-    form2 = DeleteFromCartForm()
-    form3 = ChangeItemQuantity()
-    
-    if form.submit.data and form.validate():
-        user_cart = Cart.get_cart(form.uid_input.data)
-        return render_template('hw4_carts.html',  
-                        cart=user_cart,
-                        form=form,
-                        form2=form2,
-                        form3=form3
-                        )
-    elif form2.submit2.data and form2.validate():
-        Cart.delete_cart_item(form2.uid_input2.data, form2.pid_input2.data, form2.sid_input2.data)
-
-        return render_template('hw4_carts.html',
-                    form=form,
-                    form2=form2,
-                    form3=form3
-                    )
-    elif form3.submit3.data and form3.validate():
-        Cart.update_quantity(form3.uid_input3.data, form3.pid_input3.data, 
-                             form3.sid_input3.data, form3.quantity3.data)
+    if current_user.is_authenticated:
+        uid = current_user.id
         
+        cart = Cart.get_cart(uid)
+
+        subtotal = Cart.subtotal(uid)
+
+        num_in_cart = Cart.num_items_in_cart(uid)
+        
+        deleteform = DeleteFromCartForm()
+        
+        if deleteform.submit.data and deleteform.validate():
+            cart = Cart.delete_cart_item(uid, deleteform.pid_input.data)
+            
         return render_template('hw4_carts.html',
-                    form=form,
-                    form2=form2,
-                    form3=form3
-                    )
+                                deleteform=deleteform,
+                                cart=cart,
+                                num_in_cart=num_in_cart,
+                                subtotal=subtotal
+                              ) 
     else:
-        return render_template('hw4_carts.html',
-                    form=form,
-                    form2=form2,
-                    form3=form3,
-                    cart=cart
-                    ) 
+        return render_template('hw4_carts.html')
 
     
     # render the page by adding information to the index.html file
