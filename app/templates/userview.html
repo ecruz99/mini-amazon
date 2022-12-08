@@ -3,13 +3,12 @@
 {% block content %}
 
 <div style="margin: 1%">
-<a style="font-size: 32px">User: <b>{{fullname}}</b></a>
-Account #: <b>{{id}}</b>
+<a style="font-size: 32px">User: <b>{{fullname}}</b></a><br>
+Account #: <b>{{id}}</b><br><br>
 
-<h1>Product Reviews Written</h1>
+<b style = "font-size:24px;">Product Reviews Written</b>
 <div class="wrapper" style ="display: flex">    
   <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
-    <b style = "font-size:xx-large;"> User Summary</b>
     {% if averageReview == 1 %}
     <div style="font-size:m ">&#127773; &#127770; &#127770; &#127770; &#127770; Average {{averageReview}} Sun out of 5</div>
     {% endif %}
@@ -58,13 +57,10 @@ Account #: <b>{{id}}</b>
         </tbody>
       </table>
     </div>    
-</div>
-
-<!-- ^^put condition here that checks if user has received any seller reviews or not -->
-<h1>Seller Information</h1>
-<b>Email: </b> {{email}} <br>
-<b>Mailing Address: </b> {{address}}
-<h2>Reviews Received</h2>
-*insert seller reviews received*
+</div><br><br>
+<!-- 
+<b style = "font-size:24px;">Seller Information</b><br>
+Email: <b>{{email}}</b><br>
+Mailing Address: <b>{{address}}</b> -->
 
 {% endblock %}

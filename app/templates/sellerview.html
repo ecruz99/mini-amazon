@@ -8,11 +8,11 @@
       {% endfor %}
 
 <a style="font-size: 32px">User: <b>{{fullname}}</b></a><br>
-Account #: <b>{{sid}}</b><br>
+Account #: <b>{{sid}}</b><br><br>
 
+<b style = "font-size:24px;">Reviews Received From Users</b>
 <div class="wrapper" style ="display: flex">    
     <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
-      <b style = "font-size:xx-large;"> Seller Summary</b>
       {% if averageReview == 1 %}
       <div style="font-size:m ">&#127773; &#127770; &#127770; &#127770; &#127770; Average {{averageReview}} Sun out of 5</div>
       {% endif %}
@@ -79,7 +79,7 @@ Account #: <b>{{sid}}</b><br>
           <tbody>
             {% for review in recentReviews%}
               <tr>
-                <th scope="row" style="color:black">{{review.name}}</th>
+                <th scope="row" style="color:black"><a href="{{ url_for('users.user_view') }}?uid={{review.uid}}">{{review.name}}</a></th>
                 <td>{{review.rating}}</td>
                 <td>{{review.review}}</td>
               </tr>
