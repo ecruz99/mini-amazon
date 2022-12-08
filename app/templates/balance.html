@@ -4,11 +4,25 @@
 
 <h1>Balance</h1>
 
-Current Balance: {{current}}
-
 <br>
 
 {% if session['seller'] %}
+
+Your Seller Account's Current Balance: {{current}}
+
+<form action="" method="post">
+  {{ form.hidden_tag() }}
+  <p>
+    {{ form.amount.label }}<br/>
+    {{ form.amount(size=32) }}<br/>
+  </p>
+
+  <p>{{ form.submit() }}</p>
+</form>
+
+{% else %}
+
+Current Balance: {{current}}
 
 <form action="" method="post">
   {{ form.hidden_tag() }}
