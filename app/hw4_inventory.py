@@ -30,6 +30,9 @@ class add_invForm(FlaskForm):
     
 class change_invForm(FlaskForm):
     pid_input4 = StringField('Product ID', validators=[DataRequired()])
+    pname4 = StringField('Product Name', validators=[DataRequired()])
+    pdescr4 = StringField("Description", validators=[DataRequired()])
+    pprice4 = StringField("Price", validators=[DataRequired()])
     quantity4 = StringField('Quantity', validators=[DataRequired()])
     submit4 = SubmitField('Adjust')
     
@@ -51,7 +54,7 @@ def sidinventory():
         
     if form2.submit2.data and form2.validate():
         Inventory.delete_inventory(uid, form2.pid_input2.data)
-        Product.delete_product(uid, form2.pid_input2.data)
+        Product.delete_product(form2.pid_input2.data, uid)
         flash("Product Deleted from Inventory. Click 'Refresh Table' to See Change")
         
         
@@ -63,8 +66,9 @@ def sidinventory():
 
         
     elif form4.submit4.data and form4.validate():
-        Inventory.updateQuantity(uid, form4.pid_input4.data, form4.quantity4.data)
-        flash("Product Quantity Updated. Click 'Refresh Table' to See Change")
+        Inventory.updateQuantity(uid, form4.pid_input4.data, form4.quantity4.data, form4.pname4.data)
+        Product.edit_product(form4.pid_input4.data, uid,form4.pname4.data, form4.pdescr4.data, form4.pprice4.data)
+        flash("Product Updated. Click 'Refresh Table' to See Change")
         
     
     return render_template('hw4_inventory.html',

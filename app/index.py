@@ -46,9 +46,9 @@ def index():
 
     if form.submit.data and form.validate_on_submit():
         if form.k_input.data == "high to low":
-            top_k_products = Product.order_d()[:50]
+            top_k_products = Product.order_d()
         else:
-            top_k_products = Product.order_a()[:50]
+            top_k_products = Product.order_a()
 
         ratings = []
         for p in top_k_products:

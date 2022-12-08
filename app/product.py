@@ -5,6 +5,7 @@ import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from flask_login import login_user, logout_user, current_user
 
 from .models.product import Product
 from .models.purchase import Purchase
@@ -34,7 +35,8 @@ def product():
 
     cartaddform = CartAddForm()
 
-    user = User.get(id)
+    uid = current_user.id
+    user = User.get(uid)
     sid = user.id
     sellername = user.firstname + ' ' + user.lastname
     

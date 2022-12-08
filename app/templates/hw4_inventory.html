@@ -35,11 +35,23 @@
   </form> 
 
   <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
-    <h4>Change Quantity of Product</h4>
+    <h4>Edit Product In Inventory</h4>
     {{ form4.hidden_tag() }}
     <p>
       {{ form4.pid_input4.label }}<br/>
       {{ form4.pid_input4(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form4.pname4.label}}<br>
+      {{form4.pname4(size=32)}}<br>
+    </p>
+    <p>
+      {{form4.pdescr4.label}}<br>
+      {{form4.pdescr4(size=32)}}<br>
+    </p>
+    <p>
+      {{form4.pprice4.label}}<br>
+      {{form4.pprice4(size=32)}}
     </p>
     <p>
       {{ form4.quantity4.label }}<br/>
