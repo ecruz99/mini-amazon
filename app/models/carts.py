@@ -8,7 +8,32 @@ class Cart:
         self.quantity = quantity
         self.unit_price = unit_price
 
-    
+    @staticmethod
+    def num_items_in_cart(uid):
+        rows=app.db.execute('''
+SELECT SUM(quantity)
+FROM Carts
+WHERE uid=:uid
+''',
+                              uid=uid)
+        if rows:
+            return 1
+        else:
+            return 0
+
+    @staticmethod
+    def subtotal(uid):
+        rows=app.db.execute('''
+SELECT SUM(unit_price*quantity)
+FROM Carts
+WHERE uid=:uid
+''',
+                              uid=uid)
+        if rows:
+            return 1
+        else:
+            return 0
+
     @staticmethod
     def get_cart(uid):
         rows = app.db.execute('''
@@ -20,14 +45,13 @@ WHERE uid = :uid
         return [Cart(*row) for row in rows]
     
     @staticmethod
-    def delete_cart_item(uid, pid, sid):
+    def delete_cart_item(uid, pid):
         rows = app.db.execute('''
 DELETE FROM Carts
 WHERE uid = :uid
   AND pid = :pid
-  AND sid = :sid
 ''', 
-                              uid=uid, pid=pid, sid=sid)
+                              uid=uid, pid=pid)
         return None
         
     @staticmethod

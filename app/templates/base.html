@@ -95,6 +95,7 @@
       <div style="color: aliceblue; text-align: right; margin-top: -45px; margin-bottom: 10px; margin-right: 1%;">
         {% if current_user.is_authenticated == False %}
           <a href="{{ url_for('users.login') }}" type="button" class="btn btn-light">Log in</a>
+          <a href="{{ url_for('hw4_carts.uidcart') }}" type="button" class="btn btn-light">Cart</a><br><br>
         {% elif current_user.is_authenticated and session['seller']%}
           Hello, {{current_user.firstname}} (Seller)! 
           <a href="{{ url_for('users.seller_manage') }}" type="button" class="btn btn-light">Manage</a>
@@ -104,7 +105,11 @@
           Hello, {{current_user.firstname}}! 
           <a href="{{ url_for('users.user_manage') }}" type="button" class="btn btn-light">Manage</a>
           <a href="{{ url_for('messaging.convo') }}" type="button" class="btn btn-light">Messages</a>
+<<<<<<< HEAD
           <a href="{{ url_for('hw4_carts.uidcart') }}" type="button" class="btn btn-light">Cart</a>
+=======
+          <a href="{{ url_for('hw4_carts.uidcart') }}" type="button" class="btn btn-light">Cart: {{num_in_cart}}</a><br><br>
+>>>>>>> a97c6be3552ed855f243109242e82a9d1901101b
           <a href="{{ url_for('users.logout') }}" type="button" class="btn btn-light">Log out</a>
         {% endif %}
         <button onclick="history.back()" class="btn btn-light">Back</button>

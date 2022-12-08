@@ -39,6 +39,11 @@ def product():
     sellername = user.firstname + ' ' + user.lastname
     
     products = Product.get_by_cat(cat)[:10]
+
+    if current_user.is_authenticated:
+        num_in_cart = Cart.num_items_in_cart(current_user.id)
+    else:
+        num_in_cart = 0
     
     recentReviews = PReview.getAProductReviews(id)
     recentReviewLinks = PReview.getAPReviewLinks(id)
@@ -59,4 +64,4 @@ def product():
                            pid = id, recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, recentReviewLinks = recentReviewLinks,
-                           sellername=sellername, sid=sid, cartaddform=cartaddform)
+                           sellername=sellername, sid=sid, cartaddform=cartaddform, num_in_cart=num_in_cart)
