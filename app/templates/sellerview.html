@@ -2,11 +2,13 @@
 
 {% block content %}
 
+<div style="margin: 1%">
 {% for mesg in get_flashed_messages() %}
       <h3 class="positiveNotif">{{mesg}}</h3>
       {% endfor %}
 
-<h1>{{fullname}}</h1>
+<a style="font-size: 32px">User: <b>{{fullname}}</b></a><br>
+Account #: <b>{{sid}}</b><br>
 
 <div class="wrapper" style ="display: flex">    
     <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
