@@ -82,3 +82,40 @@ WHERE name LIKE Concat('%', :kw, '%')
 ''',
                               kw=kw)
         return [Product(*row) for row in rows]
+
+    @staticmethod
+    def delete_product(pid, sid):
+        rows = app.db.execute("""
+DELETE FROM Products
+WHERE sid = :sid and id = :pid
+""",
+                              sid = sid, pid = pid)
+        return None  
+          
+    @staticmethod
+    def add_product(id, sid, name, descr, category, price, available):
+        rows = app.db.execute("""
+INSERT INTO Products(id, sid, name, descr, category, price, available)
+Values(:id, :sid, :name, :descr, :category, :price, :available)
+""",
+                                id=id, sid=sid, name=name, descr=descr, category=category, price=price, available=available)
+        return None
+
+    @staticmethod
+    def edit_product(id, sid, name, descr, price):
+        rows = app.db.execute("""
+UPDATE Products
+SET name = :name, descr = :descr, price = :price
+WHERE id = :id and sid =:sid
+        """,
+                                id=id, sid=sid, name=name, descr=descr, price=price)
+        return None
+
+    @staticmethod
+    def get_maxid():
+        rows = app.db.execute("""
+SELECT id FROM Products
+WHERE id = (SELECT MAX(id) FROM Products)
+LIMIT 1
+""",)
+        return int(rows[0][0])

@@ -40,11 +40,11 @@ Values(:sellerID, :productID, :productname, :quantity)
         return None
     
     @staticmethod
-    def updateQuantity(sellerID, productID, quantity):
+    def updateQuantity(sellerID, productID, quantity, productname):
         rows = app.db.execute('''
 UPDATE Inventory
-SET quantity = :quantity
+SET quantity = :quantity, productname = :productname
 WHERE sellerID = :sellerID and productID = :productID
 ''',
-                              sellerID = sellerID, productID = productID, quantity = quantity)
+                              sellerID = sellerID, productID = productID, quantity = quantity, productname=productname)
         return None

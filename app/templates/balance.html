@@ -2,27 +2,14 @@
 
 {% block content %}
 
+<div style="margin: 1%">
 <h1>Balance</h1>
 
-<br>
+Current Balance: <b>{{current}}</b>
 
-{% if session['seller'] %}
+<br><br>
 
-Your Seller Account's Current Balance: {{current}}
-
-<form action="" method="post">
-  {{ form.hidden_tag() }}
-  <p>
-    {{ form.amount.label }}<br/>
-    {{ form.amount(size=32) }}<br/>
-  </p>
-
-  <p>{{ form.submit() }}</p>
-</form>
-
-{% else %}
-
-Current Balance: {{current}}
+{% if session['seller'] != True %}
 
 <form action="" method="post">
   {{ form.hidden_tag() }}
@@ -31,7 +18,7 @@ Current Balance: {{current}}
     {{ form.amount(size=32) }}<br/>
   </p>
 
-  <p>{{ form.submit() }}</p>
+  <p>{{ form.submit(class_="btn btn-black") }}</p>
 </form>
 
 {% endif %}
