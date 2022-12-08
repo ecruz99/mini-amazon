@@ -188,14 +188,14 @@ def seller_manage():
     
     if form.submitTrue.data and form.validate():
         Fulfillments.to_true(id, form.oid.data)
-        flash("Fulfillment Status Changed to True. Refresh to See Change")
+        flash("Fulfillment Status Changed to True. Click 'Refresh Table' to See Change")
         
     
     formF = fulfill_false()
     
     if formF.submitFalse.data and formF.validate():
         Fulfillments.to_false(id, formF.oid2.data)
-        flash("Fulfillment Status Changed to False. Refresh to See Change")
+        flash("Fulfillment Status Changed to False. Click 'Refresh Table' to See Change")
 
     
     return render_template('sellermanage.html', title='Manage (Seller)', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
@@ -271,8 +271,8 @@ def seller_view():
 @bp.route('/publicview', methods=['GET', 'POST'])
 def public_view():
     req = request.args
-    uid = req.get("uid")
-    sid = req.get("sid")
+    uid = req.get("uid") if req.get("uid") else None
+    sid = req.get("sid") if req.get("sid") else None
 
     # PRODUCT REVIEWS WRITTEN
     recentPReviews = PReview.getUserProductReviews(uid)
@@ -315,17 +315,19 @@ def public_view():
 
     user = User.get(uid)
     user_name = user.firstname + ' ' + user.lastname
-    user_email = user.email
-    user_address = user.address
 
-    seller = User.get(uid)
-    seller_name = seller.firstname + ' ' + seller.lastname
+    seller, seller_name, seller_email, seller_address = None, None, None, None
+    seller = User.get(sid)
+    if seller != None:
+        seller_name = seller.firstname + ' ' + seller.lastname
+        seller_email = user.email
+        seller_address = user.address
 
     # Haven't finished this yet
-    return render_template('publicview.html', title='Public View', recentReviews = recentReviews, averageReview = averageReview, numberOfReview = numberOfReview,
-                           numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
-                           numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, sid = id,
-                           sForm = sForm)
+    return render_template('publicview.html', title='Public View', recentPReviews = recentPReviews, averagePReview = averagePReview, numberOfPReview = numberOfPReview,
+                           numberOfPReviewOne = numberOfPReviewOne, numberOfPReviewTwo = numberOfPReviewTwo, numberOfPReviewThree = numberOfPReviewThree,
+                           numberOfPReviewFour = numberOfPReviewFour, numberOfPReviewFive = numberOfPReviewFive, user_name=user_name, uid = uid, sid = sid,
+                           sForm = sForm, seller_name=seller_name, seller_email=seller_email, seller_address=seller_address)
     
 @bp.route('/updatereview', methods = ["GET", "POST"])
 def updatereview():
