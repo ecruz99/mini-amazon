@@ -2,19 +2,22 @@
 
 {% block content %}
 
+<div style="margin: 1%">
 {% for mesg in get_flashed_messages() %}
       <h3 class="positiveNotif">{{mesg}}</h3>
       {% endfor %}
 
-<h1>Manage (Seller)</h1>
-<a href="{{ url_for('users.user_manage') }}">Click here to switch to User mode</a><br><br>
+<a style="font-size: 32px"><b>Your Seller Information</b></a>
+<a style="font-size: 12px; padding: 5px" href="{{ url_for('users.user_manage') }}">Click here to switch to User mode</a>
 
-<a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a><br><br>
-<a href="{{ url_for('hw4_inventory.sidinventory') }}" type="button" class="btn btn-dark">Inventory</a><br><br>
+<div style="float: right;">
+  <a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a>
+  <a href="{{ url_for('hw4_inventory.sidinventory') }}" type="button" class="btn btn-dark">Inventory</a>
+</div><br><br>
 
+<b style = "font-size:24px;">Your Seller Reviews</b>
 <div class="wrapper" style ="display: flex">    
     <div class = "wrapper" style="width:23%; display: inline-block; float: right; margin-right: 10px;">
-      <b style = "font-size:xx-large;"> Your Seller Summary</b>
       {% if averageReview == 1 %}
       <div style="font-size:m ">&#127773; &#127770; &#127770; &#127770; &#127770; Average {{averageReview}} Sun out of 5</div>
       {% endif %}
@@ -65,12 +68,9 @@
       </div>    
   </div>
 
-
-
-
-<br><br>
-  <h2>{{current_user.firstname}}'s Orders:</h2>
-  <h5>Your User/Seller ID is {{current_user.id}}</h5>
+<br>
+  <b style = "font-size:24px;">Your Orders:</b>
+  <h5>Your User/Seller ID is: <b>{{current_user.id}}</b></h5>
   <br>
   <a href="{{ url_for('users.seller_manage') }}"type="button" class="btn btn-dark">Refresh Table</a><br><br>
   <table class='table table-hover table-bordered container'>
@@ -103,7 +103,6 @@
   </table>
   <br><br>
 
-  <br><br>
 <div>  
   <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
     <h4>Change Fulfillment Status</h4>

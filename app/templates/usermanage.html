@@ -2,15 +2,18 @@
 
 {% block content %}
 
-<h1>Manage (User)</h1>
-<a href="{{ url_for('users.seller_manage') }}">Click here to switch to Seller mode</a><br><br>
+<div style="margin: 1%">
+<a style="font-size: 32px"><b>Your User Information</b></a>
+<a style="font-size: 12px; padding: 5px" href="{{ url_for('users.seller_manage') }}">Click here to switch to Seller mode</a>
 
-<a href="{{ url_for('users.update') }}" type="button" class="btn btn-dark">Account Information</a><br><br>
-<a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a><br><br>
+<div style="float: right;">
+  <a href="{{ url_for('users.balance') }}" type="button" class="btn btn-dark">Balance</a>
+  <a href="{{ url_for('users.update') }}" type="button" class="btn btn-dark">Account Information</a>
+</div><br><br>
 
+<b style = "font-size:24px;"> Your Product Reviews</b>
 <div class="wrapper" style ="display: flex">    
     <div class = "wrapper" style="width:21%; display: inline-block; float:right; margin-right: 10px;">
-      <b style = "font-size:xx-large;"> Your Product Reviews</b>
       {% if averageReview == 1 %}
       <div style="font-size:m ">&#127773; &#127770; &#127770; &#127770; &#127770; Average {{averageReview}} Sun out of 5</div>
       {% endif %}
@@ -58,10 +61,11 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>    
-  </div>
+    </div>    
+  </div><br><br>
 
-  <table class='table table-hover table-bordered container' style="width:90%; margin-left: 5%;" align="right">
+  <b style = "font-size:24px;"> Your Purchase History</b><br>
+  <table class='table table-hover table-bordered container' style="width: 99%; margin-right: 10px; margin-bottom: 20px">
     <thead bgcolor = "#232f3e">
       <tr>
         <th scope="col">Time Purchased</th>
