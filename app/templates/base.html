@@ -105,7 +105,11 @@
           Hello, {{current_user.firstname}}! 
           <a href="{{ url_for('users.user_manage') }}" type="button" class="btn btn-light">Manage</a>
           <a href="{{ url_for('messaging.convo') }}" type="button" class="btn btn-light">Messages</a>
+<<<<<<< HEAD
           <a href="{{ url_for('hw4_carts.uidcart') }}" type="button" class="btn btn-light">Cart: {{num_in_cart}}</a><br><br>
+=======
+          <a href="{{ url_for('hw4_carts.uidcart') }}" type="button" class="btn btn-light">Cart</a>
+>>>>>>> 0d0ad6ba0924a4f4cc05f396f47b3f629e3e19d2
           <a href="{{ url_for('users.logout') }}" type="button" class="btn btn-light">Log out</a>
         {% endif %}
         <button onclick="history.back()" class="btn btn-light">Back</button>
