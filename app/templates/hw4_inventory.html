@@ -11,12 +11,20 @@
     <h4>Add Product</h4>
     {{ form3.hidden_tag() }}
     <p>
-      {{ form3.pid_input3.label }}<br/>
-      {{ form3.pid_input3(size=32) }}<br/>
-    </p>
-    <p>
       {{ form3.productname3.label }}<br/>
       {{ form3.productname3(size=32) }}<br/>
+    </p>
+    <p>
+      {{ form3.descr.label}}<br/>
+      {{ form3.descr(size = 32) }}<br>
+    </p>
+    <p>
+      {{ form3.cat.label}}
+      {{ form3.cat(size = 32)}}
+    </p>
+    <p>
+      {{ form3.price.label}}<br>
+      {{ form3.price(size = 32) }}<br>
     </p>
     <p>
       {{ form3.quantity3.label }}<br/>

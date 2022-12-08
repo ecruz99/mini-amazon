@@ -1,12 +1,13 @@
 from flask import Flask, render_template, request, flash, redirect
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, RadioField
 from .models.inventory import Inventory
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask import Blueprint
 
 
 from .models.user import User
+from .models.product import Product
 from flask_login import login_user, logout_user, current_user
 
 bp = Blueprint('hw4_inventory', __name__)
@@ -20,8 +21,10 @@ class delete_invForm(FlaskForm):
     submit2 = SubmitField('Delete')
     
 class add_invForm(FlaskForm):
-    pid_input3 = StringField('Product ID', validators=[DataRequired()])
     productname3 = StringField('Product Name', validators=[DataRequired()])
+    descr = StringField("Description", validators=[DataRequired()])
+    cat = RadioField('Category', choices=['accessories', 'books', 'clothes', 'decor', 'electronics', 'food', 'games', 'shoes'])
+    price = StringField("Price", validators=[DataRequired()])
     quantity3 = StringField('Quantity', validators=[DataRequired()])
     submit3 = SubmitField('Add')
     
@@ -48,11 +51,14 @@ def sidinventory():
         
     if form2.submit2.data and form2.validate():
         Inventory.delete_inventory(uid, form2.pid_input2.data)
+        Product.delete_product(uid, form2.pid_input2.data)
         flash("Product Deleted from Inventory. Click 'Refresh Table' to See Change")
         
         
     elif form3.submit3.data and form3.validate():
-        Inventory.add_inventory(uid, form3.pid_input3.data, form3.productname3.data, form3.quantity3.data)
+        pid = Product.get_maxid() +1
+        Inventory.add_inventory(uid, pid, form3.productname3.data, form3.quantity3.data)
+        Product.add_product(pid, uid, form3.productname3.data, form3.descr.data, form3.cat.data, form3.price.data, True)
         flash("Product Added to Inventory. Click 'Refresh Table' to See Change")
 
         
