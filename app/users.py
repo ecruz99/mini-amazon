@@ -146,6 +146,10 @@ def balance():
 
     return render_template('balance.html', title='Balance', form=form, current=current)
 
+#@bp.route('/order_history', methods=['GET', 'POST'])
+#def order_history():
+#    form = 
+
 @bp.route('/usermanage')
 def user_manage():
     session['seller'] = False
@@ -267,6 +271,7 @@ def seller_view():
                            numberOfReviewOne = numberOfReviewOne, numberOfReviewTwo = numberOfReviewTwo, numberOfReviewThree = numberOfReviewThree,
                            numberOfReviewFour = numberOfReviewFour, numberOfReviewFive = numberOfReviewFive, fullname=fullname, sid = id,
                            sForm = sForm)
+    
 
 @bp.route('/publicview', methods=['GET', 'POST'])
 def public_view():

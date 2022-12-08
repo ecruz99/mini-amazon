@@ -1,4 +1,5 @@
 from flask import current_app as app
+from datetime import datetime
 
 class Cart:
     def __init__(self, uid, pid, sid, quantity, unit_price):
@@ -17,7 +18,7 @@ WHERE uid=:uid
 ''',
                               uid=uid)
         if rows:
-            return 1
+            return rows[0][0]
         else:
             return 0
 
@@ -29,8 +30,8 @@ FROM Carts
 WHERE uid=:uid
 ''',
                               uid=uid)
-        if rows:
-            return 1
+        if len(rows) > 0:
+            return rows[0][0]
         else:
             return 0
 
@@ -64,15 +65,54 @@ Values(:uid, :pid, :sid, :productname, :quantity, :unit_price)
         return None
         
     @staticmethod
-    def update_quantity(uid, pid, sid, quantity):
+    def update_quantity(uid, pid, quantity):
         rows = app.db.execute('''
 UPDATE Carts
 SET quantity = :quantity
 WHERE uid = :uid
   AND pid = :pid
-  AND sid = :sid 
 ''', 
-                              uid=uid, pid=pid, sid=sid, quantity=quantity)
+                              uid=uid, pid=pid, quantity=quantity)
         return None
 
+    @staticmethod
+    def send_to_orders(oid, uid, date, fulfilled, subtotal):
+        ''' STEP 1: Insert into the Orders table the automatically generated oid, uid, pid, sid, quantity, unit_price, current timestamp
+                    and False for fulfilled '''
 
+        rows = app.db.execute('''
+INSERT INTO Orders(oid, uid, pid, sid, quantity, unit_price, date, fulfilled)
+SELECT uid, pid, sid, quantity, unit_price
+FROM Carts
+WHERE uid=:uid
+''',
+                            oid=oid, uid=uid, date=date, fulfilled=fulfilled)
+
+        ''' STEP 2: Delete the items from User's cart. '''
+
+        rows2 = app.db.execute('''
+UPDATE Sellers
+SET balance = balance + (unit_price * quantity)
+FROM Sellers s, Carts c
+WHERE c.uid = :uid
+  AND s.uid = c.sid
+''',
+                            subtotal=subtotal, uid=uid)
+
+        ''' STEP 3: Subtract the subtotal of the User's cart from the previous balance of the User. '''
+
+        rows3 = app.db.execute('''
+UPDATE Users
+SET balance = balance - :subtotal
+WHERE uid =:uid
+''',
+                            subtotal=subtotal, uid=uid)
+
+        ''' STEP 4: Add the (unit_price * quantity) of each item to the Seller's balance who sells that item'''
+
+        rows4 = app.db.execute('''
+DELETE FROM Carts
+WHERE uid=:uid
+''',
+                            uid=uid)
+        return None

@@ -4,6 +4,7 @@ from flask_login import current_user
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, NumberRange
 from .models.carts import Cart
+from .models.user import User
 
 from flask import Blueprint
 bp = Blueprint('hw4_carts', __name__)
@@ -13,17 +14,16 @@ class DeleteFromCartForm(FlaskForm):
     submit = SubmitField('Delete') 
 
 class ChangeItemQuantity(FlaskForm):
-    uid_input3 = StringField('User ID', validators=[DataRequired()])
-    sid_input3 = StringField('Seller ID', validators=[DataRequired()])
-    pid_input3 = StringField('Product ID', validators=[DataRequired()])
-    quantity3 = StringField('Quantity', validators=[DataRequired()])
-    submit3 = SubmitField('Update Quantity')
+    pid_input = StringField('Product ID', validators=[DataRequired()])
+    quant_input = StringField('Quantity', validators=[DataRequired()])
+    submit = SubmitField('Update Quantity')
 
 @bp.route('/uidcart', methods = ["GET", "POST"])
 def uidcart():
     if current_user.is_authenticated:
         uid = current_user.id
-        
+        balance = User.current_ubalance(uid)
+
         cart = Cart.get_cart(uid)
 
         subtotal = Cart.subtotal(uid)
@@ -31,15 +31,22 @@ def uidcart():
         num_in_cart = Cart.num_items_in_cart(uid)
         
         deleteform = DeleteFromCartForm()
+        changeform = ChangeItemQuantity()
         
         if deleteform.submit.data and deleteform.validate():
-            cart = Cart.delete_cart_item(uid, deleteform.pid_input.data)
-            
+            Cart.delete_cart_item(uid, deleteform.pid_input.data)
+        
+        elif changeform.submit.data and changeform.validate():
+            Cart.update_quantity(uid, changeform.pid_input.data, changeform.quant_input.data)
+        
+
         return render_template('hw4_carts.html',
                                 deleteform=deleteform,
-                                cart=cart,
-                                num_in_cart=num_in_cart,
-                                subtotal=subtotal
+                                changeform=changeform,
+                                cart=Cart.get_cart(uid),
+                                num_in_cart=Cart.num_items_in_cart(uid),
+                                subtotal=Cart.subtotal(uid),
+                                balance=balance
                               ) 
     else:
         return render_template('hw4_carts.html')

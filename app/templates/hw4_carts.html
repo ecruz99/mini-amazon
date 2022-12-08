@@ -18,13 +18,16 @@
 {% else %}
     {% if cart %}
     <br><br>
-    <h2>{{current_user.firstname}}'s Cart</h2>
-    <h2>Subtotal: ${{subtotal}}</h2>
+    {% if num_in_cart == 1 %}
+    <h2>{{current_user.firstname}}'s Cart: {{num_in_cart}} Item</h2>
+    {% else %}
+    <h2>{{current_user.firstname}}'s Cart: {{num_in_cart}} Items</h2>
+    {% endif %}
+    <h4>Subtotal: ${{subtotal}}</h4>
     <table class='table table-hover table-bordered container'>
       <thead class="thead-dark">
         <tr>
           <th scope="col">Product ID</th>
-          <th scope="col">Seller ID</th>
           <th scope="col">Quantity</th>
           <th scope="col">Unit Price</th>
         </tr>
@@ -33,15 +36,19 @@
         {% for item in cart%}
           <tr>
             <th scope="row" style="color:black">{{item.pid}}</th>
-            <td>{{item.sid}}</td>
             <td>{{item.quantity}}</td>
             <td>{{item.unit_price}}</td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
-    <br><br>
-    
+    <br>
+    {% if (balance < subtotal) %}
+    <h3><b style="color:rgb(247, 171, 9);">Sorry. You do not have enough money in your account to purchase these items.</b></h3>
+    {% else %}
+    <h3><h5 style="color: green">You can purchase the items in your cart!</h5></h3>
+    {% endif %}
+    <br>
     <div>
       <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
         <h4>Delete Product From Cart</h4>
@@ -53,7 +60,23 @@
         <p>
         {{ deleteform.submit(class_="btn btn-black") }}
       </form>
+      <form action="" method="post" class='child' style="border:black; border-style:solid" novalidate>
+        <h4>Change Quantity of Item in Cart</h4>
+        {{ changeform.hidden_tag() }}
+        <p>
+          {{ changeform.pid_input.label }}<br/>
+          {{ changeform.pid_input(size=32) }}<br/>
+        </p>
+        <p>
+          {{ changeform.quant_input.label }}<br/>
+          {{ changeform.quant_input(size=32) }}<br/>
+        </p>
+        <p>
+        {{ changeform.submit(class_="btn btn-black") }}
+      </form>
     {% else %}
+    <br>
+    <h2>Your cart is currently empty.</h2>
     <br>
     <h2>Return to the main page to start adding products to your cart!</h2>
     {% endif %}
