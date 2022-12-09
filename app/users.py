@@ -11,6 +11,7 @@ from .models.user import User
 from .models.socials import PReview
 from .models.purchase import Purchase
 from .models.fulfillments import Fulfillments
+from .models.orders import Order
 
 
 from flask import Blueprint
@@ -156,9 +157,17 @@ def balance():
 
     return render_template('balance.html', title='Balance', form=form, current=current)
 
-#@bp.route('/order_history', methods=['GET', 'POST'])
-#def order_history():
-#    form = 
+@bp.route('/uidorders', methods = ["GET", "POST"])
+def uidorders():
+    uid = current_user.id
+
+    orders = Order.get_orders(uid)
+    
+    #num_orders = len(Order.get_order_ids(uid))
+
+    return render_template('order_history.html',
+                            uid=uid,
+                            orders=orders)
 
 @bp.route('/usermanage')
 def user_manage():

@@ -36,8 +36,8 @@ def uidcart():
         if deleteform.submit.data and deleteform.validate():
             Cart.delete_cart_item(uid, deleteform.pid_input.data)
         
-        elif changeform.submit.data and changeform.validate():
-            Cart.update_quantity(uid, changeform.pid_input.data, changeform.quant_input.data)
+        #elif changeform.submit.data and changeform.validate():
+         #   Cart.update_quantity(uid, changeform.pid_input.data, changeform.quant_input.data)
         
 
         return render_template('hw4_carts.html',

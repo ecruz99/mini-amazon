@@ -88,7 +88,7 @@ WHERE uid=:uid
 ''',
                             oid=oid, uid=uid, date=date, fulfilled=fulfilled)
 
-        ''' STEP 2: Delete the items from User's cart. '''
+        ''' STEP 2: Add the (unit_price * quantity) of each item to the Seller's balance who sells that item'''
 
         rows2 = app.db.execute('''
 UPDATE Sellers
@@ -107,10 +107,20 @@ SET balance = balance - :subtotal
 WHERE uid =:uid
 ''',
                             subtotal=subtotal, uid=uid)
-
-        ''' STEP 4: Add the (unit_price * quantity) of each item to the Seller's balance who sells that item'''
-
+        ''' STEP 4: Subtract from Inventory the amount of each product bought. '''
+        
         rows4 = app.db.execute('''
+UPDATE Inventory
+SET i.quantity = i.quantity - c.quantity
+FROM Carts c, Inventory i
+WHERE c.uid = :uid
+  AND c.pid = i.productID
+'''
+)
+
+        ''' STEP 5: Delete the items from User's cart. '''
+
+        rows5 = app.db.execute('''
 DELETE FROM Carts
 WHERE uid=:uid
 ''',
