@@ -4,6 +4,8 @@ from flask_login import login_user, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+import decimal
+from decimal import *
 
 from .models.user import User
 from .models.socials import PReview
@@ -139,10 +141,18 @@ def balance():
                 pass
         current = User.current_sbalance(current_user.id)
     else:
+        current = User.current_ubalance(current_user.id)
         if form.validate_on_submit():
             if User.update_ubalance(current_user.id, form.amount.data):
                 pass
         current = User.current_ubalance(current_user.id)
+        if current < 0:
+            if form.validate_on_submit():
+                if User.restore_balance(current_user.id, form.amount.data):
+                    pass
+            flash('You cannot withdraw this much; your resulting balance cannot be less than 0.')
+    
+    current = User.current_ubalance(current_user.id)
 
     return render_template('balance.html', title='Balance', form=form, current=current)
 
@@ -276,22 +286,24 @@ def seller_view():
 @bp.route('/publicview', methods=['GET', 'POST'])
 def public_view():
     req = request.args
+
     uid = req.get("uid") if req.get("uid") else None
+    user = User.get(uid) if req.get("uid") else None
+
     sid = req.get("sid") if req.get("sid") else None
+    seller = User.get(sid) if req.get("sid") else None
 
     # PRODUCT REVIEWS WRITTEN
-    recentPReviews = PReview.getUserProductReviews(uid)
-    averagePReview = PReview.getAverageU(uid)
-    numberOfPReview = PReview.numberOfReviewU(uid)
-    numberOfPReviewOne = PReview.numberOfReviewOneU(uid)
-    numberOfPReviewTwo = PReview.numberOfReviewTwoU(uid)
-    numberOfPReviewThree = PReview.numberOfReviewThreeU(uid)
-    numberOfPReviewFour = PReview.numberOfReviewFourU(uid)
-    numberOfPReviewFive = PReview.numberOfReviewFiveU(uid)
+    recentPReviews = PReview.getUserProductReviews(sid)
+    averagePReview = PReview.getAverageU(sid)
+    numberOfPReview = PReview.numberOfReviewU(sid)
+    numberOfPReviewOne = PReview.numberOfReviewOneU(sid)
+    numberOfPReviewTwo = PReview.numberOfReviewTwoU(sid)
+    numberOfPReviewThree = PReview.numberOfReviewThreeU(sid)
+    numberOfPReviewFour = PReview.numberOfReviewFourU(sid)
+    numberOfPReviewFive = PReview.numberOfReviewFiveU(sid)
 
-    # SELLER REVIEWS WRITTEN
-
-    # REVIEWS THAT SELLER HAS RECEIVED
+    # SELLER REVIEWS RECEIVED
 
     sForm = startForm()
     
@@ -318,21 +330,22 @@ def public_view():
             else:
                 flash("Please use your current conversation instead of creating a new one!") 
 
-    user = User.get(uid)
-    user_name = user.firstname + ' ' + user.lastname
+    user_name, email, address = None, None, None
+    if user == None:
+        user_name = seller.firstname + ' ' + seller.lastname
+        email = seller.email
+        address = seller.address
+    else:
+        user_name = user.firstname + ' ' + user.lastname
+        email = user.email
+        address = user.address
 
-    seller, seller_name, seller_email, seller_address = None, None, None, None
-    seller = User.get(sid)
-    if seller != None:
-        seller_name = seller.firstname + ' ' + seller.lastname
-        seller_email = user.email
-        seller_address = user.address
-
-    # Haven't finished this yet
     return render_template('publicview.html', title='Public View', recentPReviews = recentPReviews, averagePReview = averagePReview, numberOfPReview = numberOfPReview,
                            numberOfPReviewOne = numberOfPReviewOne, numberOfPReviewTwo = numberOfPReviewTwo, numberOfPReviewThree = numberOfPReviewThree,
-                           numberOfPReviewFour = numberOfPReviewFour, numberOfPReviewFive = numberOfPReviewFive, user_name=user_name, uid = uid, sid = sid,
-                           sForm = sForm, seller_name=seller_name, seller_email=seller_email, seller_address=seller_address)
+                           numberOfPReviewFour = numberOfPReviewFour, numberOfPReviewFive = numberOfPReviewFive, receivedReviews=receivedReviews, averageReceived=averageReceived,
+                           numberOfReceived=numberOfReceived, numberOfReceivedOne=numberOfReceivedOne, numberOfReceivedTwo=numberOfReceivedTwo, 
+                           numberOfReceivedThree=numberOfReceivedThree, numberOfReceivedFour=numberOfReceivedFour, numberOfReceivedFive=numberOfReceivedFive,
+                           user_name=user_name, uid = uid, sid = sid, sForm = sForm, email=email, address=address)
     
 @bp.route('/updatereview', methods = ["GET", "POST"])
 def updatereview():

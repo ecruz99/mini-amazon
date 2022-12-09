@@ -21,6 +21,10 @@ Current Balance: <b>{{current}}</b>
   <p>{{ form.submit(class_="btn btn-black") }}</p>
 </form>
 
+{% for mesg in get_flashed_messages() %}
+      {{mesg}}
+      {% endfor %}
+
 {% endif %}
 
 {% endblock %}

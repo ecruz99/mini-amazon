@@ -58,7 +58,7 @@
           <tbody>
             {% for review in recentReviews%}
               <tr>
-                <th scope="row" style="color:black"><a href="{{ url_for('users.user_view') }}?uid={{review.uid}}">{{review.name}}</a></th>
+                <th scope="row" style="color:black"><a href="{{ url_for('users.public_view') }}?uid={{review.uid}}">{{review.name}}</a></th>
                 <td>{{review.rating}}</td>
                 <td>{{review.review}}</td>
               </tr>

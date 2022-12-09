@@ -119,3 +119,13 @@ WHERE uid = :uid
 """,
                               uid=uid)
         return rows[0][0] if rows else None
+
+    @staticmethod
+    def restore_balance(id, amount):
+        rows = app.db.execute("""
+UPDATE Users
+SET balance = balance - :amount
+WHERE id = :id
+""",
+                              id=id, amount=amount)
+        return None
