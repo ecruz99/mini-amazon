@@ -18,6 +18,16 @@ WHERE sellerID = :sellerID
 ''',
                               sellerID=sellerID)
         return [Inventory(*row) for row in rows]
+
+    @staticmethod
+    def get_sid(pid):
+        rows = app.db.execute('''
+SELECT sellerID
+FROM Inventory
+WHERE productID = :pid
+''',
+                            pid=pid)
+        return int(rows[0][0])
     
 #Enter seller ID and product ID to delete a product from a sellers inventory
     @staticmethod

@@ -12,6 +12,7 @@ from .models.purchase import Purchase
 from .models.socials import PReview
 from .models.user import User
 from .models.carts import Cart
+from .models.inventory import Inventory
 
 from flask import Blueprint
 bp = Blueprint('product', __name__)
@@ -35,7 +36,7 @@ def product():
 
     cartaddform = CartAddForm()
 
-    uid = current_user.id
+    uid = Inventory.get_sid(id)
     user = User.get(uid)
     sid = user.id
     sellername = user.firstname + ' ' + user.lastname
