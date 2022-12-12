@@ -27,6 +27,7 @@ class LoginForm(FlaskForm):
 class updateForm(FlaskForm):
     ratingInUpdate = SelectField('Rating', choices=['1','2','3','4','5'], validators=[DataRequired()])
     reviewInUpdate = StringField('Review')
+    photoInUpdate = StringField('Product Photo (use link)', validators=[DataRequired()])    
     submitUpdate = SubmitField('Update')    
 
 class deleteForm(FlaskForm):
@@ -368,7 +369,7 @@ def updatereview():
     link = req.get("link")
         
     if uForm.submitUpdate.data and uForm.validate():
-        PReview.updateProductReview(uid, pid, uForm.ratingInUpdate.data, uForm.reviewInUpdate.data)
+        PReview.updateProductReview(uid, pid, uForm.ratingInUpdate.data, uForm.reviewInUpdate.data, uForm.photoInUpdate.data)
         flash('You have successfully updated a review for this product!')
         
     elif dForm.submitDelete.data and dForm.validate():

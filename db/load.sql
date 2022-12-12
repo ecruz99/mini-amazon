@@ -18,6 +18,7 @@ SELECT pg_catalog.setval('public.purchases_id_seq',
                          false); */
 
 \COPY Inventory FROM 'Inventory.csv' WITH DELIMITER ',' NULL '' CSV
+\COPY Purchases FROM 'Purchases.csv' WITH DELIMITER ',' NULL '' CSV
 
 \COPY P_Reviews FROM 'P_Reviews.csv' WITH DELIMITER ',' NULL '' CSV
 

@@ -54,8 +54,6 @@ def productreview():
     
     
     if cForm.submitCreate.data and cForm.validate():
-       
-        
         PReview.createProductReview(uid, pid, cForm.ratingInCreate.data, cForm.reviewInCreate.data, cForm.photoInCreate.data)
         flash('You have successfully added a review for this product!')
             
